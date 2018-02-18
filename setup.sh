@@ -1,0 +1,1 @@
+for file in charts/* ; helm install .$file; done
