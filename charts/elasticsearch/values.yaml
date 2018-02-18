@@ -1,11 +1,11 @@
 # Default values for elasticsearch.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
-appVersion: "5.4"
+appVersion: "6.1.1"
 
 image:
-  repository: "centerforopenscience/elasticsearch"
-  tag: "5.4"
+  repository: "docker.elastic.co/elasticsearch/elasticsearch-platinum:6.1.1"
+  tag: "6.1.1"
   pullPolicy: "IfNotPresent"
 
 cluster:
