@@ -1,0 +1,20 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"rbac.authorization.k8s.io/v1","kind":"RoleBinding","metadata":{"annotations":{},"name":"kubernetes-dashboard-minimal","namespace":"kube-system"},"roleRef":{"apiGroup":"rbac.authorization.k8s.io","kind":"Role","name":"kubernetes-dashboard-minimal"},"subjects":[{"kind":"ServiceAccount","name":"kubernetes-dashboard","namespace":"kube-system"}]}
+  creationTimestamp: 2017-12-14T18:17:47Z
+  name: kubernetes-dashboard-minimal
+  namespace: kube-system
+  resourceVersion: "1955084"
+  selfLink: /apis/rbac.authorization.k8s.io/v1/namespaces/kube-system/rolebindings/kubernetes-dashboard-minimal
+  uid: 169a2a1c-e0fb-11e7-9ec2-fa163e0a0558
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: kubernetes-dashboard-minimal
+subjects:
+- kind: ServiceAccount
+  name: kubernetes-dashboard
+  namespace: kube-system
