@@ -1,47 +1,27 @@
-apiVersion: apps/v1beta2
+apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: {{ template "elasticsearch.fullname" . }}
-  labels:
-    app: {{ template "elasticsearch.name" . }}
-    chart: {{ template "elasticsearch.chart" . }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
+  creationTimestamp: null
+  name: elasticsearch
 spec:
-  replicas: {{ .Values.replicaCount }}
-  selector:
-    matchLabels:
-      app: {{ template "elasticsearch.name" . }}
-      release: {{ .Release.Name }}
+  replicas: 2
+  strategy: {}
   template:
     metadata:
+      creationTimestamp: null
       labels:
-        app: {{ template "elasticsearch.name" . }}
-        release: {{ .Release.Name }}
+        name: elasticsearch
     spec:
       containers:
-        - name: {{ .Chart.Name }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
-          ports:
-            - name: "elastic"
-              containerPort: {{ .Values.service.port }}
-          env:
-            - name: ES_JAVA_OPTS
-              value: -Xmx512m -Xms512m
-            - name: ELASTIC_PASSWORD
-              value: changeme
-          resources:
-{{ toYaml .Values.resources | indent 12 }}
-    {{- with .Values.nodeSelector }}
-      nodeSelector:
-{{ toYaml . | indent 8 }}
-    {{- end }}
-    {{- with .Values.affinity }}
-      affinity:
-{{ toYaml . | indent 8 }}
-    {{- end }}
-    {{- with .Values.tolerations }}
-      tolerations:
-{{ toYaml . | indent 8 }}
-    {{- end }}
+      - env:
+        - name: ES_JAVA_OPTS
+          value: -Xmx512m -Xms512m
+        - name: ELASTIC_PASSWORD
+          value: changeme
+        image: docker.elastic.co/elasticsearch/elasticsearch-platinum:6.1.1
+        name: elasticsearch
+        ports:
+        - containerPort: 9200
+        resources: {}
+      restartPolicy: Always
+status: {}
