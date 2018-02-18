@@ -24,7 +24,7 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
-            - name: {{ .Values.service.port }}
+            - name: "elastic"
               containerPort: {{ .Values.service.port }}
           env:
             - name: ES_JAVA_OPTS
