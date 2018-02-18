@@ -11,6 +11,8 @@ curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get > get_
 chmod 700 get_helm.sh;
 ./get_helm.sh;
 
+helm init;
+
 mkdir packages;
 
 cd charts;
