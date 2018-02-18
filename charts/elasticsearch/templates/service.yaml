@@ -7,7 +7,7 @@ metadata:
   name: {{ template "elasticsearch.name" . }}
 spec:
   ports:
-  - name: "9200"
+  - name: "{{ .Values.service.port }}"
     port: {{ .Values.service.port }}
     targetPort: {{ .Values.service.port }}
   selector:
