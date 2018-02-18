@@ -9,3 +9,9 @@ for d in * ; do
     echo "packaging $d chart...";
     helm package $d -d "./../packages";
 done
+
+cd ../packages;
+for d in * ; do
+    echo "installing $d chart...";
+    helm install $d;
+done
