@@ -1,8 +1,11 @@
 ACCOUNT=$(gcloud info --format='value(config.account)')
+
 kubectl create clusterrolebinding owner-cluster-admin-binding \
     --clusterrole cluster-admin \
     --user $ACCOUNT
-    
+  
+kubectl apply -f rolebinding.yaml -o yaml
+
 project=${PWD##*/}
 
 kubectl create namespace $project;
