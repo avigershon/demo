@@ -31,5 +31,5 @@ done
 cd ../packages;
 for d in * ; do
     echo "installing $d chart...";
-    helm install $d --namespace $project;
+    helm install $d --name $d --namespace $project;
 done
