@@ -5,13 +5,13 @@
 replicaCount: 1
 
 image:
-  repository: nginx
-  tag: stable
+  repository: docker.elastic.co/elasticsearch/elasticsearch-platinum
+  tag: 6.1.1
   pullPolicy: IfNotPresent
 
 service:
   type: ClusterIP
-  port: 80
+  port: 9200
 
 ingress:
   enabled: false
