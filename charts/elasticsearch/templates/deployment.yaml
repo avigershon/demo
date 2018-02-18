@@ -2,7 +2,7 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   creationTimestamp: null
-  name: elasticsearch
+  name: {{ template "elasticsearch.name" . }}
 spec:
   replicas: 2
   strategy: {}
@@ -10,7 +10,7 @@ spec:
     metadata:
       creationTimestamp: null
       labels:
-        name: elasticsearch
+        name: {{ template "elasticsearch.name" . }}
     spec:
       containers:
       - env:
@@ -18,10 +18,10 @@ spec:
           value: -Xmx512m -Xms512m
         - name: ELASTIC_PASSWORD
           value: changeme
-        image: docker.elastic.co/elasticsearch/elasticsearch-platinum:6.1.1
-        name: elasticsearch
+        image: "{{ .Values.Image }}:{{ .Values.ImageTag }}"
+        name: {{ template "elasticsearch.name" . }}
         ports:
-        - containerPort: 9200
+        - containerPort: {{ .Values.service.port }}
         resources: {}
       restartPolicy: Always
 status: {}
