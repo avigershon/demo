@@ -3,12 +3,12 @@ kind: Service
 metadata:
   creationTimestamp: null
   labels:
-    name: elasticsearch
-  name: elasticsearch
+    name: {{ template "elasticsearch.name" . }}
+  name: {{ template "elasticsearch.name" . }}
 spec:
   ports:
   - name: "9200"
-    port: 9200
-    targetPort: 9200
+    port: {{ .Values.service.port }}
+    targetPort: {{ .Values.service.port }}
   selector:
-    name: elasticsearch
+    name: {{ template "elasticsearch.name" . }}
