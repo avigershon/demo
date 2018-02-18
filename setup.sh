@@ -13,5 +13,5 @@ done
 cd ../packages;
 for d in * ; do
     echo "installing $d chart...";
-    helm install $d;
+    helm install $d --namespace=default;
 done
