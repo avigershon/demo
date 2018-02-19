@@ -24,6 +24,7 @@ mkdir packages;
 
 cd charts;
 for d in * ; do
+    mkdir ./../packages/$d;
     echo "packaging $d chart...";
     helm package $d -d "./../packages/$d";
 done
