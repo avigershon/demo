@@ -34,7 +34,7 @@ for d in * ; do
     cd $d
     for chart in * ; do
         echo "helm install $chart --name $d --namespace $project";
-        helm install $chart --name $d --namespace $project;
+        helm upgrade $chart --name $d --namespace $project;
     done
     cd ../
 done
