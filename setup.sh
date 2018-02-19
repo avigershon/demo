@@ -33,8 +33,8 @@ cd ../packages;
 for d in * ; do
     cd $d
     for chart in * ; do
-        echo "helm install $chart --name $d --namespace $project";
-        helm upgrade $chart --name $d --namespace $project;
+        echo "helm upgrade $d $chart -i --wait --namespace $project";
+        helm upgrade $d $chart -i --wait --namespace $project;
     done
     cd ../
 done
