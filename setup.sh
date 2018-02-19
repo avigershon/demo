@@ -34,6 +34,7 @@ for d in * ; do
     cd $d
     for chart in * ; do
         if [ $d = "filebeat" ]; then
+            helm del --purge $d;
             echo "helm install $chart --name $d --namespace $project";
             helm install $chart --name $d --namespace $project;
         else
