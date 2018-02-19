@@ -33,8 +33,14 @@ cd ../packages;
 for d in * ; do
     cd $d
     for chart in * ; do
-        echo "helm upgrade $d $chart -i --wait --namespace $project";
-        helm upgrade $d $chart -i --wait --namespace $project;
+        if [ $d = "filebeat" ]; then
+            echo "helm install $chart --name $d --namespace $project";
+            helm install $chart --name $d --namespace $project;
+        else
+            echo "helm upgrade $d $chart -i --wait --namespace $project";
+            helm upgrade $d $chart -i --wait --namespace $project;
+        fi
+        
     done
     cd ../
 done
