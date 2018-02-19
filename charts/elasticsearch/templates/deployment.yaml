@@ -1,0 +1,27 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  name: {{ template "elasticsearch.name" . }}
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        name: {{ template "elasticsearch.name" . }}
+    spec:
+      containers:
+      - env:
+        - name: ES_JAVA_OPTS
+          value: -Xmx512m -Xms512m
+        - name: ELASTIC_PASSWORD
+          value: changeme
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        name: {{ template "elasticsearch.name" . }}
+        ports:
+        - containerPort: {{ .Values.service.port }}
+        resources: {}
+      restartPolicy: Always
+status: {}
