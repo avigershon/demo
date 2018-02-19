@@ -25,11 +25,15 @@ mkdir packages;
 cd charts;
 for d in * ; do
     echo "packaging $d chart...";
-    helm package $d -d "./../packages";
+    helm package $d -d "./../packages/$d";
 done
 
 cd ../packages;
 for d in * ; do
-    echo "installing $d chart...";
-    helm install $d --name $d --namespace $project;
+    cd $d
+    for chart in * ; do
+        echo "helm install $chart --name $d --namespace $project";
+        helm install $chart --name $d --namespace $project;
+    done
+    cd ../
 done
