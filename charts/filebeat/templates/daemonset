@@ -1,11 +1,10 @@
----
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: filebeat-config
+  name: {{ template "filebeat.name" . }}-config
   namespace: kube-system
   labels:
-    k8s-app: filebeat
+    k8s-app: {{ template "filebeat.name" . }}
     kubernetes.io/cluster-service: "true"
 data:
   filebeat.yml: |-
@@ -31,10 +30,10 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: filebeat-prospectors
+  name: {{ template "filebeat.name" . }}-prospectors
   namespace: kube-system
   labels:
-    k8s-app: filebeat
+    k8s-app: {{ template "filebeat.name" . }}
     kubernetes.io/cluster-service: "true"
 data:
   kubernetes.yml: |-
@@ -48,23 +47,23 @@ data:
 apiVersion: extensions/v1beta1
 kind: DaemonSet
 metadata:
-  name: filebeat
+  name: {{ template "filebeat.name" . }}
   namespace: kube-system
   labels:
-    k8s-app: filebeat
+    k8s-app: {{ template "filebeat.name" . }}
     kubernetes.io/cluster-service: "true"
 spec:
   template:
     metadata:
       labels:
-        k8s-app: filebeat
+        k8s-app: {{ template "filebeat.name" . }}
         kubernetes.io/cluster-service: "true"
     spec:
-      serviceAccountName: filebeat
+      serviceAccountName: {{ template "filebeat.name" . }}
       terminationGracePeriodSeconds: 30
       containers:
-      - name: filebeat
-        image: docker.elastic.co/beats/filebeat:7.0.0-alpha1
+      - name: {{ template "filebeat.name" . }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         args: [
           "-c", "/etc/filebeat.yml",
           "-e",
@@ -107,7 +106,7 @@ spec:
       - name: config
         configMap:
           defaultMode: 0600
-          name: filebeat-config
+          name: {{ template "filebeat.name" . }}-config
       - name: varlibdockercontainers
         hostPath:
           path: /var/lib/docker/containers
@@ -121,10 +120,10 @@ spec:
 apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: ClusterRoleBinding
 metadata:
-  name: filebeat
+  name: {{ template "filebeat.name" . }}
 subjects:
 - kind: ServiceAccount
-  name: filebeat
+  name: {{ template "filebeat.name" . }}
   namespace: kube-system
 roleRef:
   kind: ClusterRole
@@ -134,9 +133,9 @@ roleRef:
 apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: ClusterRole
 metadata:
-  name: filebeat
+  name: {{ template "filebeat.name" . }}
   labels:
-    k8s-app: filebeat
+    k8s-app: {{ template "filebeat.name" . }}
 rules:
 - apiGroups: [""] # "" indicates the core API group
   resources:
@@ -150,8 +149,7 @@ rules:
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: filebeat
+  name: {{ template "filebeat.name" . }}
   namespace: kube-system
   labels:
-    k8s-app: filebeat
----
+    k8s-app: {{ template "filebeat.name" . }}
