@@ -67,9 +67,9 @@ spec:
         ]
         env:
         - name: ELASTICSEARCH_HOST
-          value: elasticsearch
+          value: {{ .Values.output.host }}.{{if ne .Values.namespace "default"}}{{ .Values.namespace }}{{end}}
         - name: ELASTICSEARCH_PORT
-          value: "9200"
+          value: "{{ .Values.output.port }}"
         - name: ELASTICSEARCH_USERNAME
           value: elastic
         - name: ELASTICSEARCH_PASSWORD
