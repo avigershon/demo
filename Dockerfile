@@ -1,4 +1,4 @@
-FROM node:6-alpine
+FROM node:8
 
 # Home directory for Node-RED application source code.
 RUN mkdir -p /usr/src/node-red
@@ -9,7 +9,7 @@ RUN mkdir /data
 WORKDIR /usr/src/node-red
 
 # Add node-red user so we aren't running as root.
-RUN adduser -h /usr/src/node-red -D -H node-red \
+RUN useradd --home-dir /usr/src/node-red --no-create-home node-red \
     && chown -R node-red:node-red /data \
     && chown -R node-red:node-red /usr/src/node-red
 
