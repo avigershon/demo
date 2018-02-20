@@ -13,7 +13,7 @@ service:
   internalPort: 1880
   
 persistence:
-  enabled: false
+  enabled: true
 
   ## node-red data Persistent Volume Storage Class
   ## If defined, storageClassName: <storageClass>
