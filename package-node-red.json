@@ -28,7 +28,8 @@
         "node-red-node-msgpack": "*",
         "node-red-node-base64": "*",
         "node-red-node-suncalc": "*",
-        "node-red-node-random": "*"
+        "node-red-node-random": "*",
+        "puppeteer": "1.1.0"
     },
     "engines": {
         "node": "4.*.*"
