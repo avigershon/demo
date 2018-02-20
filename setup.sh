@@ -34,8 +34,9 @@ for d in * ; do
     cd $d
     for chart in * ; do
     
-        release=$project-$d
-   
+        #release=$project-$d
+        release=$d
+        
         if [ $d = "filebeat" ]; then
             #helm del --purge $d;
             echo "helm install $chart --name $d";
