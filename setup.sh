@@ -33,13 +33,18 @@ cd ../packages;
 for d in * ; do
     cd $d
     for chart in * ; do
+    
+        release = $project
+        release+= "_"
+        release+= $d
+        
         if [ $d = "filebeat" ]; then
             #helm del --purge $d;
             echo "helm install $chart --name $d";
-            #helm install $chart --name $d --set namespace=$project;
+            #helm install $chart --name $release --set namespace=$project;
         else
-            echo "helm upgrade $project_$d $chart -i --wait --namespace $project";
-            helm upgrade $project_$d $chart -i --wait --namespace $project;
+            echo "helm upgrade $release $chart -i --wait --namespace $project";
+            helm upgrade $release $chart -i --wait --namespace $project;
         fi
         
     done
