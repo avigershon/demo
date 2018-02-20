@@ -38,8 +38,8 @@ for d in * ; do
             echo "helm install $chart --name $d";
             #helm install $chart --name $d --set namespace=$project;
         else
-            echo "helm upgrade $d $chart -i --wait --namespace $project";
-            helm upgrade $d $chart -i --wait --namespace $project;
+            echo "helm upgrade $project.$d $chart -i --wait --namespace $project";
+            helm upgrade $project.$d $chart -i --wait --namespace $project;
         fi
         
     done
