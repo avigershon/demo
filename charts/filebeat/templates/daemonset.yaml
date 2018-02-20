@@ -4,7 +4,8 @@ metadata:
   name: {{ template "filebeat.name" . }}-config
   namespace: kube-system
   labels:
-    k8s-app: {{ template "filebeat.name" . }}
+    app: {{ template "filebeat.name" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
     kubernetes.io/cluster-service: "true"
 data:
   filebeat.yml: |-
