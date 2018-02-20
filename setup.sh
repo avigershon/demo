@@ -34,7 +34,7 @@ for d in * ; do
     cd $d
     for chart in * ; do
     
-        release = $project-$d
+        release=$project-$d
    
         if [ $d = "filebeat" ]; then
             #helm del --purge $d;
