@@ -10,8 +10,6 @@ while [ $# -gt 0 ]; do
   shift
 done
    
-setup $env;
-
 setup () {
 
   env=$1;
@@ -100,3 +98,5 @@ install_chart() {
   done
 }
  
+setup $env;
+
