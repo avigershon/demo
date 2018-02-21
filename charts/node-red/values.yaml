@@ -22,7 +22,7 @@ persistence:
   ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
   ##   GKE, AWS & OpenStack)
   ##
-  storageClass: "gp2"
+  storageClass: "node-red-data"
   accessMode: ReadWriteMany
   size: 5Gi
 
