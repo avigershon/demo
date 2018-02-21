@@ -59,7 +59,6 @@ install_chart() {
   project=${PWD##*/}
   home=$PWD
   env = $1
-  namespace=$env
   
   cd $home/charts/$env;
     
@@ -78,7 +77,7 @@ install_chart() {
     for package in * ; do
     
       if [ "$env" == "global" ]; then
-        $namespace="kube-system";
+        namespace="kube-system";
         
         echo "helm del $chart --purge";
         helm del $chart --purge;
@@ -86,7 +85,7 @@ install_chart() {
         echo "helm install $chart $package -i --wait --namespace $namespace";
         helm install $chart $package -i --wait --namespace $namespace;
       else
-      
+        namespace=$env
         echo "helm upgrade $chart $package -i --wait --namespace $namespace";
         helm upgrade $chart $package -i --wait --namespace $namespace;
       fi
