@@ -4,7 +4,7 @@ while [ $# -gt 0 ]; do
   case "$1" in
     --env=*)
       env="${1#*=}"
-      project_setup env
+      setup env
       ;;
     *)
       printf "***************************\n"
@@ -14,46 +14,38 @@ while [ $# -gt 0 ]; do
   esac
   shift
 done
+   
+setup () {
 
-project_setup() {
-
-  project=${PWD##*/}
-  env = $1
+  env=$1;
+  home=$PWD
   
-  mkdir environments;
-  mkdir environments/$env;
-  mkdir environments/$env/packages;
-
-  cd charts;
-  for d in * ; do
-      mkdir ./../environments/$env/packages/$d;
-      echo "packaging $d chart...";
-      helm package $d -d "./../environments/$env/packages/$d";
-  done
-
-  cd ../environments/$env/packages;
+  #create env folders
+  mkdir $home/environments;
+  mkdir $home/environments/$env;
+  mkdir $home/environments/$env/packages;
   
-  for d in * ; do
-      cd $d
-      for package in * ; do
-          echo "helm upgrade $env- $package -i --wait --namespace $project";
-          helm upgrade $release $chart -i --wait --namespace $project;
-      done
-      cd ../
-  done
+  if [ $env -eq "global" ]
+  then
+    system_setup
+  else
+    kubectl create namespace $env;
+    install_chart $env
+  fi
+  
 }
-    
+
 system_setup () {
 
+    home=$PWD
+    
     ACCOUNT=$(gcloud info --format='value(config.account)')
 
     kubectl create clusterrolebinding owner-cluster-admin-binding \
         --clusterrole cluster-admin \
         --user $ACCOUNT
 
-    kubectl apply -f rolebinding.yaml -o yaml
-
-    kubectl create namespace $project;
+    kubectl apply -f $home/rolebinding.yaml -o yaml
 
     curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get > get_helm.sh;
     chmod 700 get_helm.sh;
@@ -65,22 +57,49 @@ system_setup () {
     kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
     kubectl patch deploy --namespace kube-system tiller-deploy -p '{"spec":{"template":{"spec":{"serviceAccount":"tiller"}}}}'
     
-    cd charts;
-    
-    for d in * ; do
-        mkdir ./../environments/$env/packages/$d;
-        echo "packaging $d chart...";
-        helm package $d -d "./../environments/$env/packages/$d";
-    done
-
-    cd ../environments/$env/packages;
-
-    for d in * ; do
-        cd $d
-        for package in * ; do
-            echo "helm upgrade $env- $package -i --wait --namespace $project";
-            helm upgrade $release $chart -i --wait --namespace $project;
-        done
-        cd ../
-    done
+    install_chart $env
 }
+
+install_chart() {
+
+  project=${PWD##*/}
+  home=$PWD
+  env = $1
+  namespace=$env
+  
+  cd $home/charts/$env;
+    
+  for chart in * ; do
+      mkdir $home/environments/$env/packages/$chart;
+      echo "packaging $chart chart...";
+      helm package $chart -d "$home/environments/$env/packages/$chart";
+  done
+
+  cd $home/environments/$env/packages;
+
+  for chart in * ; do
+  
+    cd $home/environments/$env/packages/$chart;
+
+    for package in * ; do
+    
+      if [ $env -eq "global" ]
+      then
+        $namespace="kube-system";
+        
+        echo "helm del $chart --purge";
+        helm del $chart --purge;
+        
+        echo "helm install $chart $package -i --wait --namespace $namespace";
+        helm install $chart $package -i --wait --namespace $namespace;
+      else
+      
+        echo "helm upgrade $chart $package -i --wait --namespace $namespace";
+        helm upgrade $chart $package -i --wait --namespace $namespace;
+      fi
+      
+    done
+    
+  done
+}
+ 
