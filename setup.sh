@@ -1,7 +1,10 @@
+#!/bin/bash
+
 while [ $# -gt 0 ]; do
   case "$1" in
     --env=*)
       env="${1#*=}"
+      project_setup env
       ;;
     *)
       printf "***************************\n"
@@ -12,7 +15,33 @@ while [ $# -gt 0 ]; do
   shift
 done
 
-project=${PWD##*/}
+project_setup() {
+
+  project=${PWD##*/}
+  env = $1
+  
+  mkdir environments;
+  mkdir environments/$env;
+  mkdir environments/$env/packages;
+
+  cd charts;
+  for d in * ; do
+      mkdir ./../environments/$env/packages/$d;
+      echo "packaging $d chart...";
+      helm package $d -d "./../environments/$env/packages/$d";
+  done
+
+  cd ../environments/$env/packages;
+  
+  for d in * ; do
+      cd $d
+      for package in * ; do
+          echo "helm upgrade $env- $package -i --wait --namespace $project";
+          helm upgrade $release $chart -i --wait --namespace $project;
+      done
+      cd ../
+  done
+}
     
 system_setup () {
 
@@ -35,34 +64,23 @@ system_setup () {
     kubectl create serviceaccount --namespace kube-system tiller
     kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
     kubectl patch deploy --namespace kube-system tiller-deploy -p '{"spec":{"template":{"spec":{"serviceAccount":"tiller"}}}}'
-}
-
-mkdir packages;
-
-cd charts;
-for d in * ; do
-    mkdir ./../packages/$d;
-    echo "packaging $d chart...";
-    helm package $d -d "./../packages/$d";
-done
-
-cd ../packages;
-for d in * ; do
-    cd $d
-    for chart in * ; do
     
-        #release=$project-$d
-        release=$d
-        
-        if [ $d = "filebeat" ]; then
-            #helm del --purge $d;
-            echo "helm install $chart --name $d";
-            #helm install $chart --name $release --set namespace=$project;
-        else
-            echo "helm upgrade $release $chart -i --wait --namespace $project";
-            helm upgrade $release $chart -i --wait --namespace $project;
-        fi
-        
+    cd charts;
+    
+    for d in * ; do
+        mkdir ./../environments/$env/packages/$d;
+        echo "packaging $d chart...";
+        helm package $d -d "./../environments/$env/packages/$d";
     done
-    cd ../
-done
+
+    cd ../environments/$env/packages;
+
+    for d in * ; do
+        cd $d
+        for package in * ; do
+            echo "helm upgrade $env- $package -i --wait --namespace $project";
+            helm upgrade $release $chart -i --wait --namespace $project;
+        done
+        cd ../
+    done
+}
