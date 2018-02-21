@@ -90,16 +90,10 @@ install_charts() {
     
       if [ "$recreate" == "true" ]; then
         #namespace="kube-system";
-        
-        echo "helm del $chart --purge";
-        helm del $chart --purge;
-        
-        echo "helm install $package --name $chart --wait --set namespace=$namespace";
-        helm install $package --name $chart --wait --set namespace=$namespace;
+        install_chart $chart $package $namespace
       else
         #namespace=$env
-        echo "helm upgrade $chart $package -i --wait --set namespace=$namespace";
-        helm upgrade $chart $package -i --wait --set namespace=$namespace;
+        upgrade_chart $chart $package $namespace || install_chart $chart $package $namespace
       fi
       
     done
@@ -107,5 +101,25 @@ install_charts() {
   done
 }
  
+install_chart () {
+   chart=$1
+   package=$2
+   namespace=$3
+   
+   echo "helm del $chart --purge";
+   helm del $chart --purge;
+        
+   echo "helm install $package --name $chart --wait --set namespace=$namespace";
+   helm install $package --name $chart --wait --set namespace=$namespace;
+}
+
+upgrade_chart () {
+   chart=$1
+   package=$2
+   namespace=$3
+   
+   echo "helm upgrade $chart $package -i --wait --set namespace=$namespace";
+   helm upgrade $chart $package -i --wait --set namespace=$namespace;
+}
 setup $env $recreate;
 
