@@ -60,7 +60,8 @@ install_chart() {
 
   project=${PWD##*/}
   home=$PWD
-  env = $1
+  env=$1
+  recreate=$2
   
   cd $home/charts/$env;
     
@@ -78,7 +79,7 @@ install_chart() {
 
     for package in * ; do
     
-      if [ "$env" == "global" ]; then
+      if [ "$recreate" == "true" ]; then
         #namespace="kube-system";
         
         echo "helm del $chart --purge";
@@ -97,5 +98,5 @@ install_chart() {
   done
 }
  
-setup $env;
+setup $env $recreate;
 
