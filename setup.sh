@@ -20,12 +20,14 @@ setup () {
   mkdir $home/environments/$env;
   mkdir $home/environments/$env/packages;
   
-  if [ "$env" == "global" ]; then
-    system_setup
-  else
-    kubectl create namespace $env;
-    install_chart $env
-  fi
+  install_chart $env
+  
+  #if [ "$env" == "global" ]; then
+  #  system_setup
+  #else
+  #  kubectl create namespace $env;
+  #  install_chart $env
+  #fi
   
 }
 
