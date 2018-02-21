@@ -67,7 +67,7 @@ install_chart() {
   
   kubectl create namespace $namespace;
   
-  cd $home/charts;
+  cd $home/charts/;
     
   for chart in * ; do
       mkdir $home/environments/$env/packages/$chart;
