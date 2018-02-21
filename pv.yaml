@@ -1,16 +1,14 @@
 kind: PersistentVolume
 apiVersion: v1
 metadata:
-  name: datagram
+  name: host-volume
   labels:
-    name: datagram
+    type: local
 spec:
+  storageClassName: manual
   capacity:
-    storage: 100Gi
-  storageClassName: standard
+    storage: 10Gi
   accessModes:
     - ReadWriteMany
-  gcePersistentDisk:
-    pdName: datagram
-    fsType: ext4
-    readOnly: false
+  hostPath:
+    path: "/mnt/data"
