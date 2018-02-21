@@ -43,7 +43,7 @@ system_setup () {
         --user $ACCOUNT
 
     kubectl apply -f $home/rolebinding.yaml -o yaml
-    kubectl apply -f $home/pv.yaml -o yaml
+    #kubectl apply -f $home/pv.yaml -o yaml
     
     curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get > get_helm.sh;
     chmod 700 get_helm.sh;
