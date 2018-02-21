@@ -15,7 +15,7 @@ spec:
       containers:
       - env:
         - name: ES_JAVA_OPTS
-          value: -Xmx512m -Xms512m
+          value: -Xmx1g -Xms1g
         - name: ELASTIC_PASSWORD
           value: changeme
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
