@@ -76,10 +76,14 @@ install_chart() {
   done
 
   cd $home/environments/$env/packages;
-
+  
+  echo "current folder=$PWD";
+  
   for chart in * ; do
   
     cd $home/environments/$env/packages/$chart;
+
+    echo "current folder=$PWD";
 
     for package in * ; do
     
