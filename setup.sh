@@ -4,7 +4,7 @@ while [ $# -gt 0 ]; do
   case "$1" in
     --env=*)
       env="${1#*=}"
-      setup env
+      setup $env
       ;;
     *)
       printf "***************************\n"
