@@ -3,8 +3,6 @@ kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name:  {{ .Release.Name }}-data
-  annotations: 
-    "volume.beta.kubernetes.io/storage-class": ""
 spec:
   accessModes:
     - ReadWriteMany
