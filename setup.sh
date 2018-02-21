@@ -63,10 +63,11 @@ install_chart() {
   home=$PWD
   env=$1
   recreate=$2
+  namespace=$project-$env;
   
-  kubectl create namespace $env;
+  kubectl create namespace $namespace;
   
-  cd $home/charts/$env;
+  cd $home/charts;
     
   for chart in * ; do
       mkdir $home/environments/$env/packages/$chart;
@@ -88,12 +89,12 @@ install_chart() {
         echo "helm del $chart --purge";
         helm del $chart --purge;
         
-        echo "helm install $package --name $project-$chart --wait --namespace $env --set namespace=$env";
-        helm install $package --name $project-$chart --wait --namespace $env --set namespace=$env;
+        echo "helm install $package --name $chart --wait --namespace $namespace --set namespace=$namespace";
+        helm install $package --name $chart --wait --namespace $env --set namespace=$namespace;
       else
         #namespace=$env
-        echo "helm upgrade $project-$chart $package -i --wait --namespace $env";
-        helm upgrade $project-$chart $package -i --wait --namespace $env;
+        echo "helm upgrade $chart $package -i --wait --namespace $namespace";
+        helm upgrade $chart $package -i --wait --namespace $namespace;
       fi
       
     done
