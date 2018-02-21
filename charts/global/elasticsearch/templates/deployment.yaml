@@ -4,7 +4,7 @@ metadata:
   creationTimestamp: null
   name: {{ template "elasticsearch.name" . }}
 spec:
-  replicas: 1
+  replicas: 3
   strategy: {}
   template:
     metadata:
@@ -16,8 +16,6 @@ spec:
       - env:
         - name: ES_JAVA_OPTS
           value: -Xmx512m -Xms512m
-        - name: null
-          value: "bootstrap.memory_lock=true"
         - name: ELASTIC_PASSWORD
           value: changeme
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
