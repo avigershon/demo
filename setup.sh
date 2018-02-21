@@ -84,8 +84,8 @@ install_chart() {
         echo "helm del $chart --purge";
         helm del $chart --purge;
         
-        echo "helm install $package --name $chart --wait --namespace $env";
-        helm install $package --name $chart --wait --namespace $env;
+        echo "helm install $package --name $chart --wait --namespace $env --set namespace=$env";
+        helm install $package --name $chart --wait --namespace $env --set namespace=$env;
       else
         #namespace=$env
         echo "helm upgrade $chart $package -i --wait --namespace $env";
