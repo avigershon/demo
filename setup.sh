@@ -20,8 +20,7 @@ setup () {
   mkdir $home/environments/$env;
   mkdir $home/environments/$env/packages;
   
-  if [ $env -eq "global" ]
-  then
+  if [ "$env" == "global" ]; then
     system_setup
   else
     kubectl create namespace $env;
@@ -78,8 +77,7 @@ install_chart() {
 
     for package in * ; do
     
-      if [ $env -eq "global" ]
-      then
+      if [ "$env" == "global" ]; then
         $namespace="kube-system";
         
         echo "helm del $chart --purge";
