@@ -1,20 +1,17 @@
 #!/bin/bash
 
 while [ $# -gt 0 ]; do
-  case "$1" in
-    --env=*)
-      env="${1#*=}"
-      setup $env
-      ;;
-    *)
-      printf "***************************\n"
-      printf "* Error: Invalid argument.*\n"
-      printf "***************************\n"
-      exit 1
-  esac
+
+   if [[ $1 == *"--"* ]]; then
+        v="${1/--/}"
+        declare $v="$2"
+   fi
+
   shift
 done
    
+setup $env;
+
 setup () {
 
   env=$1;
