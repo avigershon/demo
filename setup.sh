@@ -13,6 +13,7 @@ done
 setup () {
 
   env=$1;
+  recreate=$2;
   home=$PWD
   
   #create env folders
@@ -20,7 +21,7 @@ setup () {
   mkdir $home/environments/$env;
   mkdir $home/environments/$env/packages;
   
-  install_chart $env
+  install_chart $env $recreate
   
   #if [ "$env" == "global" ]; then
   #  system_setup
@@ -53,7 +54,7 @@ system_setup () {
     kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
     kubectl patch deploy --namespace kube-system tiller-deploy -p '{"spec":{"template":{"spec":{"serviceAccount":"tiller"}}}}'
     
-    install_chart $env
+    install_chart $env true
 }
 
 install_chart() {
