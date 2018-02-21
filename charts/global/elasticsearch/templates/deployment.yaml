@@ -4,7 +4,7 @@ metadata:
   creationTimestamp: null
   name: {{ template "elasticsearch.name" . }}
 spec:
-  replicas: 3
+  replicas: {{ .Values.replicaCount }}
   strategy: {}
   template:
     metadata:
