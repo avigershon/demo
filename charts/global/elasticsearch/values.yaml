@@ -5,8 +5,8 @@
 replicaCount: 1
 
 image:
-  repository: docker.elastic.co/elasticsearch/elasticsearch-platinum
-  tag: 6.1.1
+  repository: docker.elastic.co/elasticsearch/elasticsearch
+  tag: 6.2.2
   pullPolicy: IfNotPresent
 
 service:
