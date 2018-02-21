@@ -65,6 +65,7 @@ install_charts() {
   namespace=$project-$env;
   
   kubectl create namespace $namespace;
+  kubectl config set-context $(kubectl config current-context) --namespace=$namespace;
   
   cd $home/charts/;
     
@@ -92,12 +93,12 @@ install_charts() {
         echo "helm del $chart --purge";
         helm del $chart --purge;
         
-        echo "helm install $package --name $chart --wait --namespace $namespace --set namespace=$namespace";
-        helm install $package --name $chart --wait --namespace $env --set namespace=$namespace;
+        echo "helm install $package --name $chart --wait --set namespace=$namespace";
+        helm install $package --name $chart --wait --set namespace=$namespace;
       else
         #namespace=$env
-        echo "helm upgrade $chart $package -i --wait --namespace $namespace";
-        helm upgrade $chart $package -i --wait --namespace $namespace;
+        echo "helm upgrade $chart $package -i --wait --set namespace=$namespace";
+        helm upgrade $chart $package -i --wait --set namespace=$namespace;
       fi
       
     done
