@@ -21,14 +21,14 @@ setup () {
   mkdir $home/environments/$env;
   mkdir $home/environments/$env/packages;
   
-  install_chart $env $recreate
-  
-  #if [ "$env" == "global" ]; then
-  #  system_setup
+  if [ "$recreate" == "true" ]; then
+      system_setup
   #else
   #  kubectl create namespace $env;
   #  install_chart $env
-  #fi
+  fi
+  
+  install_chart $env $recreate
   
 }
 
