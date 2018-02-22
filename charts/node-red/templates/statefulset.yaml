@@ -5,10 +5,13 @@ metadata:
 spec:
   serviceName: {{ template "fullname" . }}
   replicas: 3
+  selector:
+    matchLabels:
+      app: {{ .Chart.Name }}
   template:
     metadata:
       labels:
-        app: {{ template "fullname" . }}
+        app: {{ .Chart.Name }}
     spec:
       updateStrategy:
         type: RollingUpdate
