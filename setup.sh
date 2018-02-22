@@ -62,7 +62,7 @@ system_setup () {
 install_charts() {
    
   branch=$1
-  commit_hash=$3
+  commit_hash=$2
   
   project=${PWD##*/}
   home=$PWD
