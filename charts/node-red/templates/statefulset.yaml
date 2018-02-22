@@ -8,7 +8,7 @@ spec:
   template:
     metadata:
       labels:
-        app: {{ .Chart.Name }}
+        app: {{ template "fullname" . }}
     spec:
       updateStrategy:
         type: RollingUpdate
