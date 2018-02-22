@@ -71,6 +71,7 @@ install_charts() {
   
   cd $home
   project=${PWD##*/}
+  env=$project-$branch;
   
   if [ "$path" == "cluster" ]; then
       namespace="default";
@@ -105,7 +106,7 @@ install_charts() {
 
     for package in * ; do
       #if [ "$chart" != "cluster" ]; then
-         upgrade_chart $chart $package $namespace $release_name || install_chart $chart $package $namespace $release_name
+         upgrade_chart $chart $package $namespace $release_name $env|| install_chart $chart $package $namespace $release_name $env
       #fi
       #if [ "$recreate" == "true" ]; then
       #  install_chart $chart $package $namespace
@@ -123,12 +124,13 @@ install_chart () {
    package=$2
    namespace=$3
    release_name=$4
+   env=$5
    
    echo "helm del $chart --purge";
    helm del $chart --purge;
         
-   echo "helm install $package --name $release_name --namespace $namespace --wait";
-   helm install $package --name $release_name --namespace $namespace --wait;
+   echo "helm install $package --name $release_name --namespace $namespace --wait --set project=$env";
+   helm install $package --name $release_name --namespace $namespace --wait --set project=$env;
 }
 
 upgrade_chart () {
@@ -136,9 +138,10 @@ upgrade_chart () {
    package=$2
    namespace=$3
    release_name=$4
+   env=$5
    
-   echo "helm upgrade $release_name $package -i --namespace $namespace --wait";
-   helm upgrade $release_name $package -i --namespace $namespace --wait;
+   echo "helm upgrade $release_name $package -i --namespace $namespace --wait --set project=$env";
+   helm upgrade $release_name $package -i --namespace $namespace --wait --set project=$env;
 }
 
 setup;
