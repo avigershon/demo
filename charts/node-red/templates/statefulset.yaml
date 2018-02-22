@@ -7,11 +7,17 @@ spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: {{ .Chart.Name }}
+      app: {{ template "name" . }}
+      chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+      release: {{ .Release.Name }}
+      heritage: {{ .Release.Service }}
   template:
     metadata:
       labels:
-        app: {{ .Chart.Name }}
+        app: {{ template "name" . }}
+        chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+        release: {{ .Release.Name }}
+        heritage: {{ .Release.Service }}
     spec:
       updateStrategy:
         type: RollingUpdate
