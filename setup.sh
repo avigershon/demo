@@ -93,7 +93,7 @@ install_charts() {
     echo "current folder=$PWD";
 
     for package in * ; do
-      namespace=default
+      namespace="kube-system"
       upgrade_chart $chart $package $namespace $release_name || install_chart $chart $package $namespace $release_name
       
       #if [ "$recreate" == "true" ]; then
