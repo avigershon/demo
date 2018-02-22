@@ -46,6 +46,7 @@ apiVersion: extensions/v1beta1
 kind: DaemonSet
 metadata:
   name: {{ template "filebeat.name" . }}
+  namespace: kube-system
   labels:
     k8s-app: {{ template "filebeat.name" . }}
     kubernetes.io/cluster-service: "true"
