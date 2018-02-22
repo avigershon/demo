@@ -113,8 +113,8 @@ install_chart () {
    namespace=$3
    release_name=$4
    
-   #echo "helm del $chart --purge";
-   #helm del $chart --purge;
+   echo "helm del $chart --purge";
+   helm del $chart --purge;
         
    echo "helm install $package --name $release_name --wait";
    helm install $package --name $release_name --wait;
