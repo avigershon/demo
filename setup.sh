@@ -69,7 +69,7 @@ install_charts() {
   namespace=$project-$branch;
    
   kubectl create namespace $namespace;
-  kubectl config set-context $(kubectl config current-context) --namespace=$namespace;
+  #kubectl config set-context $(kubectl config current-context) --namespace=$namespace;
   
   cd $home/charts/;
     
@@ -116,8 +116,8 @@ install_chart () {
    echo "helm del $chart --purge";
    helm del $chart --purge;
         
-   echo "helm install $package --name $release_name --wait";
-   helm install $package --name $release_name --wait;
+   echo "helm install $package --name $release_name --namespace $namespace --wait";
+   helm install $package --name $release_name --namespace $namespace --wait;
 }
 
 upgrade_chart () {
@@ -126,8 +126,8 @@ upgrade_chart () {
    namespace=$3
    release_name=$4
    
-   echo "helm upgrade $release_name $package -i --wait";
-   helm upgrade $release_name $package -i --wait;
+   echo "helm upgrade $release_name $package -i --namespace $namespace --wait";
+   helm upgrade $release_name $package -i --namespace $namespace --wait;
 }
 
 setup;
