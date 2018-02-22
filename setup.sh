@@ -85,8 +85,9 @@ install_charts() {
   
   for chart in * ; do
   
-    release_name=$namespace-$chart;
-    
+    #release_name=$namespace-$chart;
+    release_name=$chart;
+
     cd $home/environments/$branch/packages/$chart;
 
     echo "current folder=$PWD";
