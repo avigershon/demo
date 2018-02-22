@@ -4,7 +4,7 @@ metadata:
   name: {{ template "name" . }}
 spec:
   serviceName: {{ template "name" . }}
-  replicas: 3
+  replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
       app: {{ .Chart.Name }}
