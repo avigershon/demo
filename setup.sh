@@ -93,9 +93,9 @@ install_charts() {
     echo "current folder=$PWD";
 
     for package in * ; do
-      if [ "$chart" != "cluster" ]; then
+      #if [ "$chart" != "cluster" ]; then
          upgrade_chart $chart $package $namespace $release_name || install_chart $chart $package $namespace $release_name
-      fi
+      #fi
       #if [ "$recreate" == "true" ]; then
       #  install_chart $chart $package $namespace
       #else
