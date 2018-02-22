@@ -8,7 +8,7 @@ env:
   # To adjust a config option to an env var uppercase + replace `.` with `_`
   # Ref: https://www.elastic.co/guide/en/kibana/current/settings.html
   #
-  ELASTICSEARCH_URL: http://elasticsearch:9200
+  ELASTICSEARCH_URL: http://elasticsearch.sbb_master:9200
   # SERVER_PORT: 5601
   # LOGGING_VERBOSE: "true"
   # SERVER_DEFAULTROUTE: "/app/kibana"
