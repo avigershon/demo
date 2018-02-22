@@ -15,6 +15,27 @@ spec:
     spec:
       updateStrategy:
         type: RollingUpdate
+        initContainers:
+        - name: {{ .Chart.Name }}-master
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          command: ["npm", "start", "--", "--userDir", "/data", "--settings", "/usr/src/node-red/node_modules/node-red/settings/settings.js"]
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.service.internalPort }}
+              name: {{ template "name" . }}
+          livenessProbe:
+            httpGet:
+              path: /
+              port: {{ .Values.service.internalPort }}
+          readinessProbe:
+            httpGet:
+              path: /
+              port: {{ .Values.service.internalPort }}
+          volumeMounts:
+          - mountPath: /data
+            name: {{ template "name" . }}-data
+          - mountPath: /usr/src/node-red/node_modules/node-red/settings
+            name: {{ template "name" . }}-settings
         containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
