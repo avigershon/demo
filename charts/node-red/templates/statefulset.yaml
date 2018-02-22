@@ -49,6 +49,10 @@ spec:
       {{- else }}
         emptyDir: {}
       {{ end }}
+    {{- if .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml .Values.nodeSelector | indent 8 }}
+    {{- end }}
   volumeClaimTemplates:
   - metadata:
       name: {{ .Release.Name }}-data
