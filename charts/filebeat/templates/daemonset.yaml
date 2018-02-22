@@ -61,7 +61,7 @@ spec:
       terminationGracePeriodSeconds: 30
       containers:
       - name: {{ template "filebeat.name" . }}
-        namespace: kube-system
+        namespace: {{ .Values.namespace }}
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         args: [
           "-c", "/etc/filebeat.yml",
