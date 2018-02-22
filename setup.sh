@@ -91,7 +91,7 @@ install_charts() {
 
     for package in * ; do
     
-      install_chart $chart $package $namespace $commit_hash
+      upgrade_chart $chart $package $namespace $commit_hash || install_chart $chart $package $namespace $commit_hash
       
       #if [ "$recreate" == "true" ]; then
       #  install_chart $chart $package $namespace
@@ -122,9 +122,11 @@ upgrade_chart () {
    chart=$1
    package=$2
    namespace=$3
+   commit_hash=$4
+   release_name=$chart-${commit_hash:0:7};
    
-   echo "helm upgrade $chart $package -i --wait --set namespace=$namespace";
-   helm upgrade $chart $package -i --wait --set namespace=$namespace;
+   echo "helm upgrade $release_name $package -i --wait --set namespace=$namespace";
+   helm upgrade $release_name $package -i --wait --set namespace=$namespace;
 }
 setup $env $recreate;
 
