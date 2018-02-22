@@ -116,8 +116,8 @@ install_chart () {
    echo "helm del $chart --purge";
    helm del $chart --purge;
         
-   echo "helm install $package --name $release_name --namespace $namespace --wait";
-   helm install $package --name $release_name --namespace $namespace --wait;
+   echo "helm install $package --name $release_name --wait";
+   helm install $package --name $release_name --wait;
 }
 
 upgrade_chart () {
@@ -126,8 +126,8 @@ upgrade_chart () {
    namespace=$3
    release_name=$4
    
-   echo "helm upgrade $release_name $package -i --namespace $namespace --wait";
-   helm upgrade $release_name $package -i --namespace $namespace --wait;
+   echo "helm upgrade $release_name $package -i --wait";
+   helm upgrade $release_name $package -i --wait;
 }
 
 setup;
