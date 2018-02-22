@@ -85,7 +85,7 @@ install_charts() {
   
   for chart in * ; do
   
-    release_name=$chart-${commit_hash:0:7};
+    release_name=$namespace-$chart;
     
     cd $home/environments/$branch/packages/$chart;
 
@@ -115,8 +115,8 @@ install_chart () {
    #echo "helm del $chart --purge";
    #helm del $chart --purge;
         
-   echo "helm install $package --name $namespace --wait --set namespace=$namespace";
-   helm install $package --name $namespace --wait --set namespace=$namespace;
+   echo "helm install $package --name $release_name --wait --set namespace=$namespace";
+   helm install $package --name $release_name --wait --set namespace=$namespace;
 }
 
 upgrade_chart () {
@@ -125,8 +125,8 @@ upgrade_chart () {
    namespace=$3
    release_name=$4
    
-   echo "helm upgrade $namespace $package -i --wait --set namespace=$namespace";
-   helm upgrade $namespace $package -i --wait --set namespace=$namespace;
+   echo "helm upgrade $release_name $package -i --wait --set namespace=$namespace";
+   helm upgrade $release_name $package -i --wait --set namespace=$namespace;
 }
 
 setup;
