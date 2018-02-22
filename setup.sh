@@ -12,24 +12,25 @@ done
    
 setup () {
 
-  env=$1;
-  recreate=$2;
+  #env=$1;
+  #recreate=$2;
   home=$PWD;
   commit_hash=$(git log --format="%H" -n 1);
+  branch=$(git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/\1/");
   
   #create env folders
   mkdir $home/environments;
-  mkdir $home/environments/$env;
-  mkdir $home/environments/$env/packages;
+  mkdir $home/environments/$branch;
+  mkdir $home/environments/$branch/packages;
   
-  if [ "$recreate" == "true" ]; then
-      system_setup
+  #if [ "$recreate" == "true" ]; then
+  system_setup
   #else
   #  kubectl create namespace $env;
   #  install_chart $env
   fi
   
-  install_charts $env $recreate $commit_hash
+  install_charts $branch $commit_hash
   
 }
 
@@ -60,38 +61,39 @@ system_setup () {
 
 install_charts() {
    
-  env=$1
-  recreate=$2
+  branch=$1
   commit_hash=$3
   
   project=${PWD##*/}
   home=$PWD
-  namespace=$project-$env;
-  
+  namespace=$project-$branch;
+   
   kubectl create namespace $namespace;
   kubectl config set-context $(kubectl config current-context) --namespace=$namespace;
   
   cd $home/charts/;
     
   for chart in * ; do
-      mkdir $home/environments/$env/packages/$chart;
+      mkdir $home/environments/$branch/packages/$chart;
       echo "packaging $chart chart...";
-      helm package $chart -d "$home/environments/$env/packages/$chart";
+      helm package $chart -d "$home/environments/$branch/packages/$chart";
   done
 
-  cd $home/environments/$env/packages;
+  cd $home/environments/$branch/packages;
   
   echo "current folder=$PWD";
   
   for chart in * ; do
   
-    cd $home/environments/$env/packages/$chart;
+    release_name=$chart-${commit_hash:0:7};
+    
+    cd $home/environments/$branch/packages/$chart;
 
     echo "current folder=$PWD";
 
     for package in * ; do
     
-      upgrade_chart $chart $package $namespace $commit_hash || install_chart $chart $package $namespace $commit_hash
+      upgrade_chart $chart $package $namespace $release_name || install_chart $chart $package $namespace $release_name
       
       #if [ "$recreate" == "true" ]; then
       #  install_chart $chart $package $namespace
@@ -108,8 +110,7 @@ install_chart () {
    chart=$1
    package=$2
    namespace=$3
-   commit_hash=$4
-   release_name=$chart-${commit_hash:0:7};
+   release_name=$4
    
    #echo "helm del $chart --purge";
    #helm del $chart --purge;
@@ -122,11 +123,11 @@ upgrade_chart () {
    chart=$1
    package=$2
    namespace=$3
-   commit_hash=$4
-   release_name=$chart-${commit_hash:0:7};
+   release_name=$4
    
    echo "helm upgrade $release_name $package -i --wait --set namespace=$namespace";
    helm upgrade $release_name $package -i --wait --set namespace=$namespace;
 }
-setup $env $recreate;
+
+setup;
 
