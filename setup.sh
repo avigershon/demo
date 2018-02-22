@@ -83,6 +83,7 @@ install_charts() {
   cd $home/$path/;
     
   for chart in * ; do
+      mkdir $home/environments/$branch/packages/$path;
       mkdir $home/environments/$branch/packages/$path/$chart;
       echo "packaging $chart chart...";
       helm package $chart -d "$home/environments/$branch/packages/$path/$chart";
