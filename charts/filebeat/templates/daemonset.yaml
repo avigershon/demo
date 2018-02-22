@@ -46,7 +46,7 @@ apiVersion: extensions/v1beta1
 kind: DaemonSet
 metadata:
   name: {{ template "filebeat.name" . }}
-  namespace: {{ .Values.namespace }}
+  namespace: kube-system
   labels:
     k8s-app: {{ template "filebeat.name" . }}
     kubernetes.io/cluster-service: "true"
@@ -61,6 +61,7 @@ spec:
       terminationGracePeriodSeconds: 30
       containers:
       - name: {{ template "filebeat.name" . }}
+        namespace: kube-system
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         args: [
           "-c", "/etc/filebeat.yml",
