@@ -28,7 +28,7 @@ setup () {
   #else
   #  kubectl create namespace $env;
   #  install_chart $env
-  fi
+  #fi
   
   install_charts $branch $commit_hash
   
