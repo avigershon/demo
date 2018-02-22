@@ -19,71 +19,69 @@ spec:
         release: {{ .Release.Name }}
         heritage: {{ .Release.Service }}
     spec:
-      updateStrategy:
-        type: RollingUpdate
-        initContainers:
-        - name: {{ .Chart.Name }}-master
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          command: ["npm", "start", "--", "--userDir", "/data", "--settings", "/usr/src/node-red/node_modules/node-red/settings/settings.js"]
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
-          ports:
-            - containerPort: {{ .Values.service.internalPort }}
-              name: {{ template "name" . }}
-          livenessProbe:
-            httpGet:
-              path: /
-              port: {{ .Values.service.internalPort }}
-          readinessProbe:
-            httpGet:
-              path: /
-              port: {{ .Values.service.internalPort }}
-          volumeMounts:
-          - mountPath: /data
-            name: {{ template "name" . }}-data
-          - mountPath: /usr/src/node-red/node_modules/node-red/settings
-            name: {{ template "name" . }}-settings
-        containers:
-        - name: {{ .Chart.Name }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          command: ["npm", "start", "--", "--userDir", "/data", "--settings", "/usr/src/node-red/node_modules/node-red/settings/settings.js"]
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
-          ports:
-            - containerPort: {{ .Values.service.internalPort }}
-              name: {{ template "name" . }}
-          livenessProbe:
-            httpGet:
-              path: /
-              port: {{ .Values.service.internalPort }}
-          readinessProbe:
-            httpGet:
-              path: /
-              port: {{ .Values.service.internalPort }}
-          volumeMounts:
-          - mountPath: /data
-            name: {{ template "name" . }}-data
-          - mountPath: /usr/src/node-red/node_modules/node-red/settings
-            name: {{ template "name" . }}-settings
-          resources:
+      initContainers:
+      - name: {{ .Chart.Name }}-master
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        command: ["npm", "start", "--", "--userDir", "/data", "--settings", "/usr/src/node-red/node_modules/node-red/settings/settings.js"]
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        ports:
+          - containerPort: {{ .Values.service.internalPort }}
+            name: {{ template "name" . }}
+        livenessProbe:
+          httpGet:
+            path: /
+            port: {{ .Values.service.internalPort }}
+        readinessProbe:
+          httpGet:
+            path: /
+            port: {{ .Values.service.internalPort }}
+        volumeMounts:
+        - mountPath: /data
+          name: {{ template "name" . }}-data
+        - mountPath: /usr/src/node-red/node_modules/node-red/settings
+          name: {{ template "name" . }}-settings
+      containers:
+      - name: {{ .Chart.Name }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        command: ["npm", "start", "--", "--userDir", "/data", "--settings", "/usr/src/node-red/node_modules/node-red/settings/settings.js"]
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        ports:
+          - containerPort: {{ .Values.service.internalPort }}
+            name: {{ template "name" . }}
+        livenessProbe:
+          httpGet:
+            path: /
+            port: {{ .Values.service.internalPort }}
+        readinessProbe:
+          httpGet:
+            path: /
+            port: {{ .Values.service.internalPort }}
+        volumeMounts:
+        - mountPath: /data
+          name: {{ template "name" . }}-data
+        - mountPath: /usr/src/node-red/node_modules/node-red/settings
+          name: {{ template "name" . }}-settings
+        resources:
 {{ toYaml .Values.resources | indent 12 }}
-      restartPolicy: Always
-      volumes:
-      - name: {{ template "name" . }}-settings
-        configMap:
-          name: {{ template "name" . }}-configmap
-          items:
-          - key: settings.js
-            path: settings.js
-      - name: {{ template "name" . }}-data
-      {{- if .Values.persistence.enabled }}
-        persistentVolumeClaim:
-          claimName: {{ template "name" . }}-data
-      {{- else }}
-        emptyDir: {}
-      {{ end }}
-    {{- if .Values.nodeSelector }}
-      nodeSelector:
+    restartPolicy: Always
+    volumes:
+    - name: {{ template "name" . }}-settings
+      configMap:
+        name: {{ template "name" . }}-configmap
+        items:
+        - key: settings.js
+          path: settings.js
+    - name: {{ template "name" . }}-data
+    {{- if .Values.persistence.enabled }}
+      persistentVolumeClaim:
+        claimName: {{ template "name" . }}-data
+    {{- else }}
+      emptyDir: {}
+    {{ end }}
+  {{- if .Values.nodeSelector }}
+    nodeSelector:
 {{ toYaml .Values.nodeSelector | indent 8 }}
-    {{- end }}
+  {{- end }}
   volumeClaimTemplates:
   - metadata:
       name: {{ .Release.Name }}-data
