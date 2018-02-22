@@ -31,6 +31,8 @@ spec:
             path: /
             port: {{ .Values.service.internalPort }}
         volumeMounts:
+        - mountPath: /data
+          name: {{ .Release.Name }}-data
         - mountPath: /usr/src/node-red/node_modules/node-red/settings
           name: {{ .Release.Name }}-settings
         resources:
@@ -43,6 +45,13 @@ spec:
           items:
           - key: settings.js
             path: settings.js
+      - name: {{ .Release.Name }}-data
+      {{- if .Values.persistence.enabled }}
+        persistentVolumeClaim:
+          claimName: {{ .Release.Name }}-data
+      {{- else }}
+        emptyDir: {}
+      {{ end }}
     {{- if .Values.nodeSelector }}
       nodeSelector:
 {{ toYaml .Values.nodeSelector | indent 8 }}

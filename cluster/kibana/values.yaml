@@ -1,6 +1,8 @@
+namespace: default
+
 image:
   repository: "docker.elastic.co/kibana/kibana"
-  tag: "6.1.1"
+  tag: "6.2.2"
   pullPolicy: "IfNotPresent"
 
 env:

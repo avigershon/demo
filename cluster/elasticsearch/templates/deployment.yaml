@@ -2,15 +2,16 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   creationTimestamp: null
-  name: {{ template "elasticsearch.name" . }}
+  name: {{ template "elasticsearch.fullname" . }}
+  namespace: {{ .Values.namespace }}
 spec:
-  replicas: 1
+  replicas: {{ .Values.replicaCount }}
   strategy: {}
   template:
     metadata:
       creationTimestamp: null
       labels:
-        name: {{ template "elasticsearch.name" . }}
+        name: {{ template "elasticsearch.fullname" . }}
     spec:
       containers:
       - env:

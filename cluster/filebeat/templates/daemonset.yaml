@@ -1,11 +1,11 @@
+---
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ template "filebeat.name" . }}-config
-  namespace: kube-system
+  name: filebeat-config
+  namespace: {{ .Values.namespace }}
   labels:
-    app: {{ template "filebeat.name" . }}
-    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    k8s-app: filebeat
     kubernetes.io/cluster-service: "true"
 data:
   filebeat.yml: |-
@@ -20,6 +20,12 @@ data:
         # Reload module configs as they change:
         reload.enabled: false
 
+    processors:
+      - add_cloud_metadata:
+
+    cloud.id: ${ELASTIC_CLOUD_ID}
+    cloud.auth: ${ELASTIC_CLOUD_AUTH}
+
     output.elasticsearch:
       hosts: ['${ELASTICSEARCH_HOST:elasticsearch}:${ELASTICSEARCH_PORT:9200}']
       username: ${ELASTICSEARCH_USERNAME}
@@ -28,10 +34,10 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ template "filebeat.name" . }}-prospectors
-  namespace: kube-system
+  name: filebeat-prospectors
+  namespace: {{ .Values.namespace }}
   labels:
-    k8s-app: {{ template "filebeat.name" . }}
+    k8s-app: filebeat
     kubernetes.io/cluster-service: "true"
 data:
   kubernetes.yml: |-
@@ -45,22 +51,22 @@ data:
 apiVersion: extensions/v1beta1
 kind: DaemonSet
 metadata:
-  name: {{ template "filebeat.name" . }}
-  namespace: kube-system
+  name: filebeat
+  namespace: {{ .Values.namespace }}
   labels:
-    k8s-app: {{ template "filebeat.name" . }}
+    k8s-app: filebeat
     kubernetes.io/cluster-service: "true"
 spec:
   template:
     metadata:
       labels:
-        k8s-app: {{ template "filebeat.name" . }}
+        k8s-app: filebeat
         kubernetes.io/cluster-service: "true"
     spec:
-      serviceAccountName: {{ template "filebeat.name" . }}
+      serviceAccountName: filebeat
       terminationGracePeriodSeconds: 30
       containers:
-      - name: {{ template "filebeat.name" . }}
+      - name: filebeat
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         args: [
           "-c", "/etc/filebeat.yml",
@@ -68,9 +74,9 @@ spec:
         ]
         env:
         - name: ELASTICSEARCH_HOST
-          value: {{ .Values.output.host }}.{{if ne .Values.namespace "default"}}{{ .Values.namespace }}{{end}}
+          value: elasticsearch
         - name: ELASTICSEARCH_PORT
-          value: "{{ .Values.output.port }}"
+          value: "9200"
         - name: ELASTICSEARCH_USERNAME
           value: elastic
         - name: ELASTICSEARCH_PASSWORD
@@ -104,7 +110,7 @@ spec:
       - name: config
         configMap:
           defaultMode: 0600
-          name: {{ template "filebeat.name" . }}-config
+          name: filebeat-config
       - name: varlibdockercontainers
         hostPath:
           path: /var/lib/docker/containers
@@ -118,11 +124,11 @@ spec:
 apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: ClusterRoleBinding
 metadata:
-  name: {{ template "filebeat.name" . }}
+  name: filebeat
 subjects:
 - kind: ServiceAccount
-  name: {{ template "filebeat.name" . }}
-  namespace: kube-system
+  name: filebeat
+  namespace: {{ .Values.namespace }}
 roleRef:
   kind: ClusterRole
   name: filebeat
@@ -131,9 +137,9 @@ roleRef:
 apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: ClusterRole
 metadata:
-  name: {{ template "filebeat.name" . }}
+  name: filebeat
   labels:
-    k8s-app: {{ template "filebeat.name" . }}
+    k8s-app: filebeat
 rules:
 - apiGroups: [""] # "" indicates the core API group
   resources:
@@ -147,7 +153,8 @@ rules:
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: {{ template "filebeat.name" . }}
-  namespace: kube-system
+  name: filebeat
+  namespace: {{ .Values.namespace }}
   labels:
-    k8s-app: {{ template "filebeat.name" . }}
+    k8s-app: filebeat
+---

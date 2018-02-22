@@ -4,7 +4,7 @@
 replicaCount: 1
 image:
   repository: gcr.io/datagram-195019/github-avigershon-sport-betting-bot
-  tag: 64c064246c49696efafe37757e35365897d7516f
+  tag: b78325ed5b248e985a3a5d2715f8eb5e154c7200
   pullPolicy: IfNotPresent
 service:
   name: node-red
@@ -13,7 +13,7 @@ service:
   internalPort: 1880
   
 persistence:
-  enabled: false
+  enabled: true
 
   ## node-red data Persistent Volume Storage Class
   ## If defined, storageClassName: <storageClass>
@@ -22,9 +22,9 @@ persistence:
   ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
   ##   GKE, AWS & OpenStack)
   ##
-  # storageClass: "-"
+  ## storageClass: "-"
   accessMode: ReadWriteOnce
-  size: 100Mi
+  size: 2Gi
 
   ## If subPath is set mount a sub folder of a volume instead of the root of the volume.
   ## This is especially handy for volume plugins that don't natively support sub mounting (like glusterfs).

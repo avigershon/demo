@@ -5,6 +5,7 @@ metadata:
   labels:
     name: {{ template "elasticsearch.name" . }}
   name: {{ template "elasticsearch.name" . }}
+  namespace: {{ .Values.namespace }}
 spec:
   ports:
   - name: "{{ .Values.service.port }}"

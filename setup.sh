@@ -1,50 +1,148 @@
-ACCOUNT=$(gcloud info --format='value(config.account)')
+#!/bin/bash
 
-kubectl create clusterrolebinding owner-cluster-admin-binding \
-    --clusterrole cluster-admin \
-    --user $ACCOUNT
-  
-kubectl apply -f rolebinding.yaml -o yaml
+while [ $# -gt 0 ]; do
 
-project=${PWD##*/}
+   if [[ $1 == *"--"* ]]; then
+        v="${1/--/}"
+        declare $v="$2"
+   fi
 
-kubectl create namespace $project;
-
-curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get > get_helm.sh;
-chmod 700 get_helm.sh;
-./get_helm.sh;
-
-helm init --wait;
-
-kubectl create serviceaccount --namespace kube-system tiller
-kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
-kubectl patch deploy --namespace kube-system tiller-deploy -p '{"spec":{"template":{"spec":{"serviceAccount":"tiller"}}}}'
-
-mkdir packages;
-
-cd charts;
-for d in * ; do
-    mkdir ./../packages/$d;
-    echo "packaging $d chart...";
-    helm package $d -d "./../packages/$d";
+  shift
 done
-
-cd ../packages;
-for d in * ; do
-    cd $d
-    for chart in * ; do
-    
-        release=$project-$d
    
-        if [ $d = "filebeat" ]; then
-            #helm del --purge $d;
-            echo "helm install $chart --name $d";
-            #helm install $chart --name $release --set namespace=$project;
-        else
-            echo "helm upgrade $release $chart -i --wait --namespace $project";
-            helm upgrade $release $chart -i --wait --namespace $project;
-        fi
-        
+setup () {
+
+  #env=$1;
+  #recreate=$2;
+  home=$PWD;
+  commit_hash=$(git log --format="%H" -n 1);
+  branch=$(git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/\1/");
+  
+  #create env folders
+  mkdir $home/environments;
+  mkdir $home/environments/$branch;
+  mkdir $home/environments/$branch/packages;
+  
+  #if [ "$recreate" == "true" ]; then
+  system_setup
+  #else
+  #  kubectl create namespace $env;
+  #  install_chart $env
+  #fi
+  
+  chart_path="charts"
+  install_charts $branch $commit_hash $chart_path $home
+  
+}
+
+system_setup () {
+
+    home=$PWD
+    chart_path="cluster"
+    
+    ACCOUNT=$(gcloud info --format='value(config.account)')
+
+    kubectl create clusterrolebinding owner-cluster-admin-binding \
+        --clusterrole cluster-admin \
+        --user $ACCOUNT
+
+    kubectl apply -f $home/rolebinding.yaml -o yaml
+    kubectl apply -f $home/pv.yaml -o yaml
+    
+    curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get > get_helm.sh;
+    chmod 700 get_helm.sh;
+    ./get_helm.sh;
+
+    helm init --wait;
+
+    kubectl create serviceaccount --namespace kube-system tiller
+    kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
+    kubectl patch deploy --namespace kube-system tiller-deploy -p '{"spec":{"template":{"spec":{"serviceAccount":"tiller"}}}}'
+
+    install_charts $branch $commit_hash $chart_path $home
+}
+
+install_charts() {
+   
+  branch=$1
+  commit_hash=$2
+  path=$3
+  home=$4
+  
+  cd $home
+  project=${PWD##*/}
+  env=$project-$branch;
+  
+  if [ "$path" == "cluster" ]; then
+      namespace="default";
+  else
+      namespace=$project-$branch;
+  fi
+   
+  kubectl create namespace $namespace;
+  #kubectl config set-context $(kubectl config current-context) --namespace=$namespace;
+  
+  cd $home/$path/;
+    
+  for chart in * ; do
+      mkdir $home/environments/$branch/packages/$path;
+      mkdir $home/environments/$branch/packages/$path/$chart;
+      echo "packaging $chart chart...";
+      helm package $chart -d "$home/environments/$branch/packages/$path/$chart";
+  done
+
+  cd $home/environments/$branch/packages/$path;
+  
+  echo "current folder=$PWD";
+  
+  for chart in * ; do
+  
+    #release_name=$namespace-$chart;
+    release_name=$chart;
+
+    cd $home/environments/$branch/packages/$path/$chart;
+
+    echo "current folder=$PWD";
+
+    for package in * ; do
+      #if [ "$chart" != "cluster" ]; then
+         upgrade_chart $chart $package $namespace $release_name $env|| install_chart $chart $package $namespace $release_name $env
+      #fi
+      #if [ "$recreate" == "true" ]; then
+      #  install_chart $chart $package $namespace
+      #else
+      #  upgrade_chart $chart $package $namespace || install_chart $chart $package $namespace
+      #fi
+      
     done
-    cd ../
-done
+    
+  done
+}
+ 
+install_chart () {
+   chart=$1
+   package=$2
+   namespace=$3
+   release_name=$4
+   env=$5
+   
+   echo "helm del $chart --purge";
+   helm del $chart --purge;
+        
+   echo "helm install $package --name $release_name --namespace $namespace --wait --set project=$env";
+   helm install $package --name $release_name --namespace $namespace --wait --set project=$env;
+}
+
+upgrade_chart () {
+   chart=$1
+   package=$2
+   namespace=$3
+   release_name=$4
+   env=$5
+   
+   echo "helm upgrade $release_name $package -i --namespace $namespace --wait --set project=$env";
+   helm upgrade $release_name $package -i --namespace $namespace --wait --set project=$env;
+}
+
+setup;
+
