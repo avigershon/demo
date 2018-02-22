@@ -14,7 +14,8 @@ setup () {
 
   env=$1;
   recreate=$2;
-  home=$PWD
+  home=$PWD;
+  commit_hash=$(git log --format="%H" -n 1);
   
   #create env folders
   mkdir $home/environments;
@@ -28,7 +29,7 @@ setup () {
   #  install_chart $env
   fi
   
-  install_charts $env $recreate
+  install_charts $env $recreate $commit_hash
   
 }
 
@@ -58,11 +59,13 @@ system_setup () {
 }
 
 install_charts() {
-
-  project=${PWD##*/}
-  home=$PWD
+   
   env=$1
   recreate=$2
+  commit_hash=$3
+  
+  project=${PWD##*/}
+  home=$PWD
   namespace=$project-$env;
   
   kubectl create namespace $namespace;
@@ -88,13 +91,13 @@ install_charts() {
 
     for package in * ; do
     
-      if [ "$recreate" == "true" ]; then
-        #namespace="kube-system";
-        install_chart $chart $package $namespace
-      else
-        #namespace=$env
-        upgrade_chart $chart $package $namespace || install_chart $chart $package $namespace
-      fi
+      install_chart $chart $package $namespace $commit_hash
+      
+      #if [ "$recreate" == "true" ]; then
+      #  install_chart $chart $package $namespace
+      #else
+      #  upgrade_chart $chart $package $namespace || install_chart $chart $package $namespace
+      #fi
       
     done
     
@@ -105,12 +108,13 @@ install_chart () {
    chart=$1
    package=$2
    namespace=$3
+   commit_hash=$4
    
-   echo "helm del $chart --purge";
-   helm del $chart --purge;
+   #echo "helm del $chart --purge";
+   #helm del $chart --purge;
         
-   echo "helm install $package --name $chart --wait --set namespace=$namespace";
-   helm install $package --name $chart --wait --set namespace=$namespace;
+   echo "helm install $package --name ${commit_hash:0:7} --wait --set namespace=$namespace";
+   helm install $package --name ${commit_hash:0:7} --wait --set namespace=$namespace;
 }
 
 upgrade_chart () {
