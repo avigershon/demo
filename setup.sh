@@ -44,8 +44,8 @@ system_setup () {
         --clusterrole cluster-admin \
         --user $ACCOUNT
 
-    #kubectl apply -f $home/rolebinding.yaml -o yaml
-    #kubectl apply -f $home/pv.yaml -o yaml
+    kubectl apply -f $home/rolebinding.yaml -o yaml
+    kubectl apply -f $home/pv.yaml -o yaml
     
     curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get > get_helm.sh;
     chmod 700 get_helm.sh;
@@ -93,8 +93,9 @@ install_charts() {
     echo "current folder=$PWD";
 
     for package in * ; do
-      upgrade_chart $chart $package $namespace $release_name || install_chart $chart $package $namespace $release_name
-      
+      if [ "$chart" != "cluster" ]; then
+         upgrade_chart $chart $package $namespace $release_name || install_chart $chart $package $namespace $release_name
+      fi
       #if [ "$recreate" == "true" ]; then
       #  install_chart $chart $package $namespace
       #else
