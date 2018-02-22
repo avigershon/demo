@@ -3,6 +3,7 @@
 # Declare variables to be passed into your templates.
 
 namespace: kube-system
+project:
 pdName: gke-master-default-pool-ecf0d5c9-kxrq
 
 replicaCount: 1
