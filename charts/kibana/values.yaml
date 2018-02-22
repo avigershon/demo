@@ -1,3 +1,5 @@
+namespace: default
+
 image:
   repository: "docker.elastic.co/kibana/kibana"
   tag: "6.2.2"
