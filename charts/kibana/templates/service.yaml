@@ -6,7 +6,7 @@ metadata:
     chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
-  name: {{ template "kibana.fullname" . }}
+  name: {{ template "kibana.name" . }}
 spec:
   type: {{ .Values.service.type }}
   ports:
