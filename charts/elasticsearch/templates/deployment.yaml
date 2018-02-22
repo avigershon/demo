@@ -3,6 +3,7 @@ kind: Deployment
 metadata:
   creationTimestamp: null
   name: {{ template "elasticsearch.fullname" . }}
+  namespace: {{ .Values.namespace }}
 spec:
   replicas: {{ .Values.replicaCount }}
   strategy: {}
