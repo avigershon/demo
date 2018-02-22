@@ -22,6 +22,7 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - containerPort: {{ .Values.service.internalPort }}
+              name: {{ template "name" . }}
           livenessProbe:
             httpGet:
               path: /
@@ -32,23 +33,23 @@ spec:
               port: {{ .Values.service.internalPort }}
           volumeMounts:
           - mountPath: /data
-            name: {{ .Release.Name }}-data
+            name: {{ template "name" . }}-data
           - mountPath: /usr/src/node-red/node_modules/node-red/settings
-            name: {{ .Release.Name }}-settings
+            name: {{ template "name" . }}-settings
           resources:
 {{ toYaml .Values.resources | indent 12 }}
       restartPolicy: Always
       volumes:
-      - name: {{ .Release.Name }}-settings
+      - name: {{ template "name" . }}-settings
         configMap:
-          name: {{ .Release.Name }}-configmap
+          name: {{ template "name" . }}-configmap
           items:
           - key: settings.js
             path: settings.js
-      - name: {{ .Release.Name }}-data
+      - name: {{ template "name" . }}-data
       {{- if .Values.persistence.enabled }}
         persistentVolumeClaim:
-          claimName: {{ .Release.Name }}-data
+          claimName: {{ template "name" . }}-data
       {{- else }}
         emptyDir: {}
       {{ end }}
