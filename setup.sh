@@ -30,13 +30,15 @@ setup () {
   #  install_chart $env
   #fi
   
-  install_charts $branch $commit_hash
+  chart_path="charts"
+  install_charts $branch $commit_hash $chart_path
   
 }
 
 system_setup () {
 
     home=$PWD
+    chart_path="cluster"
     
     ACCOUNT=$(gcloud info --format='value(config.account)')
 
@@ -57,21 +59,28 @@ system_setup () {
     kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
     kubectl patch deploy --namespace kube-system tiller-deploy -p '{"spec":{"template":{"spec":{"serviceAccount":"tiller"}}}}'
 
+    install_charts $branch $commit_hash $chart_path
 }
 
 install_charts() {
    
   branch=$1
   commit_hash=$2
+  path=$3
   
   project=${PWD##*/}
   home=$PWD
-  namespace=$project-$branch;
+  
+  if [ "$path" == "cluster" ]; then
+      namespace="default";
+  else
+      namespace=$project-$branch;
+  fi
    
   kubectl create namespace $namespace;
   #kubectl config set-context $(kubectl config current-context) --namespace=$namespace;
   
-  cd $home/charts/;
+  cd $home/$path/;
     
   for chart in * ; do
       mkdir $home/environments/$branch/packages/$chart;
@@ -116,8 +125,8 @@ install_chart () {
    echo "helm del $chart --purge";
    helm del $chart --purge;
         
-   echo "helm install $package --name $release_name --wait";
-   helm install $package --name $release_name --wait;
+   echo "helm install $package --name $release_name --namespace $namespace --wait";
+   helm install $package --name $release_name --namespace $namespace --wait;
 }
 
 upgrade_chart () {
@@ -126,8 +135,8 @@ upgrade_chart () {
    namespace=$3
    release_name=$4
    
-   echo "helm upgrade $release_name $package -i --wait";
-   helm upgrade $release_name $package -i --wait;
+   echo "helm upgrade $release_name $package -i --namespace $namespace --wait";
+   helm upgrade $release_name $package -i --namespace $namespace --wait;
 }
 
 setup;
