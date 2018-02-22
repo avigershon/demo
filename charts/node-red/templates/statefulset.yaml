@@ -1,33 +1,59 @@
 apiVersion: apps/v1beta2
 kind: StatefulSet
 metadata:
-  name: [STATEFULSET_NAME]
+  name: {{ template "fullname" . }}
 spec:
-  serviceName: [SERVICE_NAME]
+  serviceName: {{ template "fullname" . }}
   replicas: 3
   template:
     metadata:
       labels:
-        app: [APP_NAME]
+        app: {{ .Chart.Name }}
     spec:
       updateStrategy:
         type: RollingUpdate
-      containers:
-      - name: [CONTAINER_NAME]
-        image: ...
-        ports:
-        - containerPort: 80
-          name: [PORT_NAME]
-        volumeMounts:
-        - name: [PV_NAME]
-          mountPath: ...
+        containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          command: ["npm", "start", "--", "--userDir", "/data", "--settings", "/usr/src/node-red/node_modules/node-red/settings/settings.js"]
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.service.internalPort }}
+          livenessProbe:
+            httpGet:
+              path: /
+              port: {{ .Values.service.internalPort }}
+          readinessProbe:
+            httpGet:
+              path: /
+              port: {{ .Values.service.internalPort }}
+          volumeMounts:
+          - mountPath: /data
+            name: {{ .Release.Name }}-data
+          - mountPath: /usr/src/node-red/node_modules/node-red/settings
+            name: {{ .Release.Name }}-settings
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+      restartPolicy: Always
+      volumes:
+      - name: {{ .Release.Name }}-settings
+        configMap:
+          name: {{ .Release.Name }}-configmap
+          items:
+          - key: settings.js
+            path: settings.js
+      - name: {{ .Release.Name }}-data
+      {{- if .Values.persistence.enabled }}
+        persistentVolumeClaim:
+          claimName: {{ .Release.Name }}-data
+      {{- else }}
+        emptyDir: {}
+      {{ end }}
   volumeClaimTemplates:
   - metadata:
-      name: [PVC_NAME]
-      annotations:
-        ...
+      name: {{ .Release.Name }}-data
     spec:
       accessModes: [ "ReadWriteOnce" ]
       resources:
         requests:
-          storage: 1Gi
+          storage: 2Gi
