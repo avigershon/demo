@@ -3,7 +3,7 @@ kind: StatefulSet
 metadata:
   name: {{ template "name" . }}
 spec:
-  serviceName: {{ template "name" . }}
+  serviceName: "{{ .Chart.Name }}"
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
