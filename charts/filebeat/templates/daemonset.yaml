@@ -68,7 +68,7 @@ spec:
         ]
         env:
         - name: ELASTICSEARCH_HOST
-          value: {{ .Values.output.host }}.{{if ne .Values.namespace "default"}}{{ .Values.namespace }}{{end}}
+          value: {{ .Values.output.host }}{{if ne .Values.namespace "default"}}.{{ .Values.namespace }}{{end}}
         - name: ELASTICSEARCH_PORT
           value: "{{ .Values.output.port }}"
         - name: ELASTICSEARCH_USERNAME
