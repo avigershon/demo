@@ -83,12 +83,12 @@ install_charts() {
   cd $home/$path/;
     
   for chart in * ; do
-      mkdir $home/environments/$branch/packages/$chart;
+      mkdir $home/environments/$branch/packages/$path/$chart;
       echo "packaging $chart chart...";
-      helm package $chart -d "$home/environments/$branch/packages/$chart";
+      helm package $chart -d "$home/environments/$branch/packages/$path/$chart";
   done
 
-  cd $home/environments/$branch/packages;
+  cd $home/environments/$branch/packages/$path;
   
   echo "current folder=$PWD";
   
@@ -97,7 +97,7 @@ install_charts() {
     #release_name=$namespace-$chart;
     release_name=$chart;
 
-    cd $home/environments/$branch/packages/$chart;
+    cd $home/environments/$branch/packages/$path/$chart;
 
     echo "current folder=$PWD";
 
