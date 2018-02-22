@@ -109,12 +109,13 @@ install_chart () {
    package=$2
    namespace=$3
    commit_hash=$4
+   release_name=$chart-${commit_hash:0:7};
    
    #echo "helm del $chart --purge";
    #helm del $chart --purge;
         
-   echo "helm install $package --name ${commit_hash:0:7} --wait --set namespace=$namespace";
-   helm install $package --name ${commit_hash:0:7} --wait --set namespace=$namespace;
+   echo "helm install $package --name $release_name --wait --set namespace=$namespace";
+   helm install $package --name $release_name --wait --set namespace=$namespace;
 }
 
 upgrade_chart () {
