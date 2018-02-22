@@ -31,7 +31,7 @@ setup () {
   #fi
   
   chart_path="charts"
-  install_charts $branch $commit_hash $chart_path
+  install_charts $branch $commit_hash $chart_path $home
   
 }
 
@@ -59,7 +59,7 @@ system_setup () {
     kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
     kubectl patch deploy --namespace kube-system tiller-deploy -p '{"spec":{"template":{"spec":{"serviceAccount":"tiller"}}}}'
 
-    install_charts $branch $commit_hash $chart_path
+    install_charts $branch $commit_hash $chart_path $home
 }
 
 install_charts() {
@@ -67,9 +67,10 @@ install_charts() {
   branch=$1
   commit_hash=$2
   path=$3
+  home=$4
   
+  cd $home
   project=${PWD##*/}
-  home=$PWD
   
   if [ "$path" == "cluster" ]; then
       namespace="default";
