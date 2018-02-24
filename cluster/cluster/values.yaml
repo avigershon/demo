@@ -4,8 +4,27 @@
 
 namespace: kube-system
 project:
-pdName: gke-master-default-pool-ecf0d5c9-kxrq
-
+    
+persistence:
+  enabled: true
+  pdName: gke-master-default-pool-ecf0d5c9-kxrq
+  
+  ## node-red data Persistent Volume Storage Class
+  ## If defined, storageClassName: <storageClass>
+  ## If set to "-", storageClassName: "", which disables dynamic provisioning
+  ## If undefined (the default) or set to null, no storageClassName spec is
+  ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
+  ##   GKE, AWS & OpenStack)
+  ##
+  storageClass: "standard"
+  
+  accessModes: 
+    - ReadWriteOnce
+    - ReadOnlyMany
+    
+  ReclaimPolicy: Retain
+  size: 20Gi
+    
 replicaCount: 1
 
 image:
