@@ -23,7 +23,7 @@ persistence:
   ##   GKE, AWS & OpenStack)
   ##
   ## storageClass: "-"
-  accessMode: 
+  accessModes: 
     - ReadWriteOnce
     - ReadOnlyMany
   size: 2Gi
