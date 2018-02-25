@@ -37,13 +37,13 @@ servicePort: 8081
 ## Kafka Settings
 kafka:
   ## This is enabled only to allow installations of this chart without arguments
-  enabled: true
+  enabled: false
   ## Install only a single Kafka pod in the StatefulSet
   Replicas: 1
   ## Install only a single Zookeeper pod in the StatefulSet
   zookeeper:
     Servers: 1
   ## If `Kafka.Enabled` is `false`, the Zookeeper url servicing the Kafka cluster must be provided
-  zookeeperUrl: ""
+  zookeeperUrl: "zookeeper-zookeeper"
   ## If `Kafka.Enabled` is `false`, the Zookeeper port servicing the Kafka cluster must be provided
   zookeeperPort: 2181
