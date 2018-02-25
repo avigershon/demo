@@ -18,6 +18,8 @@ setup () {
   commit_hash=$(git log --format="%H" -n 1);
   branch=$(git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/\1/");
   
+  rm -rf $home/environments;
+  
   #create env folders
   mkdir $home/environments;
   mkdir $home/environments/$branch;
