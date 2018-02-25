@@ -17,9 +17,9 @@ image: bitnami/mongodb:3.7.1-r0
 ## MongoDB custom user and database
 ## ref: https://github.com/bitnami/bitnami-docker-mongodb/blob/master/README.md#creating-a-user-and-database-on-first-run
 ##
-## mongodbUsername: admin
+mongodbUsername: datagram
 ## mongodbPassword: 
-## mongodbDatabase: datagram
+mongodbDatabase: datagram
 
 ## Kubernetes service type
 serviceType: ClusterIP
