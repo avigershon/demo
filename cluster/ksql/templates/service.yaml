@@ -19,3 +19,5 @@ spec:
   selector:
     app: {{ template "ksql.name" . }}
     release: {{ .Release.Name }}
+status:
+  loadBalancer: {}
