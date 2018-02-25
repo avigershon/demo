@@ -18,7 +18,7 @@ image: bitnami/mongodb:3.7.1-r0
 ## ref: https://github.com/bitnami/bitnami-docker-mongodb/blob/master/README.md#creating-a-user-and-database-on-first-run
 ##
 mongodbUsername: datagram
-## mongodbPassword: 
+mongodbPassword: lioran020
 mongodbDatabase: datagram
 
 ## Kubernetes service type
