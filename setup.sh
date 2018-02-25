@@ -171,13 +171,18 @@ package_and_install_chart () {
    fi
    
    kubectl create namespace $namespace;
-  
+   
+   rm -rf $home/environments/$branch/packages/$path/$chart;
+   
    mkdir $home/environments/$branch/packages/$path;
    mkdir $home/environments/$branch/packages/$path/$chart;
+   
+   cd $home/$path/;
+   
    echo "packaging $chart chart...";
-   #helm package $chart -d "$home/environments/$branch/packages/$path/$chart";
-   echo "helm package $chart -d $home/environments/$branch/packages/$path/$chart";
-   exit 1;
+   helm package $chart -d "$home/environments/$branch/packages/$path/$chart";
+   #echo "helm package $chart -d $home/environments/$branch/packages/$path/$chart";
+
    release_name=$chart;
 
    cd $home/environments/$branch/packages/$path/$chart;
