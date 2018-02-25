@@ -22,7 +22,6 @@ image:
 
 service:
   type: ClusterIP
-  clusterIP: None
   port: 9098
 
 ingress:
