@@ -23,7 +23,7 @@ image:
 service:
   type: ClusterIP
   clusterIP: None
-  port: 5555
+  port: 9098
 
 ingress:
   enabled: false
