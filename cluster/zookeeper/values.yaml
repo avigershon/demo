@@ -12,7 +12,7 @@ resources:
     cpu: 1
     memory: 4Gi
 heap: "2G"
-storage: "50Gi"
+storage: "5Gi"
 # storageClass: default
 serverPort: 2888
 leaderElectionPort: 3888
