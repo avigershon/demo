@@ -51,6 +51,10 @@ spec:
         resources:
 {{ toYaml .Values.resources | indent 10 }}
         env:
+        - name: KAFKA_ADVERTISED_HOST_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
         - name: POD_IP
           valueFrom:
             fieldRef:
