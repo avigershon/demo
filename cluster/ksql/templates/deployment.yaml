@@ -36,9 +36,9 @@ spec:
             - name: STREAMS_BOOTSTRAP_SERVERS
               value: {{ .Values.kafka.host }}:{{ .Values.kafka.port }}
             - name: STREAMS_SCHEMA_REGISTRY_HOST
-              value: {{ .Values.schema-registry.host }}
+              value: {{ .Values.schemaRegistry.host }}
             - name: STREAMS_SCHEMA_REGISTRY_PORT
-              value: "{{ .Values.schema-registry.port }}"
+              value: "{{ .Values.schemaRegistry.port }}"
           ports:
             - name: headless
               containerPort: {{ .Values.service.port }}
