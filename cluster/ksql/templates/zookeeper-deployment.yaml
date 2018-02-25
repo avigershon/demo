@@ -1,0 +1,33 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose -f /home/avigershon/projects/ksql/docs/quickstart/docker-compose.yml
+      convert
+    kompose.version: 1.9.0 (093c756)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: zookeeper
+  name: zookeeper
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: zookeeper
+    spec:
+      containers:
+      - env:
+        - name: ZOOKEEPER_CLIENT_PORT
+          value: "32181"
+        - name: ZOOKEEPER_TICK_TIME
+          value: "2000"
+        image: confluentinc/cp-zookeeper:4.0.0
+        name: zookeeper
+        ports:
+        - containerPort: 32181
+        resources: {}
+      restartPolicy: Always
+status: {}

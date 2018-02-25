@@ -1,0 +1,41 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose -f /home/avigershon/projects/ksql/docs/quickstart/docker-compose.yml
+      convert
+    kompose.version: 1.9.0 (093c756)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: ksql-cli
+  name: ksql-cli
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: ksql-cli
+    spec:
+      containers:
+      - args:
+        - perl
+        - -e
+        - while(1){ sleep 99999 }
+        env:
+        - name: KSQL_CONFIG_DIR
+          value: /etc/ksql
+        - name: KSQL_LOG4J_OPTS
+          value: -Dlog4j.configuration=file:/etc/ksql/log4j-rolling.properties
+        - name: STREAMS_BOOTSTRAP_SERVERS
+          value: kafka:29092
+        - name: STREAMS_SCHEMA_REGISTRY_HOST
+          value: schema-registry
+        - name: STREAMS_SCHEMA_REGISTRY_PORT
+          value: "8081"
+        image: confluentinc/ksql-cli:0.5-rc0
+        name: ksql-cli
+        resources: {}
+      restartPolicy: Always
+status: {}
