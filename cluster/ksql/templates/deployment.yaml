@@ -23,7 +23,11 @@ spec:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          command: "ksql-cli local --bootstrap-server {{ .Values.kafka.host }}:{{ .Values.kafka.port }} --schema-registry-url http://{{ .Values.schemaRegistry.host }}:{{ .Values.schemaRegistry.port }}"
+          command:
+          - sh
+          - -c
+          - |
+            ksql-cli local --bootstrap-server {{ .Values.kafka.host }}:{{ .Values.kafka.port }} --schema-registry-url http://{{ .Values.schemaRegistry.host }}:{{ .Values.schemaRegistry.port }}
           #args:
           #  - perl
           #  - -e
