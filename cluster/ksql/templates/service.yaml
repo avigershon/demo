@@ -9,6 +9,8 @@ metadata:
     heritage: {{ .Release.Service }}
 spec:
   type: {{ .Values.service.type }}
+  clusterIP: "{{ .Values.service.clusterIP }}"
+  
   ports:
     - port: {{ .Values.service.port }}
       targetPort: 0
