@@ -153,5 +153,26 @@ upgrade_chart () {
    helm upgrade $release_name $package -i --namespace $namespace --wait --set project=$env;
 }
 
-setup;
+package_chart () {
+   
+   path=`dirname "$1"`
+   chart=`basename "$1"`
+
+   branch=$(git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/\1/");
+   home=$PWD
+   
+   echo "path=$path, chart=$chart, branch=$branch, home=$home";
+
+   # mkdir $home/environments/$branch/packages/$path;
+   # mkdir $home/environments/$branch/packages/$path/$chart;
+   # echo "packaging $chart chart...";
+   # helm package $chart -d "$home/environments/$branch/packages/$path/$chart";
+}
+
+if [ -z ${chart+x} ]; then 
+   echo "chart is not set";
+   #setup; 
+else 
+   package_chart $chart; 
+fi
 
