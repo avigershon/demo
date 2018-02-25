@@ -1,39 +1,66 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
-  annotations:
-    
-  creationTimestamp: null
-  labels:
-    
   name: {{ template "ksql.fullname" . }}
+  labels:
+    app: {{ template "ksql.name" . }}
+    chart: {{ template "ksql.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
 spec:
-  replicas: 1
-  strategy: {}
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ template "ksql.name" . }}
+      release: {{ .Release.Name }}
   template:
     metadata:
-      creationTimestamp: null
       labels:
-        service: {{ template "ksql.fullname" . }}
+        app: {{ template "ksql.name" . }}
+        release: {{ .Release.Name }}
     spec:
       containers:
-      - args:
-        - perl
-        - -e
-        - while(1){ sleep 99999 }
-        env:
-        - name: KSQL_CONFIG_DIR
-          value: /etc/ksql
-        - name: KSQL_LOG4J_OPTS
-          value: -Dlog4j.configuration=file:/etc/ksql/log4j-rolling.properties
-        - name: STREAMS_BOOTSTRAP_SERVERS
-          value: kafka:29092
-        - name: STREAMS_SCHEMA_REGISTRY_HOST
-          value: schema-registry
-        - name: STREAMS_SCHEMA_REGISTRY_PORT
-          value: "8081"
-        image: confluentinc/ksql-cli:0.5-rc0
-        name: ksql-cli
-        resources: {}
-      restartPolicy: Always
-status: {}
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          args:
+            - perl
+            - -e
+            - while(1){ sleep 99999 }
+          env:
+            - name: KSQL_CONFIG_DIR
+              value: /etc/ksql
+            - name: KSQL_LOG4J_OPTS
+              value: -Dlog4j.configuration=file:/etc/ksql/log4j-rolling.properties
+            - name: STREAMS_BOOTSTRAP_SERVERS
+              value: {{ .Values.kafka.host }}:{{ .Values.kafka.port }}
+            - name: STREAMS_SCHEMA_REGISTRY_HOST
+              value: {{ .Values.schema-registry.host }}
+            - name: STREAMS_SCHEMA_REGISTRY_PORT
+              value: "{{ .Values.schema-registry.port }}"
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
