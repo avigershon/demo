@@ -10,6 +10,9 @@ schema-registry:
   host: schema-registry-schema-registry
   port: 8081
   
+datagen:
+  enabled : false
+
 replicaCount: 1
 
 image:
