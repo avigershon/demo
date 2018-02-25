@@ -39,8 +39,8 @@ spec:
             - name: STREAMS_SCHEMA_REGISTRY_PORT
               value: "{{ .Values.schema-registry.port }}"
           ports:
-            - name: http
-              containerPort: 8080
+            - name: headless
+              containerPort: {{ .Values.service.port }}
               protocol: TCP
           livenessProbe:
             httpGet:
