@@ -175,8 +175,9 @@ package_and_install_chart () {
    mkdir $home/environments/$branch/packages/$path;
    mkdir $home/environments/$branch/packages/$path/$chart;
    echo "packaging $chart chart...";
-   helm package $chart -d "$home/environments/$branch/packages/$path/$chart";
-   
+   #helm package $chart -d "$home/environments/$branch/packages/$path/$chart";
+   echo "helm package $chart -d $home/environments/$branch/packages/$path/$chart";
+   exit 1;
    release_name=$chart;
 
    cd $home/environments/$branch/packages/$path/$chart;
