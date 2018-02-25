@@ -11,9 +11,9 @@ spec:
   type: {{ .Values.service.type }}
   ports:
     - port: {{ .Values.service.port }}
-      targetPort: http
+      targetPort: 0
       protocol: TCP
-      name: http
+      name: headless
   selector:
     app: {{ template "ksql.name" . }}
     release: {{ .Release.Name }}
