@@ -153,26 +153,45 @@ upgrade_chart () {
    helm upgrade $release_name $package -i --namespace $namespace --wait --set project=$env;
 }
 
-package_chart () {
+package_and_install_chart () {
    
    path=`dirname "$1"`
    chart=`basename "$1"`
-
-   branch=$(git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/\1/");
-   home=$PWD
    
-   echo "path=$path, chart=$chart, branch=$branch, home=$home";
+   project=${PWD##*/}
+   branch=$(git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/\1/");
+   env=$project-$branch;
+   
+   home=$PWD
 
-   # mkdir $home/environments/$branch/packages/$path;
-   # mkdir $home/environments/$branch/packages/$path/$chart;
-   # echo "packaging $chart chart...";
-   # helm package $chart -d "$home/environments/$branch/packages/$path/$chart";
+   if [ "$path" == "cluster" ]; then
+      namespace="default";
+   else
+      namespace=$project-$branch;
+   fi
+   
+   kubectl create namespace $namespace;
+  
+   mkdir $home/environments/$branch/packages/$path;
+   mkdir $home/environments/$branch/packages/$path/$chart;
+   echo "packaging $chart chart...";
+   helm package $chart -d "$home/environments/$branch/packages/$path/$chart";
+   
+   release_name=$chart;
+
+   cd $home/environments/$branch/packages/$path/$chart;
+
+   echo "current folder=$PWD";
+
+   for package in * ; do
+      upgrade_chart $chart $package $namespace $release_name $env|| install_chart $chart $package $namespace $release_name $env
+   done
 }
 
 if [ -z ${chart+x} ]; then 
    echo "chart is not set";
    #setup; 
 else 
-   package_chart $chart; 
+   package_and_install_chart $chart; 
 fi
 
