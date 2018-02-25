@@ -2,13 +2,11 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   annotations:
-    kompose.cmd: kompose -f /home/avigershon/projects/ksql/docs/quickstart/docker-compose.yml
-      convert
-    kompose.version: 1.9.0 (093c756)
+    
   creationTimestamp: null
   labels:
-    io.kompose.service: ksql-cli
-  name: ksql-cli
+    
+  name: {{ template "ksql.fullname" . }}
 spec:
   replicas: 1
   strategy: {}
@@ -16,7 +14,7 @@ spec:
     metadata:
       creationTimestamp: null
       labels:
-        io.kompose.service: ksql-cli
+        service: {{ template "ksql.fullname" . }}
     spec:
       containers:
       - args:
