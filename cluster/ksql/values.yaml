@@ -6,7 +6,7 @@ kafka:
   host: kafka-kafka
   port: 9092
   
-schema-registry:
+schemaRegistry:
   host: schema-registry-schema-registry
   port: 8081
   
