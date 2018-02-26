@@ -1,7 +1,14 @@
-
-bootstrap.servers=https://9092-dot-3375888-dot-devshell.appspot.com
-ksql.command.topic.suffix=commands
-listeners=https://8080-dot-3375888-dot-devshell.appspot.com
-ui.enabled=true
-
-/etc/ksql/ksqlserver.properties
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "ksql.name" . }}-configmap
+  labels:
+    app: "{{ template "ksql.name" . }}"
+    release: {{ .Release.Name | quote }}
+    heritage: {{ .Release.Service | quote }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+data:
+  bootstrap.servers=https://{{ .Values.kafka.host }}:{{ .Values.kafka.port }}
+  ksql.command.topic.suffix=commands
+  listeners=http://localhost:8080
+  ui.enabled=true
