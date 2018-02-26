@@ -23,15 +23,15 @@ spec:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          command:
-          - sh
-          - -c
-          - |
-            ksql-server-start /etc/ksql/ksqlserver.properties > /tmp/ksql-logs/ksql-server.log 2>&1 &
-          #args:
-          #  - perl
-          #  - -e
-          #  - while(1){ sleep 99999 }
+          #command:
+          #- sh
+          #- -c
+          #- |
+          #  ksql-server-start /etc/ksql/ksqlserver.properties > /tmp/ksql-logs/ksql-server.log 2>&1 &
+          args:
+            - perl
+            - -e
+            - while(1){ sleep 99999 }
           env:
             - name: KSQL_CONFIG_DIR
               value: /etc/ksql
