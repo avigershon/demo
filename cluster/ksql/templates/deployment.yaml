@@ -23,15 +23,15 @@ spec:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          #command:
-          #- sh
-          #- -c
-          #- |
-          #  ksql-cli local --bootstrap-server {{ .Values.kafka.host }}:{{ .Values.kafka.port }} --schema-registry-url http://{{ .Values.schemaRegistry.host }}:{{ .Values.schemaRegistry.port }}
-          args:
-            - perl
-            - -e
-            - while(1){ sleep 99999 }
+          command:
+          - sh
+          - -c
+          - |
+            ksql-server-start /etc/ksql/ksqlserver.properties > /tmp/ksql-logs/ksql-server.log 2>&1 &
+          #args:
+          #  - perl
+          #  - -e
+          #  - while(1){ sleep 99999 }
           env:
             - name: KSQL_CONFIG_DIR
               value: /etc/ksql
@@ -49,6 +49,16 @@ spec:
               protocol: TCP
           resources:
 {{ toYaml .Values.resources | indent 12 }}
+          volumeMounts:
+          - name: config
+            mountPath: /etc/ksql/ksqlserver.properties
+            readOnly: true
+            subPath: ksqlserver.properties
+      volumes:
+      - name: config
+        configMap:
+          defaultMode: 0600
+          name: {{ template "ksql.name" . }}-config
     {{- with .Values.nodeSelector }}
       nodeSelector:
 {{ toYaml . | indent 8 }}
