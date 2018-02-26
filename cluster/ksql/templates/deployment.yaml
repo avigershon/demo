@@ -27,7 +27,7 @@ spec:
           #- sh
           #- -c
           #- |
-          #  ksql-server-start /etc/ksql/ksqlserver1.properties > /tmp/ksql-logs/ksql-server.log 2>&1 &
+          #  ksql-server-start /etc/ksql/ksqlserver.properties > /tmp/ksql-logs/ksql-server.log 2>&1 &
           args:
             - perl
             - -e
@@ -51,13 +51,13 @@ spec:
 {{ toYaml .Values.resources | indent 12 }}
           volumeMounts:
           - name: config
-            mountPath: /etc/ksql/ksqlserver1.properties
+            mountPath: /etc/ksql/ksqlserver.properties
             readOnly: true
-            subPath: ksqlserver1.properties
+            subPath: ksqlserver.properties
       volumes:
       - name: config
         configMap:
-          defaultMode: 0600
+          defaultMode: 0444
           name: {{ template "ksql.name" . }}-configmap
     {{- with .Values.nodeSelector }}
       nodeSelector:
