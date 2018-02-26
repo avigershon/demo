@@ -68,7 +68,7 @@ system_setup () {
     kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
     kubectl patch deploy --namespace kube-system tiller-deploy -p '{"spec":{"template":{"spec":{"serviceAccount":"tiller"}}}}'
 
-    install_charts $branch $commit_hash $chart_path $home
+    #install_charts $branch $commit_hash $chart_path $home
 }
 
 install_charts() {
@@ -153,5 +153,52 @@ upgrade_chart () {
    helm upgrade $release_name $package -i --namespace $namespace --wait --set project=$env;
 }
 
-setup;
+package_and_install_chart () {
+   
+   path=`dirname "$1"`
+   chart=`basename "$1"`
+   
+   project=${PWD##*/}
+   branch=$(git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/\1/");
+   env=$project-$branch;
+   
+   home=$PWD
+
+   if [ "$path" == "cluster" ]; then
+      namespace="default";
+   else
+      namespace=$project-$branch;
+   fi
+   
+   kubectl create namespace $namespace;
+   
+   rm -rf $home/environments/$branch/packages/$path/$chart;
+   
+   mkdir $home/environments/$branch/packages/$path;
+   mkdir $home/environments/$branch/packages/$path/$chart;
+   
+   cd $home/$path/;
+   
+   echo "packaging $chart chart...";
+   helm package $chart -d "$home/environments/$branch/packages/$path/$chart";
+   #echo "helm package $chart -d $home/environments/$branch/packages/$path/$chart";
+
+   release_name=$chart;
+
+   cd $home/environments/$branch/packages/$path/$chart;
+
+   echo "current folder=$PWD";
+
+   for package in * ; do
+      upgrade_chart $chart $package $namespace $release_name $env|| install_chart $chart $package $namespace $release_name $env
+   done
+}
+
+if [ -z ${chart+x} ]; then 
+   echo "chart is not set";
+   system_setup;
+   #setup; 
+else 
+   package_and_install_chart $chart; 
+fi
 

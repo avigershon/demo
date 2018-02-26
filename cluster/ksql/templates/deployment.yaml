@@ -23,7 +23,11 @@ spec:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          command: "ksql-cli local"
+          #command:
+          #- sh
+          #- -c
+          #- |
+          #  ksql-server-start /etc/ksql/ksqlserver.properties &
           args:
             - perl
             - -e
@@ -43,16 +47,18 @@ spec:
             - name: headless
               containerPort: {{ .Values.service.port }}
               protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /
-              port: http
-          readinessProbe:
-            httpGet:
-              path: /
-              port: http
           resources:
 {{ toYaml .Values.resources | indent 12 }}
+          volumeMounts:
+          - name: config
+            mountPath: /etc/ksql/ksqlserver.properties
+            readOnly: true
+            subPath: ksqlserver.properties
+      volumes:
+      - name: config
+        configMap:
+          defaultMode: 0444
+          name: {{ template "ksql.name" . }}-configmap
     {{- with .Values.nodeSelector }}
       nodeSelector:
 {{ toYaml . | indent 8 }}

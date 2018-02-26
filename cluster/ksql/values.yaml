@@ -17,13 +17,12 @@ replicaCount: 1
 
 image:
   repository: confluentinc/ksql-cli
-  tag: 0.5-rc0
+  tag: 0.5
   pullPolicy: IfNotPresent
 
 service:
   type: ClusterIP
-  clusterIP: None
-  port: 5555
+  port: 8080
 
 ingress:
   enabled: false
