@@ -68,7 +68,7 @@ system_setup () {
     kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
     kubectl patch deploy --namespace kube-system tiller-deploy -p '{"spec":{"template":{"spec":{"serviceAccount":"tiller"}}}}'
 
-    install_charts $branch $commit_hash $chart_path $home
+    #install_charts $branch $commit_hash $chart_path $home
 }
 
 install_charts() {
@@ -196,6 +196,7 @@ package_and_install_chart () {
 
 if [ -z ${chart+x} ]; then 
    echo "chart is not set";
+   system_setup;
    #setup; 
 else 
    package_and_install_chart $chart; 
