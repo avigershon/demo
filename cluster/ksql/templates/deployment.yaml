@@ -58,7 +58,7 @@ spec:
       - name: config
         configMap:
           defaultMode: 0600
-          name: {{ template "ksql.name" . }}-config
+          name: {{ template "ksql.name" . }}-configmap
     {{- with .Values.nodeSelector }}
       nodeSelector:
 {{ toYaml . | indent 8 }}
