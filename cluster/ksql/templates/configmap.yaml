@@ -8,7 +8,8 @@ metadata:
     heritage: {{ .Release.Service | quote }}
     chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
 data:
-  bootstrap.servers=https://{{ .Values.kafka.host }}:{{ .Values.kafka.port }}
-  ksql.command.topic.suffix=commands
-  listeners=http://localhost:8080
-  ui.enabled=true
+  ksqlserver.properties: |-
+    bootstrap.servers=https://{{ .Values.kafka.host }}:{{ .Values.kafka.port }}
+    ksql.command.topic.suffix=commands
+    listeners=http://localhost:8080
+    ui.enabled=true
