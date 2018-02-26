@@ -1,0 +1,7 @@
+
+bootstrap.servers=https://9092-dot-3375888-dot-devshell.appspot.com
+ksql.command.topic.suffix=commands
+listeners=https://8080-dot-3375888-dot-devshell.appspot.com
+ui.enabled=true
+
+/etc/ksql/ksqlserver.properties
