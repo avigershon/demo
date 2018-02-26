@@ -24,14 +24,14 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command:
-          - sh
-          - -c
-          - |
-            ksql-server-start /etc/ksql/ksqlserver.properties &
-          #args:
-          #  - perl
-          #  - -e
-          #  - while(1){ sleep 99999 }
+          #- sh
+          #- -c
+          #- |
+          #  ksql-server-start /etc/ksql/ksqlserver.properties &
+          args:
+            - perl
+            - -e
+            - while(1){ sleep 99999 }
           env:
             - name: KSQL_CONFIG_DIR
               value: /etc/ksql
