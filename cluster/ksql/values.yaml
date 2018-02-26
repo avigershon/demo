@@ -3,8 +3,8 @@
 # Declare variables to be passed into your templates.
 
 kafka:
-  host: kafka-kafka
-  port: 9092
+  host: zookeeper-zookeeper.default.svc.cluster.local
+  port: 2181
   
 schemaRegistry:
   host: schema-registry-schema-registry
