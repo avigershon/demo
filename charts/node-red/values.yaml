@@ -12,6 +12,9 @@ service:
   externalPort: 80
   internalPort: 1880
   
+statefull:
+  enabled: true
+  
 persistence:
   enabled: true
 
