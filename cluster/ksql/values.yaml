@@ -1,40 +1,28 @@
-# Default values for elasticsearch.
+# Default values for ksql.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-namespace: kube-system
-project:
-    
-persistence:
-  enabled: true
-  pdName: gke-master-default-pool-ecf0d5c9-kxrq
+kafka:
+  host: kafka-kafka
+  port: 9092
   
-  ## node-red data Persistent Volume Storage Class
-  ## If defined, storageClassName: <storageClass>
-  ## If set to "-", storageClassName: "", which disables dynamic provisioning
-  ## If undefined (the default) or set to null, no storageClassName spec is
-  ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
-  ##   GKE, AWS & OpenStack)
-  ##
-  storageClass: "standard"
+schemaRegistry:
+  host: schema-registry-schema-registry
+  port: 8081
   
-  accessModes: 
-    - ReadWriteOnce
-    - ReadOnlyMany
-    
-  reclaimPolicy: Retain
-  size: 20Gi
-    
+datagen:
+  enabled : false
+
 replicaCount: 1
 
 image:
-  repository: docker.elastic.co/elasticsearch/elasticsearch
-  tag: 6.2.2
+  repository: confluentinc/ksql-cli
+  tag: 0.5
   pullPolicy: IfNotPresent
 
 service:
   type: ClusterIP
-  port: 9200
+  port: 8080
 
 ingress:
   enabled: false

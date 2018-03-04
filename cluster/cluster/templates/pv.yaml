@@ -1,12 +1,22 @@
+{{- if .Values.persistence.enabled }}
 apiVersion: v1
 kind: PersistentVolume
 metadata:
   name: {{ .Values.project }}
 spec:
   capacity:
-    storage: 20Gi
+    storage: {{ .Values.persistence.size | quote }}
+{{- if .Values.persistence.storageClass }}
+{{- if (eq "-" .Values.persistence.storageClass) }}
+  storageClassName: ""
+{{- else }}
+  storageClassName: "{{ .Values.persistence.storageClass }}"
+{{- end }}
+{{- end }}
+{{- end }}
   accessModes:
-    - ReadWriteOnce
+{{ toYaml .Values.persistence.accessModes | indent 8 }}
+  persistentVolumeReclaimPolicy: {{ .Values.persistence.reclaimPolicy }}
   gcePersistentDisk:
-    pdName: {{ .Values.pdName }}
+    pdName: {{ .Values.persistence.pdName }}
     fsType: ext4
