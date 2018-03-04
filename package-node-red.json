@@ -30,7 +30,9 @@
         "node-red-node-suncalc": "*",
         "node-red-node-random": "*",
         "puppeteer": "1.1.0",
-        "node-red-contrib-cloudera":  "*"
+        "node-red-contrib-cloudera":  "*",
+        "kafka-node": "*",
+        "avro-js": "*"
     },
     "engines": {
         "node": "8.*.*"
