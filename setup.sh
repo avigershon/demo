@@ -181,7 +181,7 @@ package_and_install_chart () {
    
    echo "packaging $chart chart...";
    helm package $chart -d "$home/environments/$branch/packages/$path/$chart";
-   #echo "helm package $chart -d $home/environments/$branch/packages/$path/$chart";
+   echo "helm package $chart -d $home/environments/$branch/packages/$path/$chart";
 
    release_name=$chart;
 
@@ -190,6 +190,7 @@ package_and_install_chart () {
    echo "current folder=$PWD";
 
    for package in * ; do
+      echo "chart=$chart ,package=$package ,namespace=$namespace ,release_name=$release_name ,env=$env";
       upgrade_chart $chart $package $namespace $release_name $env|| install_chart $chart $package $namespace $release_name $env
    done
 }
