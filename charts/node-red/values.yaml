@@ -4,7 +4,7 @@
 replicaCount: 2
 image:
   repository: gcr.io/datagram-195019/github-avigershon-sport-betting-bot
-  tag: 94d0d1f01e26b67075f1a463d8b44ad430ee45df
+  tag: b4cb98ecc6c73458146cbc3b8b6e4112fba1c0b0
   pullPolicy: IfNotPresent
 service:
   name: node-red
