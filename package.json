@@ -3,7 +3,9 @@
     "description": "A Node-RED Project",
     "version": "0.0.1",
     "dependencies": {
-        "node-red-contrib-cloudera": "0.0.3"
+        "node-red-contrib-cloudera": "0.0.3",
+        "node-red-contrib-youtube": "0.0.10",
+        "node-red-node-youtube": "0.0.5"
     },
     "node-red": {
         "settings": {
