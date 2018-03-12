@@ -32,7 +32,9 @@
         "puppeteer": "1.1.0",
         "node-red-contrib-cloudera":  "*",
         "kafka-node": "*",
-        "avro-js": "*"
+        "avro-js": "*",
+        "node-red-contrib-google": "*",
+        "node-red-contrib-config": "*"
     },
     "engines": {
         "node": "8.*.*"
