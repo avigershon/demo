@@ -34,7 +34,8 @@
         "kafka-node": "*",
         "avro-js": "*",
         "node-red-contrib-google": "*",
-        "node-red-contrib-config": "*"
+        "node-red-contrib-config": "*",
+        "node-red-contrib-elasticsearch-continued": "*"
     },
     "engines": {
         "node": "8.*.*"
