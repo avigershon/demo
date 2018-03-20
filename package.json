@@ -10,7 +10,7 @@
         "node-red-contrib-google": "0.2.0",
         "node-red-contrib-elasticsearch3": "*",
         "node-red-contrib-kafka-node": "*",
-        "node-red-contrib-rdkafka": "."
+        "node-red-contrib-rdkafka": "*"
     },
     "node-red": {
         "settings": {
