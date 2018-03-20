@@ -4,7 +4,7 @@
 replicaCount: 1
 image:
   repository: gcr.io/datagram/node-red-master
-  tag: a1898c0dac8d9c2f9e75cdd7ea42bb55d3f28d65
+  tag: bcb75900965f882f088b29102f8e083839105f91
   pullPolicy: IfNotPresent
 service:
   name: node-red
