@@ -4,10 +4,11 @@
 replicaCount: 3
 image:
   repository: gcr.io/datagram-195019/github-avigershon-sport-betting-bot
-  tag: fa835903d2f808690d97272e6d8b9009b6ab4ef6
+  tag: aa8aa378f6ae91771ba876e3f683ec27c9bc93e9
   pullPolicy: IfNotPresent
 service:
   name: node-red-worker
+  type: ClusterIP
   clusterIP: None
   externalPort: 80
   internalPort: 1880
