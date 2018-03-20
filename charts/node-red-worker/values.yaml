@@ -1,10 +1,10 @@
 # Default values for node-red.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
-replicaCount: 3
+replicaCount: 1
 image:
-  repository: gcr.io/datagram-195019/github-avigershon-sport-betting-bot
-  tag: aa8aa378f6ae91771ba876e3f683ec27c9bc93e9
+  repository: gcr.io/datagram-195019/node-red-worker
+  tag: fc0f4a1f707f77bd6d224644f18071a88c4ce625
   pullPolicy: IfNotPresent
 service:
   name: node-red-worker

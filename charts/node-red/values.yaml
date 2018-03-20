@@ -3,8 +3,8 @@
 # Declare variables to be passed into your templates.
 replicaCount: 1
 image:
-  repository: gcr.io/datagram-195019/github-avigershon-sport-betting-bot
-  tag: fa835903d2f808690d97272e6d8b9009b6ab4ef6
+  repository: gcr.io/datagram-195019/node-red-master
+  tag: fc0f4a1f707f77bd6d224644f18071a88c4ce625
   pullPolicy: IfNotPresent
 service:
   name: node-red
