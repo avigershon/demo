@@ -17,7 +17,7 @@ statefull:
   enabled: true
   
 persistence:
-  enabled: false
+  enabled: true
 
   ## node-red data Persistent Volume Storage Class
   ## If defined, storageClassName: <storageClass>
