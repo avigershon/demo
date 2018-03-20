@@ -7,8 +7,10 @@
         "node-red-contrib-youtube": "0.0.10",
         "node-red-node-youtube": "0.0.5",
         "node-red-contrib-config": "1.1.2",
-        "node-red-contrib-elasticsearch-jd": "*",
-        "node-red-contrib-google": "0.2.0"
+        "node-red-contrib-google": "0.2.0",
+        "node-red-contrib-elasticsearch3": "*",
+        "node-red-contrib-kafka-node": "*",
+        "node-red-contrib-rdkafka": "."
     },
     "node-red": {
         "settings": {
