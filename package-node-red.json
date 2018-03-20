@@ -35,7 +35,7 @@
         "avro-js": "*",
         "node-red-contrib-google": "*",
         "node-red-contrib-config": "*",
-        "node-red-contrib-elasticsearch-jd": "*"
+        "node-red-contrib-elasticsearch3": "*"
     },
     "engines": {
         "node": "8.*.*"
