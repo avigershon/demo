@@ -54,7 +54,7 @@ spec:
       - name: {{ template "name" . }}-data
       {{- if .Values.persistence.enabled }}
         persistentVolumeClaim:
-          claimName: {{ .Release.Name }}-data
+          claimName: {{ template "name" . }}-data
       {{- else }}
         emptyDir: {}
       {{ end }}
@@ -64,7 +64,7 @@ spec:
     {{- end }}
   volumeClaimTemplates:
   - metadata:
-      name: {{ .Release.Name }}-data
+      name: {{ template "name" . }}-data
     spec:
       accessModes: [ "ReadWriteOnce" ]
       resources:
