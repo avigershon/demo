@@ -38,7 +38,7 @@ spec:
             port: {{ .Values.service.internalPort }}
         volumeMounts:
         - mountPath: /data
-          name: {{ template "name" . }}-data
+          name: datadir
         - mountPath: /usr/src/node-red/node_modules/node-red/settings
           name: {{ template "name" . }}-settings
         resources:
@@ -51,25 +51,28 @@ spec:
           items:
           - key: settings.js
             path: settings.js
-      - name: {{ template "name" . }}-data
-      {{- if .Values.persistence.enabled }}
-        persistentVolumeClaim:
-          claimName: {{ template "name" . }}-data
-      {{- else }}
-        emptyDir: {}
-      {{ end }}
+      #- name: {{ template "name" . }}-data
+      #{{- if .Values.persistence.enabled }}
+      #  persistentVolumeClaim:
+      #    claimName: {{ template "name" . }}-data
+      #{{- else }}
+      #  emptyDir: {}
+      #{{ end }}
     {{- if .Values.nodeSelector }}
       nodeSelector:
   {{ toYaml .Values.nodeSelector | indent 8 }}
     {{- end }}
   volumeClaimTemplates:
   - metadata:
-      name: {{ template "name" . }}-data
+      name: datadir
     spec:
       accessModes: [ "ReadWriteOnce" ]
       resources:
         requests:
-          storage: 5Gi
+          storage: {{ .Values.storage }}
+      {{- if .Values.storageClass }}
+      storageClassName: {{ .Values.storageClass | quote }}
+      {{- end }}
 {{- else }}      
 apiVersion: extensions/v1beta1
 kind: Deployment
