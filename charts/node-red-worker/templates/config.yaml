@@ -7,17 +7,10 @@ data:
     module.exports = {
       editorTheme: {
          projects: {
-             enabled: true
+             enabled: false
          }
       },
-      adminAuth: {
-          type: "credentials",
-          users: [{
-              username: "admin",
-              password: "$2a$08$1G.4mCaAd1CDO0EthEGvIO1vn7fxCoeTSPe88gzMih6u/WCCPLst2",
-              permissions: "*"
-          }]
-      },
+      credentialSecret: "lioran020",
       uiPort: process.env.PORT || 1880,
       mqttReconnectTime: 15000,
       serialReconnectTime: 15000,
