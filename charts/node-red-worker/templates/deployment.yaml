@@ -54,7 +54,7 @@ spec:
       - name: {{ template "name" . }}-data
       {{- if .Values.persistence.enabled }}
         persistentVolumeClaim:
-          claimName: {{ template "name" . }}-data
+          claimName: {{ .Release.Name }}-data
       {{- else }}
         emptyDir: {}
       {{ end }}
@@ -62,6 +62,14 @@ spec:
       nodeSelector:
   {{ toYaml .Values.nodeSelector | indent 8 }}
     {{- end }}
+  volumeClaimTemplates:
+  - metadata:
+      name: {{ .Release.Name }}-data
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 5Gi
 {{- else }}      
 apiVersion: extensions/v1beta1
 kind: Deployment
