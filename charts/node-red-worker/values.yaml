@@ -8,6 +8,7 @@ image:
   pullPolicy: IfNotPresent
 service:
   name: node-red-worker
+  type: ClusterIP
   clusterIP: None
   externalPort: 80
   internalPort: 1880
