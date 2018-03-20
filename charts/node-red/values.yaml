@@ -12,8 +12,6 @@ service:
   externalPort: 80
   internalPort: 1880
   
-ingress:
-  enabled: false
 statefull:
   enabled: true
   
@@ -40,7 +38,7 @@ persistence:
   
 ingress:
   
-  enabled: true
+  enabled: false
   # Used to create an Ingress record.
   hosts:
     - node-red.local
