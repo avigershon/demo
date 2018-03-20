@@ -51,13 +51,6 @@ spec:
           items:
           - key: settings.js
             path: settings.js
-      #- name: {{ template "name" . }}-data
-      #{{- if .Values.persistence.enabled }}
-      #  persistentVolumeClaim:
-      #    claimName: {{ template "name" . }}-data
-      #{{- else }}
-      #  emptyDir: {}
-      #{{ end }}
     {{- if .Values.nodeSelector }}
       nodeSelector:
   {{ toYaml .Values.nodeSelector | indent 8 }}
@@ -67,7 +60,7 @@ spec:
       name: datadir
     spec:
       accessModes:
-{{ toYaml .Values.persistence.accessModes | indent 4 }}
+{{ toYaml .Values.persistence.accessModes | indent 8 }}
       resources:
         requests:
           storage: {{ .Values.persistence.size | quote }}
