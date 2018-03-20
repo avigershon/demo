@@ -62,14 +62,6 @@ spec:
       nodeSelector:
   {{ toYaml .Values.nodeSelector | indent 8 }}
     {{- end }}
-  volumeClaimTemplates:
-  - metadata:
-      name: {{ .Release.Name }}-data
-    spec:
-      accessModes: [ "ReadWriteOnce" ]
-      resources:
-        requests:
-          storage: 5Gi
 {{- else }}      
 apiVersion: extensions/v1beta1
 kind: Deployment
