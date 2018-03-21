@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: node-red-worker
+spec:
+  selector:
+    matchLabels:
+      app: node-red-worker # has to match .spec.template.metadata.labels
+  serviceName: "node-red-worker"
+  replicas: 1 # by default is 1
+  template:
+    metadata:
+      labels:
+        app: node-red-worker # has to match .spec.selector.matchLabels
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+      - name: node-red-worker
+        image: gcr.io/datagram-195019/node-red-worker:9940a43418e743dccde142dd75d14ed460ac4c30
+        ports:
+        - containerPort: 1880
+          name: node-red
+        volumeMounts:
+        - name: datadir
+          mountPath: /data
+  volumeClaimTemplates:
+  - metadata:
+      name: datadir
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: "standard"
+      resources:
+        requests:
+          storage: 5Gi
