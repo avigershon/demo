@@ -2,7 +2,7 @@
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name:  {{ .Release.Name }}-data
+  name:  {{ template "name" . }}-data
 spec:
   accessModes:
 {{ toYaml .Values.persistence.accessModes | indent 8 }}
