@@ -4,7 +4,7 @@
 replicaCount: 1
 image:
   repository: gcr.io/datagram-195019/node-red-worker
-  tag: 7b2fd456bd674498581b0f1a2f77e6255a189ff4
+  tag: 4b006494172e5b00406841790e4a7001841cd7e4
   pullPolicy: IfNotPresent
 service:
   name: node-red-worker
