@@ -20,3 +20,5 @@
 .idea/
 *.tmproj
 Dockerfile
+pvc.yaml
+statefullset.yaml
