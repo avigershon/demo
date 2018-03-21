@@ -51,6 +51,13 @@ spec:
           items:
           - key: settings.js
             path: settings.js
+      - name: {{ template "name" . }}-data
+      {{- if .Values.persistence.enabled }}
+        persistentVolumeClaim:
+          claimName: datadir
+      {{- else }}
+        emptyDir: {}
+      {{ end }}  
     {{- if .Values.nodeSelector }}
       nodeSelector:
   {{ toYaml .Values.nodeSelector | indent 8 }}
