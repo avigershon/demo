@@ -27,7 +27,7 @@ resources: {}
   #
 ## The size of the persistentVolume to allocate to each Kafka Pod in the StatefulSet. For
 ## production servers this number should likely be much larger.
-storage: "1Gi"
+storage: "5Gi"
 
 ## The StatefulSet Update Strategy which Kafka will use when changes are applied.
 ## ref: https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#update-strategies
