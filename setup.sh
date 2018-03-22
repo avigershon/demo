@@ -69,7 +69,7 @@ system_setup () {
     kubectl patch deploy --namespace kube-system tiller-deploy -p '{"spec":{"template":{"spec":{"serviceAccount":"tiller"}}}}'
 
     helm repo add incubator http://storage.googleapis.com/kubernetes-charts-incubator
-    helm repo add stable http://storage.googleapis.com/kubernetes-charts-stable
+    helm repo add stable http://storage.googleapis.com/kubernetes-charts
     
     #install_charts $branch $commit_hash $chart_path $home
 }
