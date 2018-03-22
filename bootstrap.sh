@@ -16,3 +16,4 @@
 
 #node-red
 ./setup.sh --chart charts/node-red
+
