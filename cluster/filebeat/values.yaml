@@ -42,5 +42,5 @@ tolerations: []
 affinity: {}
 
 output:
-  host: elasticsearch
+  host: elasticsearch-elasticsearch-client.default.svc.cluster.local
   port: 9200
