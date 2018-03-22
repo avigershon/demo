@@ -1,8 +1,5 @@
-# Default values for elasticsearch.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
+namespace: default
 
-replicaCount: 1
 image:
   repository: "docker.elastic.co/kibana/kibana"
   tag: "6.2.2"
@@ -25,10 +22,10 @@ service:
 
 ingress:
   enabled: true
-    hosts:
-      - kibana.local
-    annotations:
-      kubernetes.io/ingress.class: nginx
+  hosts:
+    - kibana.local
+  annotations:
+    kubernetes.io/ingress.class: nginx
   #   kubernetes.io/tls-acme: "true"
   # tls:
     # - secretName: chart-example-tls
@@ -56,3 +53,4 @@ tolerations: []
 nodeSelector: {}
 
 podAnnotations: {}
+replicaCount: 1
