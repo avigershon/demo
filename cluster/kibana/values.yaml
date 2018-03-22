@@ -21,7 +21,7 @@ service:
   internalPort: 5601
 
 ingress:
-  enabled: false
+  enabled: true
   # hosts:
     # - chart-example.local
   # annotations:
