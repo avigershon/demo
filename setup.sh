@@ -68,6 +68,9 @@ system_setup () {
     kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
     kubectl patch deploy --namespace kube-system tiller-deploy -p '{"spec":{"template":{"spec":{"serviceAccount":"tiller"}}}}'
 
+    helm repo add incubator http://storage.googleapis.com/kubernetes-charts-incubator
+    helm repo add stable http://storage.googleapis.com/kubernetes-charts-stable
+    
     #install_charts $branch $commit_hash $chart_path $home
 }
 
