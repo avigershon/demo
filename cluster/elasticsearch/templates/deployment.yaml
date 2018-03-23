@@ -3,7 +3,6 @@ kind: Deployment
 metadata:
   creationTimestamp: null
   name: {{ template "elasticsearch.fullname" . }}
-  namespace: {{ .Values.namespace }}
 spec:
   replicas: {{ .Values.replicaCount }}
   strategy: {}
@@ -19,6 +18,8 @@ spec:
           value: -Xmx512m -Xms512m
         - name: ELASTIC_PASSWORD
           value: changeme
+        - name: MAX_MAP_COUNT
+          value: "262144"
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         name: {{ template "elasticsearch.name" . }}
         ports:

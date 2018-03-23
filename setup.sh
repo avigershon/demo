@@ -58,16 +58,19 @@ system_setup () {
     helm init --wait;
 
     #### install kompose
-    curl -L https://github.com/kubernetes/kompose/releases/download/v1.9.0/kompose-linux-amd64 -o kompose
+    #curl -L https://github.com/kubernetes/kompose/releases/download/v1.9.0/kompose-linux-amd64 -o kompose
 
-    chmod +x kompose
-    sudo mv ./kompose /usr/local/bin/kompose
+    #chmod +x kompose
+    #sudo mv ./kompose /usr/local/bin/kompose
     ####
     
     kubectl create serviceaccount --namespace kube-system tiller
     kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
     kubectl patch deploy --namespace kube-system tiller-deploy -p '{"spec":{"template":{"spec":{"serviceAccount":"tiller"}}}}'
 
+    helm repo add incubator http://storage.googleapis.com/kubernetes-charts-incubator
+    helm repo add stable http://storage.googleapis.com/kubernetes-charts
+    
     #install_charts $branch $commit_hash $chart_path $home
 }
 

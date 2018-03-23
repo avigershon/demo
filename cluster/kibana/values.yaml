@@ -21,11 +21,11 @@ service:
   internalPort: 5601
 
 ingress:
-  enabled: false
-  # hosts:
-    # - chart-example.local
-  # annotations:
-  #   kubernetes.io/ingress.class: nginx
+  enabled: true
+  hosts:
+    - kibana.local
+  annotations:
+    kubernetes.io/ingress.class: nginx
   #   kubernetes.io/tls-acme: "true"
   # tls:
     # - secretName: chart-example-tls

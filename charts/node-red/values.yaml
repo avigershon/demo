@@ -4,7 +4,7 @@
 replicaCount: 1
 image:
   repository: gcr.io/datagram-195019/node-red-worker
-  tag: 6a8efd47b0cf6e9c06c7deda71ed15d419664efc
+  tag: 21ba61562074927cb1fc8e16d7293796b67cbb45
   pullPolicy: IfNotPresent
 service:
   name: node-red
@@ -38,13 +38,12 @@ persistence:
 ingress:
   
   enabled: true
-  # Used to create an Ingress record.
-  hosts:
-    - node-red.local
-  annotations:
-    kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
-  tls:
+    hosts:
+      - node-red.local
+    annotations:
+      kubernetes.io/ingress.class: nginx
+      # kubernetes.io/tls-acme: "true"
+    # tls:
     # Secrets must be manually created in the namespace.
     # - secretName: chart-example-tls
     #   hosts:
