@@ -19,3 +19,4 @@ helm install --name kafka incubator/kafka
 #node-red
 ./setup.sh --chart charts/node-red
 
+#end script
