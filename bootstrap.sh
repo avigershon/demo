@@ -9,8 +9,8 @@ helm install --name nginx-ingress stable/nginx-ingress
 #elastic stack
 rm -r elasticsearch
 git clone https://github.com/clockworksoul/helm-elasticsearch.git elasticsearch
-helm install --name elasticsearch  --set image.es.tag=6.2.3 --set common.env.ELASTIC_PASSWORD=changeme --set kibana.image.repository=docker.elastic.co/kibana/kibana-x-pack --set kibana.image.tag=6.2.3 --set kibana.ingress.enabled=false elasticsearch
-#helm upgrade elasticsearch --set image.es.tag=6.2.3 --set common.env.ELASTIC_PASSWORD=changeme --set kibana.image.repository=docker.elastic.co/kibana/kibana-x-pack --set kibana.image.tag=6.2.3 --set kibana.ingress.enabled=false elasticsearch
+helm install --name elasticsearch  --set image.es.tag=6.2.3 --set common.env.ELASTIC_PASSWORD=changeme --set kibana.env.ELASTIC_PASSWORD=changeme --set kibana.image.repository=docker.elastic.co/kibana/kibana-x-pack --set kibana.image.tag=6.2.3 --set kibana.ingress.enabled=false elasticsearch
+#helm upgrade elasticsearch --set image.es.tag=6.2.3 --set common.env.ELASTIC_PASSWORD=changeme --set kibana.env.ELASTIC_PASSWORD=changeme --set kibana.image.repository=docker.elastic.co/kibana/kibana-x-pack --set kibana.image.tag=6.2.3 --set kibana.ingress.enabled=false elasticsearch
 
 #helm install --name fluent-bit --set backend.es.host=elasticsearch-elasticsearch --set rbac.create=true stable/fluent-bit
 
