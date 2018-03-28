@@ -11,8 +11,8 @@ rm -r elasticsearch
 git clone https://github.com/clockworksoul/helm-elasticsearch.git elasticsearch
 
 #helm del elasticsearch --purge
-helm install --name elasticsearch --set common.stateful.enabled=true --set image.es.tag=6.2.3 --set kibana.image.repository=docker.elastic.co/kibana/kibana-oss --set kibana.image.tag=6.2.3 elasticsearch
-#helm upgrade elasticsearch --set common.stateful.enabled=true --set image.es.tag=6.2.3 --set kibana.image.repository=docker.elastic.co/kibana/kibana-oss --set kibana.image.tag=6.2.3 elasticsearch
+helm install --name elasticsearch --set common.stateful.enabled=true --set image.es.tag=6.2.3 --set kibana.image.repository=docker.elastic.co/kibana/kibana --set kibana.image.tag=6.1.4 elasticsearch
+#helm upgrade elasticsearch --set common.stateful.enabled=true --set image.es.tag=6.2.3 --set kibana.image.repository=docker.elastic.co/kibana/kibana --set kibana.image.tag=6.1.4 elasticsearch
 
 #helm install --name fluent-bit --set backend.es.host=elasticsearch-elasticsearch --set rbac.create=true stable/fluent-bit
 
@@ -21,4 +21,3 @@ helm upgrade --name kafka --set configurationOverrides."offsets.topic.replicatio
 
 #node-red
 ./setup.sh --chart charts/node-red
-
