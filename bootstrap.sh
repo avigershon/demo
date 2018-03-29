@@ -9,14 +9,27 @@ helm install --name nginx-ingress stable/nginx-ingress
 #elastic stack
 rm -r elasticsearch
 git clone https://github.com/clockworksoul/helm-elasticsearch.git elasticsearch
-helm install --name elasticsearch --set image.es.tag=6.2.3 --set kibana.image.tag=6.2.3 --set env.XPACK_GRAPH_ENABLED="true" --set env.XPACK_ML_ENABLED="true" --set env.XPACK_REPORTING_ENABLED="true" --set env.XPACK_SECURITY_ENABLED="true" elasticsearch
 
-#helm install --name fluent-bit --set backend.es.host=elasticsearch-elasticsearch --set rbac.create=true stable/fluent-bit
+#helm del elasticsearch --purge
+helm install --name elasticsearch --set common.stateful.enabled=true --set image.es.tag=6.2.3 --set kibana.image.repository=docker.elastic.co/kibana/kibana-oss --set kibana.image.tag=6.2.3 elasticsearch
+#helm upgrade elasticsearch --set common.stateful.enabled=true --set image.es.tag=6.2.3 --set kibana.image.repository=docker.elastic.co/kibana/kibana-oss --set kibana.image.tag=6.2.3 elasticsearch
+
+#helm del filebeat --purge
+helm install --name filebeat stable/filebeat  
+#helm upgrade filebeat stable/filebeat 
 
 #kafka
 helm upgrade --name kafka --set configurationOverrides."offsets.topic.replication.factor"=5 --set configurationOverrides."auto.offset.commit"=true incubator/kafka
 
+#redis
+#helm del redis --purge
+helm install --name redis --set auth=true stable/redis-ha
+#helm upgrade redis --set auth=true stable/redis-ha
+
 #node-red
 ./setup.sh --chart charts/node-red
+<<<<<<< HEAD
 
 #end script
+=======
+>>>>>>> eb00e52612391b4a134b39267128f697b68dc626

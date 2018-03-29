@@ -7,7 +7,7 @@ namespace: default
 
 image:
   repository: docker.elastic.co/beats/filebeat
-  tag: 6.2.1
+  tag: 6.2.3
   pullPolicy: IfNotPresent
 
 ingress:
