@@ -14,7 +14,9 @@ git clone https://github.com/clockworksoul/helm-elasticsearch.git elasticsearch
 helm install --name elasticsearch --set common.stateful.enabled=true --set image.es.tag=6.2.3 --set kibana.image.repository=docker.elastic.co/kibana/kibana-oss --set kibana.image.tag=6.2.3 elasticsearch
 #helm upgrade elasticsearch --set common.stateful.enabled=true --set image.es.tag=6.2.3 --set kibana.image.repository=docker.elastic.co/kibana/kibana-oss --set kibana.image.tag=6.2.3 elasticsearch
 
-#helm install --name fluent-bit --set backend.es.host=elasticsearch-elasticsearch --set rbac.create=true stable/fluent-bit
+#helm del filebeat --purge
+helm install --name filebeat stable/filebeat  
+#helm upgrade filebeat stable/filebeat 
 
 #kafka
 helm upgrade --name kafka --set configurationOverrides."offsets.topic.replication.factor"=5 --set configurationOverrides."auto.offset.commit"=true incubator/kafka
