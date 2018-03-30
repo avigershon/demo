@@ -15,7 +15,8 @@ helm install --name elasticsearch --set common.stateful.enabled=true --set image
 #helm upgrade elasticsearch --set common.stateful.enabled=true --set image.es.tag=6.2.3 --set kibana.image.repository=docker.elastic.co/kibana/kibana-oss --set kibana.image.tag=6.2.3 elasticsearch
 
 #helm del filebeat --purge
-helm install --name filebeat stable/filebeat  
+#helm install --name filebeat stable/filebeat  
+./setup.sh --chart cluster/filebeat
 #helm upgrade filebeat stable/filebeat 
 
 #kafka
