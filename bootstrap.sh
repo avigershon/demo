@@ -23,8 +23,8 @@ helm upgrade --name kafka --set configurationOverrides."offsets.topic.replicatio
 
 #redis
 #helm del redis --purge
-helm install --name redis --set auth=true stable/redis-ha
-#helm upgrade redis --set auth=true stable/redis-ha
+helm install --name redis stable/redis
+#helm upgrade redis stable/redis
 
 #node-red
 ./setup.sh --chart charts/node-red
