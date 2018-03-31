@@ -24,8 +24,8 @@ helm upgrade --name kafka --set configurationOverrides."offsets.topic.replicatio
 
 #redis
 #helm del redis --purge
-helm install --name redis stable/redis
-#helm upgrade redis stable/redis
+helm install --name redis --set redisDisableCommands="" stable/redis
+#helm upgrade redis --set redisDisableCommands="" stable/redis
 
 #node-red
 ./setup.sh --chart charts/node-red
