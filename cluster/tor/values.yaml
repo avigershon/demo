@@ -9,17 +9,17 @@ image:
   pullPolicy: IfNotPresent
 
 service:
-  type: ClusterIP
-  port: 9050
+  type: LoadBalancer
+  port: 8118
 
 ingress:
-  enabled: false
-  annotations: {}
-    # kubernetes.io/ingress.class: nginx
+  enabled: true
+  annotations:
+    kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
-  path: /
+  # path: /
   hosts:
-    - chart-example.local
+    - tor.local
   tls: []
   #  - secretName: chart-example-tls
   #    hosts:
