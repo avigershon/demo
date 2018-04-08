@@ -16,6 +16,8 @@ spec:
       - env:
         - name: LOCATION
           value: il
+        - name: TORUSER
+          value: root
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         name: {{ template "tor.name" . }}
         ports:
