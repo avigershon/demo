@@ -6,6 +6,7 @@ metadata:
     name: {{ template "tor.name" . }}
   name: {{ template "tor.name" . }}
 spec:
+  type: {{ .Values.service.type }}
   ports:
   - name: "{{ .Values.service.port }}"
     port: {{ .Values.service.port }}
