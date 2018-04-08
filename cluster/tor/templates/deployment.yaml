@@ -1,0 +1,29 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  name: {{ template "elasticsearch.fullname" . }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        name: {{ template "elasticsearch.fullname" . }}
+    spec:
+      containers:
+      - env:
+        - name: ES_JAVA_OPTS
+          value: -Xmx512m -Xms512m
+        - name: ELASTIC_PASSWORD
+          value: changeme
+        - name: MAX_MAP_COUNT
+          value: "262144"
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        name: {{ template "elasticsearch.name" . }}
+        ports:
+        - containerPort: {{ .Values.service.port }}
+        resources: {}
+      restartPolicy: Always
+status: {}
