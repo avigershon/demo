@@ -1,0 +1,27 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  name: {{ template "tor.fullname" . }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        name: {{ template "tor.fullname" . }}
+    spec:
+      containers:
+      - env:
+        - name: LOCATION
+          value: il
+        - name: TORUSER
+          value: root
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        name: {{ template "tor.name" . }}
+        ports:
+        - containerPort: {{ .Values.service.port }}
+        resources: {}
+      restartPolicy: Always
+status: {}
