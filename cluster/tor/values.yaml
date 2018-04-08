@@ -10,7 +10,7 @@ image:
 
 service:
   type: LoadBalancer
-  port: 9050
+  port: 8118
 
 ingress:
   enabled: false
