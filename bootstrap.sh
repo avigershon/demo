@@ -7,7 +7,7 @@
 helm install --name nginx-ingress stable/nginx-ingress
 
 #postgres
-helm install --name postgres stable/postgres
+helm install --name postgres stable/postgresql
 
 #elastic stack
 rm -r elasticsearch
