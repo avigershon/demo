@@ -7,7 +7,7 @@
 helm install --name nginx-ingress stable/nginx-ingress
 
 #postgres (for sippycup)
-helm install --name sippycup --set postgresPassword=lioran020 postgresDatabase=sippycup stable/postgresql
+helm install --name sippycup --set postgresPassword=lioran020 --set postgresDatabase=sippycup stable/postgresql
 
 #elastic stack
 rm -r elasticsearch
