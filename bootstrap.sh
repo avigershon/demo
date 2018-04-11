@@ -6,6 +6,9 @@
 #./setup.sh --chart cluster/nginx-ingress
 helm install --name nginx-ingress stable/nginx-ingress
 
+#postgres (for sippycup)
+helm install --name sippycup --set postgresPassword=lioran020 --set postgresDatabase=sippycup stable/postgresql
+
 #elastic stack
 rm -r elasticsearch
 git clone https://github.com/clockworksoul/helm-elasticsearch.git elasticsearch
@@ -27,10 +30,8 @@ helm upgrade --name kafka --set configurationOverrides."offsets.topic.replicatio
 helm install --name redis --set redisDisableCommands="" stable/redis
 #helm upgrade redis --set redisDisableCommands="" stable/redis
 
+#tor
+./setup.sh --chart cluster/tor
+
 #node-red
 ./setup.sh --chart charts/node-red
-<<<<<<< HEAD
-
-#end script
-=======
->>>>>>> eb00e52612391b4a134b39267128f697b68dc626
