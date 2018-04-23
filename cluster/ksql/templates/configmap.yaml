@@ -11,7 +11,7 @@ data:
   ksqlserver.properties: |-
     bootstrap.servers={{ .Values.kafka.host }}:{{ .Values.kafka.port }}
     ksql.command.topic.suffix=commands
-    listeners=http://localhost:8080
+    listeners=http://localhost:8088
     ui.enabled=true
     ksql.cluster.id=datagram
     application.id=datagram
