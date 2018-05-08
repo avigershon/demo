@@ -2,7 +2,7 @@
 {{- $fullName := include "tor.fullname" . -}}
 {{- $servicePort := .Values.service.port -}}
 {{- $ingressPath := .Values.ingress.path -}}
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1beta2
 kind: Ingress
 metadata:
   name: {{ $fullName }}
