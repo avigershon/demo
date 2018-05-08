@@ -1,27 +1,58 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
-  creationTimestamp: null
-  name: {{ template "tor.fullname" . }}
+  name: {{ template "blackbird.fullname" . }}
+  labels:
+    app: {{ template "blackbird.name" . }}
+    chart: {{ template "blackbird.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
 spec:
   replicas: {{ .Values.replicaCount }}
-  strategy: {}
+  selector:
+    matchLabels:
+      app: {{ template "blackbird.name" . }}
+      release: {{ .Release.Name }}
   template:
     metadata:
-      creationTimestamp: null
       labels:
-        name: {{ template "tor.fullname" . }}
+        app: {{ template "blackbird.name" . }}
+        release: {{ .Release.Name }}
     spec:
       containers:
-      - env:
-        - name: LOCATION
-          value: il
-        - name: TORUSER
-          value: root
-        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-        name: {{ template "tor.name" . }}
-        ports:
-        - containerPort: {{ .Values.service.port }}
-        resources: {}
-      restartPolicy: Always
-status: {}
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command:
+          - sh
+          - -c
+          - |
+            /blackbird/start_blackbird.sh
+          #args:
+          #  - perl
+          #  - -e
+          #  - while(1){ sleep 99999 }
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+          volumeMounts:
+          - name: config
+            mountPath: /blackbird/blackbird.config
+            readOnly: true
+            subPath: blackbird.config
+      volumes:
+      - name: config
+        configMap:
+          defaultMode: 0444
+          name: {{ template "blackbird.name" . }}-configmap
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
