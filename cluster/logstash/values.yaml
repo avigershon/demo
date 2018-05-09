@@ -43,8 +43,8 @@ ports:
   # - name: syslog-tcp
   #   containerPort: 1514
   #   protocol: TCP
-  - name: monitor
-    containerPort: 9600
+  - name: beats
+    containerPort: 5044
     protocol: TCP
   # - name: http
   #   containerPort: 8080
@@ -100,7 +100,7 @@ livenessProbe:
   httpGet:
     path: /
     port: monitor
-  initialDelaySeconds: 20
+  initialDelaySeconds: 60
   # periodSeconds: 30
   # timeoutSeconds: 30
   # failureThreshold: 6
