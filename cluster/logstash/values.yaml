@@ -223,9 +223,12 @@ inputs:
     }
 
 filters:
-  # main: |-
-  #   filter {
-  #   }
+  main: |-
+    filter {    
+      mutate {
+        add_field => {"[@metadata][index]" => "%{[kafka][topic]}"}
+      }
+    }
 
 outputs:
   main: |-
