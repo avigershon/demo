@@ -218,17 +218,13 @@ inputs:
         consumer_threads => 1
         topics => ["ALBERT_TASKS"]
         type => "doc"
-        decorate_events => true
       }
     }
 
-#filters:
-#  main: |-
-#    filter {
-#      mutate {
-#        add_field => {"[@metadata][index]" => "%{[kafka][topic]}"}
-#      }
-#    }
+filters:
+  # main: |-
+  #   filter {
+  #   }
 
 outputs:
   main: |-
@@ -237,7 +233,7 @@ outputs:
       elasticsearch {
         hosts => ["${ELASTICSEARCH_HOST}:${ELASTICSEARCH_PORT}"]
         manage_template => false
-        index => "kafka-albert-%{+YYYY.MM.dd}"
+        index => "kafka-albert-tasks-%{+YYYY.MM.dd}"
         document_type => "doc"
       }
       # kafka {
