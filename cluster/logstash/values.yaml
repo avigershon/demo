@@ -232,7 +232,7 @@ filters:
 outputs:
   main: |-
     output {
-      # stdout { codec => rubydebug }
+      stdout { codec => rubydebug { metadata => true } } 
       elasticsearch {
         hosts => ["${ELASTICSEARCH_HOST}:${ELASTICSEARCH_PORT}"]
         manage_template => false
