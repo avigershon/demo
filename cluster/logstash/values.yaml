@@ -49,9 +49,6 @@ ports:
   # - name: http
   #   containerPort: 8080
   #   protocol: TCP
-  - name: monitor
-    containerPort: 9601
-    protocol: TCP
 ingress:
   enabled: false
   annotations: {}
@@ -101,9 +98,9 @@ podLabels: {}
 
 livenessProbe:
   httpGet:
-    path: /logstash/health
-    port: 9601
-  initialDelaySeconds: 300
+    path: /
+    port: 9600
+  initialDelaySeconds: 30
   # periodSeconds: 30
   # timeoutSeconds: 30
   # failureThreshold: 6
@@ -111,9 +108,9 @@ livenessProbe:
 
 readinessProbe:
   httpGet:
-    path: /logstash/health
-    port: 9601
-  initialDelaySeconds: 300
+    path: /
+    port: 9600
+  initialDelaySeconds: 30
   # periodSeconds: 30
   # timeoutSeconds: 30
   # failureThreshold: 6
@@ -236,7 +233,7 @@ outputs:
       elasticsearch {
         hosts => ["${ELASTICSEARCH_HOST}:${ELASTICSEARCH_PORT}"]
         manage_template => false
-        index => "albert-tasks-%{+YYYY.MM.dd}"
+        index => "%{[@metadata][kafka][topic]}-%{+YYYY.MM.dd}"
         document_type => "doc"
       }
       # kafka {
