@@ -219,15 +219,14 @@ inputs:
         topics => ["ALBERT_TASKS"]
         type => "doc"
         decorate_events => true
+        add_field => { "[topic]" => "kafka-%{[@metadata][kafka][topic]}"}
       }
     }
 
 filters:
   main: |-
-    filter {    
-      mutate {
-        add_field => {"[@metadata][index]" => "%{[kafka][topic]}"}
-      }
+    filter { 
+      mutate {lowercase => ["topic"]}
     }
 
 outputs:
@@ -237,7 +236,7 @@ outputs:
       elasticsearch {
         hosts => ["${ELASTICSEARCH_HOST}:${ELASTICSEARCH_PORT}"]
         manage_template => false
-        index => "kafka-albert-tasks-%{+YYYY.MM.dd}"
+        index => "%{topic}-%{+YYYY.MM.dd}"
         document_type => "doc"
       }
       # kafka {
