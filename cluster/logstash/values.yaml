@@ -218,6 +218,7 @@ inputs:
         consumer_threads => 1
         topics_pattern => "^ALBERT_*"
         type => "doc"
+        decorate_events => true
       }
     }
 
