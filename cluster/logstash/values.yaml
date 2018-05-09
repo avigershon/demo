@@ -219,14 +219,13 @@ inputs:
         topics => ["ALBERT_TASKS","testdynamic"]
         type => "doc"
         decorate_events => true
-        add_field => { topic =>  "kafka-%{[@metadata][kafka][topic]}"}
       }
     }
 
 filters:
   main: |-
     filter { 
-      mutate {lowercase => ["topic"]}
+      mutate {add_field => { topic =>  "%{[@metadata][kafka][topic]}"}}
     }
 
 outputs:
