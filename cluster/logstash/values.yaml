@@ -233,7 +233,7 @@ outputs:
       elasticsearch {
         hosts => ["${ELASTICSEARCH_HOST}:${ELASTICSEARCH_PORT}"]
         manage_template => false
-        index => "%{[@metadata][kafka][topic]}-%{+YYYY.MM.dd}"
+        index => "%{[kafka][topic]}-%{+YYYY.MM.dd}"
         document_type => "doc"
       }
       # kafka {
