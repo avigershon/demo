@@ -219,27 +219,25 @@ inputs:
         topics => ["ALBERT_TASKS","testdynamic"]
         type => "doc"
         decorate_events => true
+        add_field => { topic =>  "kafka-%{[@metadata][kafka][topic]}"}
       }
     }
 
 filters:
   main: |-
     filter { 
-      mutate {
-        add_field => {"[@metadata][index]" => "%{[kafka][topic]}"}
-      }
+      mutate {lowercase => ["topic"]}
     }
 
 outputs:
   main: |-
     output {
-      stdout { codec => json { metadata => true } } 
+      stdout { codec => rubydebug { metadata => true } } 
       elasticsearch {
         hosts => ["${ELASTICSEARCH_HOST}:${ELASTICSEARCH_PORT}"]
         manage_template => false
-        index => "kafka-%{[@metadata][index]}-%{+YYYY.MM.dd}"
+        index => "%{topic}-%{+YYYY.MM.dd}"
         document_type => "doc"
-        codec => json { metadata => true }
       }
       # kafka {
       #   ## ref: https://www.elastic.co/guide/en/logstash/current/plugins-outputs-kafka.html
