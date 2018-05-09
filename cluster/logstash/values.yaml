@@ -216,10 +216,9 @@ inputs:
         bootstrap_servers => "kafka-kafka.default.svc.cluster.local:9092"
         codec => json { charset => "UTF-8" }
         consumer_threads => 1
-        topics => ["ALBERT_TASKS"]
+        topics => ["ALBERT_TASKS","testdynamic"]
         type => "doc"
         decorate_events => true
-        add_field => { topic =>  "kafka.%{[@metadata][kafka][topic]}"}
       }
     }
 
@@ -228,13 +227,6 @@ filters:
     filter { 
       mutate {
         add_field => {"[@metadata][index]" => "%{[kafka][topic]}"}
-        lowercase =>  "[@metadata][index]"
-        gsub => [
-          "topic", "/", "_",
-          # replace backslashes, question marks, hashes, and minuses
-          # with a dot "."
-          "topic", "[\\?#-_]", "."
-        ]
       }
     }
 
@@ -247,6 +239,7 @@ outputs:
         manage_template => false
         index => "kafka-%{[@metadata][index]}-%{+YYYY.MM.dd}"
         document_type => "doc"
+        codec => json
       }
       # kafka {
       #   ## ref: https://www.elastic.co/guide/en/logstash/current/plugins-outputs-kafka.html
