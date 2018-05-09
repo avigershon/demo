@@ -229,10 +229,10 @@ filters:
       mutate {
         lowercase => ["topic"]
         gsub => [
-          "fieldname", "/", "_",
+          "topic", "/", "_",
           # replace backslashes, question marks, hashes, and minuses
           # with a dot "."
-          "fieldname2", "[\\?#-_]", "."
+          "topic", "[\\?#-_]", "."
         ]
       }
     }
