@@ -7,8 +7,8 @@ updateStrategy:
   type: RollingUpdate
 
 image:
-  repository: docker.elastic.co/logstash/logstash-oss
-  tag: 6.2.2
+  repository: docker.elastic.co/logstash/logstash
+  tag: 6.2.4
   pullPolicy: IfNotPresent
 
 service:
@@ -99,7 +99,7 @@ podLabels: {}
 livenessProbe:
   httpGet:
     path: /
-    port: 9600
+    port: 5044
   initialDelaySeconds: 30
   # periodSeconds: 30
   # timeoutSeconds: 30
@@ -109,7 +109,7 @@ livenessProbe:
 readinessProbe:
   httpGet:
     path: /
-    port: 9600
+    port: 5044
   initialDelaySeconds: 30
   # periodSeconds: 30
   # timeoutSeconds: 30
@@ -117,7 +117,7 @@ readinessProbe:
   # successThreshold: 1
 
 persistence:
-  enabled: false
+  enabled: true
   ## logstash data Persistent Volume Storage Class
   ## If defined, storageClassName: <storageClass>
   ## If set to "-", storageClassName: "", which disables dynamic provisioning
