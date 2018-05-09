@@ -216,7 +216,7 @@ inputs:
         bootstrap_servers => "kafka-kafka.default.svc.cluster.local:9092"
         codec => json { charset => "UTF-8" }
         consumer_threads => 1
-        topics_pattern => "^ALBERT_*"
+        topics_pattern => "ALBERT_*"
         type => "doc"
         decorate_events => true
       }
