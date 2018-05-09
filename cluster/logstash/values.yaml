@@ -215,7 +215,7 @@ inputs:
       #   ## ref: https://www.elastic.co/guide/en/logstash/current/plugins-inputs-kafka.html
         bootstrap_servers => "kafka-kafka.default.svc.cluster.local:9092"
         codec => json { charset => "UTF-8" }
-        consumer_threads => 1
+        consumer_threads => 4
         topics => ["ALBERT_TASKS","testdynamic","filebeat"]
         type => "doc"
         decorate_events => true
@@ -231,7 +231,7 @@ filters:
 outputs:
   main: |-
     output {
-      stdout { codec => rubydebug { metadata => true } } 
+      # stdout { codec => rubydebug { metadata => true } } 
       elasticsearch {
         hosts => ["${ELASTICSEARCH_HOST}:${ELASTICSEARCH_PORT}"]
         manage_template => false
