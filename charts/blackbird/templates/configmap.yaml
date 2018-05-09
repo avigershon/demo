@@ -14,14 +14,14 @@ data:
 
 
     # Program parameters
-    DemoMode=false
+    DemoMode=true
     Leg1=BTC
     Leg2=USD
     UseFullExposure=false
     TestedExposure=25.00
     MaxExposure=25000.00
     MaxLength=5184000
-    DebugMaxIteration=3200000
+    DebugMaxIteration=320000000
     Verbose=true
     CACert=curl-ca-bundle.crt
 
