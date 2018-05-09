@@ -233,13 +233,13 @@ filters:
 outputs:
   main: |-
     output {
-      stdout { codec => rubydebug { metadata => true } } 
+      stdout { codec => json { metadata => true } } 
       elasticsearch {
         hosts => ["${ELASTICSEARCH_HOST}:${ELASTICSEARCH_PORT}"]
         manage_template => false
-        index => kafka-%{[@metadata][index]}-%{+YYYY.MM.dd}
+        index => "kafka-%{[@metadata][index]}-%{+YYYY.MM.dd}"
         document_type => "doc"
-        codec => json
+        codec => json { metadata => true }
       }
       # kafka {
       #   ## ref: https://www.elastic.co/guide/en/logstash/current/plugins-outputs-kafka.html
