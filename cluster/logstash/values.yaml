@@ -43,8 +43,8 @@ ports:
   # - name: syslog-tcp
   #   containerPort: 1514
   #   protocol: TCP
-  - name: beats
-    containerPort: 5044
+  - name: monitor
+    containerPort: 9600
     protocol: TCP
   # - name: http
   #   containerPort: 8080
@@ -139,7 +139,7 @@ volumeMounts:
 
 exporter:
   logstash:
-    enabled: true
+    enabled: false
     image:
       repository: bonniernews/logstash_exporter
       tag: v0.1.2
