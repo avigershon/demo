@@ -227,7 +227,8 @@ filters:
   main: |-
     filter { 
       mutate {
-        lowercase => ["topic"]
+        add_field => {"[@metadata][index]" => "%{[kafka][topic]}"}
+        lowercase =>  "[@metadata][index]"
         gsub => [
           "topic", "/", "_",
           # replace backslashes, question marks, hashes, and minuses
@@ -244,7 +245,7 @@ outputs:
       elasticsearch {
         hosts => ["${ELASTICSEARCH_HOST}:${ELASTICSEARCH_PORT}"]
         manage_template => false
-        index => "%{topic}-%{+YYYY.MM.dd}"
+        index => "kafka-%{[@metadata][index]}-%{+YYYY.MM.dd}"
         document_type => "doc"
       }
       # kafka {
