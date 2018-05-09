@@ -35,13 +35,12 @@ spec:
           resources:
 {{ toYaml .Values.resources | indent 12 }}
           volumeMounts:
+          - name: data
+            mountPath: /blackbird
           - name: config
             mountPath: /blackbird/blackbird.config
             readOnly: true
             subPath: blackbird.config
-          - name: data
-            mountPath: /blackbird/blackbird.db
-            subPath: blackbird.db
       volumes:
       - name: data
         emptyDir: {}
