@@ -8,7 +8,7 @@ metadata:
     heritage: {{ .Release.Service | quote }}
     chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
 data:    
-  blackbird.config: |-
+  blackbird.conf: |-
     # Blackbird Bitcoin Arbitrage
     # Configuration file
 
