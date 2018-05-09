@@ -39,6 +39,8 @@ spec:
             mountPath: /blackbird/blackbird.config
             readOnly: true
             subPath: blackbird.config
+          - name: data
+            mountPath: /blackbird/output
         - name: filebeat
           image: "{{ .Values.filebeat.image.repository }}:{{ .Values.filebeat.image.tag }}"
           args: [
@@ -71,15 +73,14 @@ spec:
             mountPath: /etc/filebeat.yml
             readOnly: true
             subPath: filebeat.yml
-          - name: prospectors
-            mountPath: /usr/share/filebeat/prospectors.d
-            readOnly: true
           - name: data
             mountPath: /usr/share/filebeat/data
           - name: varlibdockercontainers
             mountPath: /var/lib/docker/containers
             readOnly: true
       volumes:
+      - name: data
+        emptyDir: {}
       - name: config
         configMap:
           defaultMode: 0444
