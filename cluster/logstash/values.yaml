@@ -127,7 +127,7 @@ persistence:
   ##
   # storageClass: "-"
   accessMode: ReadWriteOnce
-  size: 2Gi
+  size: 5Gi
 
 volumeMounts:
   - name: data
@@ -139,7 +139,7 @@ volumeMounts:
 
 exporter:
   logstash:
-    enabled: false
+    enabled: true
     image:
       repository: bonniernews/logstash_exporter
       tag: v0.1.2
@@ -152,17 +152,17 @@ exporter:
       port: 9600
       path: /metrics
     livenessProbe:
-      httpGet:
-        path: /metrics
-        port: ls-exporter
+      #httpGet:
+      #  path: /metrics
+      #  port: ls-exporter
       periodSeconds: 15
       timeoutSeconds: 60
       failureThreshold: 8
       successThreshold: 1
     readinessProbe:
-      httpGet:
-        path: /metrics
-        port: ls-exporter
+      #httpGet:
+      #  path: /metrics
+      #  port: ls-exporter
       periodSeconds: 15
       timeoutSeconds: 60
       failureThreshold: 8
@@ -213,7 +213,7 @@ inputs:
       # }
       kafka {
       #   ## ref: https://www.elastic.co/guide/en/logstash/current/plugins-inputs-kafka.html
-        bootstrap_servers => "kafka-kafka.default.svc.cluster.local:9092"
+        bootstrap_servers => "kafka-kafk:9092"
         codec => json { charset => "UTF-8" }
         consumer_threads => 4
         topics => ["ALBERT_TASKS","testdynamic","filebeat"]
