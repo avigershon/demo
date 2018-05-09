@@ -36,7 +36,8 @@ spec:
 {{ toYaml .Values.resources | indent 12 }}
           volumeMounts:
           - name: data
-            mountPath: /blackbird
+            mountPath: /blackbird/data
+            subPath: data
           - name: config
             mountPath: /blackbird/blackbird.config
             readOnly: true
