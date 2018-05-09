@@ -236,7 +236,7 @@ outputs:
       elasticsearch {
         hosts => ["${ELASTICSEARCH_HOST}:${ELASTICSEARCH_PORT}"]
         manage_template => false
-        index => "%{topic}-%{kubernetes.labels.app}-%{+YYYY.MM.dd}"
+        index => "%{topic}-%{[kubernetes][labels][app]}-%{+YYYY.MM.dd}"
         document_type => "doc"
       }
       # kafka {
