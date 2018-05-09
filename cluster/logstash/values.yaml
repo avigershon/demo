@@ -98,8 +98,8 @@ podLabels: {}
 
 livenessProbe:
   httpGet:
-    path: /
-    port: 9600
+    path: /logstash/health
+    port: 9601
   initialDelaySeconds: 30
   # periodSeconds: 30
   # timeoutSeconds: 30
@@ -108,8 +108,8 @@ livenessProbe:
 
 readinessProbe:
   httpGet:
-    path: /
-    port: 9600
+    path: /logstash/health
+    port: 9601
   initialDelaySeconds: 30
   # periodSeconds: 30
   # timeoutSeconds: 30
