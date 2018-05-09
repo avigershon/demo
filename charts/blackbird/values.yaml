@@ -42,3 +42,13 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+filebeat:
+  image:
+    repository: docker.elastic.co/beats/filebeat
+    tag: 6.2.3
+    pullPolicy: IfNotPresent
+  
+  output:
+    host: elasticsearch-elasticsearch.default.svc.cluster.local
+    port: 9200
