@@ -139,7 +139,7 @@ volumeMounts:
 
 exporter:
   logstash:
-    enabled: true
+    enabled: false
     image:
       repository: bonniernews/logstash_exporter
       tag: v0.1.2
