@@ -226,6 +226,7 @@ filters:
   main: |-
     filter { 
       mutate {add_field => { topic =>  "%{[@metadata][kafka][topic]}"}}
+      grok {match => { "message" => "%{WORD:exchange}: 	%{NUMBER:bid} / %{NUMBER:ask}" }}
     }
 
 outputs:
@@ -235,7 +236,7 @@ outputs:
       elasticsearch {
         hosts => ["${ELASTICSEARCH_HOST}:${ELASTICSEARCH_PORT}"]
         manage_template => false
-        index => "%{topic}-%{+YYYY.MM.dd}"
+        index => "%{topic}-%{kubernetes.labels.app}-%{+YYYY.MM.dd}"
         document_type => "doc"
       }
       # kafka {
