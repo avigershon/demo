@@ -85,6 +85,9 @@ spec:
         configMap:
           defaultMode: 0444
           name: {{ template "blackbird.name" . }}-configmap
+      - name: varlibdockercontainers
+        hostPath:
+          path: /var/lib/docker/containers
     {{- with .Values.nodeSelector }}
       nodeSelector:
 {{ toYaml . | indent 8 }}
