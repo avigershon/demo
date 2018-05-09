@@ -18,7 +18,7 @@ helm install --name elasticsearch --set common.stateful.enabled=true --set image
 #helm upgrade elasticsearch --set common.stateful.enabled=true --set image.es.tag=6.2.3 --set kibana.image.repository=docker.elastic.co/kibana/kibana-oss --set kibana.image.tag=6.2.3 --set kibana.env.ELASTICSEARCH_USERNAME=elastic --set kibana.env.ELASTICSEARCH_PASSWORD=changeme elasticsearch
 
 helm install --name logstash -f cluster/logstash/values.yaml incubator/logstash
-helm upgrade logstash -f cluster/logstash/values.yaml incubator/logstash
+#helm upgrade logstash -f cluster/logstash/values.yaml incubator/logstash
 
 #helm del filebeat --purge
 #helm install --name filebeat stable/filebeat  
