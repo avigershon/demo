@@ -219,14 +219,22 @@ inputs:
         topics => ["ALBERT_TASKS"]
         type => "doc"
         decorate_events => true
-        add_field => { topic =>  "kafka-%{[@metadata][kafka][topic]}"}
+        add_field => { topic =>  "kafka.%{[@metadata][kafka][topic]}"}
       }
     }
 
 filters:
   main: |-
     filter { 
-      mutate {lowercase => ["topic"]}
+      mutate {
+        lowercase => ["topic"]
+        gsub => [
+          "fieldname", "/", "_",
+          # replace backslashes, question marks, hashes, and minuses
+          # with a dot "."
+          "fieldname2", "[\\?#-_]", "."
+        ]
+      }
     }
 
 outputs:
