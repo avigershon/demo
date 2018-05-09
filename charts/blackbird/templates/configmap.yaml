@@ -51,7 +51,7 @@ data:
     BitfinexApiKey=
     BitfinexSecretKey=
     BitfinexFees=0.0020
-    BitfinexEnable=false
+    BitfinexEnable=true
 
     # OkCoin
     OkCoinApiKey=d3b5374a-a8bc-4b9e-afbe-e82a4f4c8094
@@ -64,58 +64,58 @@ data:
     BitstampApiKey=
     BitstampSecretKey=
     BitstampFees=0.0025
-    BitstampEnable=false
+    BitstampEnable=true
 
     # Gemini
     GeminiApiKey=
     GeminiSecretKey=
     GeminiFees=0.0025
-    GeminiEnable=false
+    GeminiEnable=true
 
     # Kraken
     KrakenApiKey=
     KrakenSecretKey=
     KrakenFees=0.0025
-    KrakenEnable=false
+    KrakenEnable=true
 
     # ItBit
     ItBitApiKey=
     ItBitSecretKey=
     ItBitFees=0.0020
-    ItBitEnable=false
+    ItBitEnable=true
 
     # WEX
     WEXApiKey=
     WEXSecretKey=
     WEXFees=0.0020
-    WEXEnable=false
+    WEXEnable=true
 
     # Poloniex
     # Note: no BTC/USD on Poloniex
     PoloniexApiKey=
     PoloniexSecretKey=
     PoloniexFees=0.0020
-    PoloniexEnable=false
+    PoloniexEnable=true
 
     # GDAX
     GDAXApiKey=
     GDAXSecretKey=
     GDAXPhrase=
     GDAXFees=0.0025
-    GDAXEnable=false
+    GDAXEnable=true
 
     # QuadrigaCX
     QuadrigaApiKey=
     QuadrigaSecretKey=
     QuadrigaFees=0.005
     QuadrigaClientId=
-    QuadrigaEnable=false
+    QuadrigaEnable=true
 
     # Exmo
     ExmoApiKey=
     ExmoSecretKey=
     ExmoFees=0.002
-    ExmoEnable=false
+    ExmoEnable=true
 
     # Cex.io
     CexioClientId=up120105292
@@ -128,10 +128,10 @@ data:
     BittrexApiKey=
     BittrexSecretKey=
     BittrexFees=
-    BittrexEnable=false
+    BittrexEnable=true
 
     # Binance
     BinanceApiKey=
     BinanceSecretKey=
     BinanceFees=
-    BinanceEnable=false
+    BinanceEnable=true
