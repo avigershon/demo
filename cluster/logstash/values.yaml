@@ -97,20 +97,20 @@ podLabels: {}
   # service: "logstash"
 
 livenessProbe:
-  httpGet:
-    path: /
-    port: 5044
-  initialDelaySeconds: 30
+#  httpGet:
+#    path: /
+#    port: 9600
+#  initialDelaySeconds: 30
   # periodSeconds: 30
   # timeoutSeconds: 30
   # failureThreshold: 6
   # successThreshold: 1
 
 readinessProbe:
-  httpGet:
-    path: /
-    port: 5044
-  initialDelaySeconds: 30
+#  httpGet:
+#    path: /
+#    port: 9600
+#  initialDelaySeconds: 30
   # periodSeconds: 30
   # timeoutSeconds: 30
   # failureThreshold: 6
