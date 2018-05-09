@@ -227,6 +227,7 @@ filters:
     filter { 
       mutate {add_field => { topic =>  "%{[@metadata][kafka][topic]}"}}
       grok {match => { "message" => "%{WORD:exchange}: 	%{NUMBER:bid} / %{NUMBER:ask}" }}
+      if "blackbird" in [kubernetes][labels][app] and "_grokparsefailure" in [tags] {drop {}}
     }
 
 outputs:
