@@ -99,8 +99,8 @@ podLabels: {}
 livenessProbe:
   httpGet:
     path: /
-    port: monitor
-  initialDelaySeconds: 60
+    port: 9600
+  initialDelaySeconds: 30
   # periodSeconds: 30
   # timeoutSeconds: 30
   # failureThreshold: 6
@@ -109,8 +109,8 @@ livenessProbe:
 readinessProbe:
   httpGet:
     path: /
-    port: monitor
-  initialDelaySeconds: 20
+    port: 9600
+  initialDelaySeconds: 30
   # periodSeconds: 30
   # timeoutSeconds: 30
   # failureThreshold: 6
