@@ -67,7 +67,7 @@ data:
     ReceiverAddress=
 
     # Database settings
-    DBFile=blackbird.db
+    DBFile=data/blackbird.db
 
     # Bitfinex
     BitfinexApiKey=
