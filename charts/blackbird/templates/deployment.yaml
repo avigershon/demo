@@ -39,17 +39,11 @@ spec:
             mountPath: /blackbird/blackbird.conf
             readOnly: true
             subPath: blackbird.conf
-          - name: output
-            mountPath: /blackbird/output
-            subPath: output
       volumes:
       - name: config
         configMap:
           defaultMode: 0444
           name: {{ template "blackbird.name" . }}-configmap
-      - name: output
-        hostPath:
-          path: /var/lib/docker/containers/blackbird
     {{- with .Values.nodeSelector }}
       nodeSelector:
 {{ toYaml . | indent 8 }}
