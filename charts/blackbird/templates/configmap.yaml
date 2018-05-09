@@ -7,29 +7,7 @@ metadata:
     release: {{ .Release.Name | quote }}
     heritage: {{ .Release.Service | quote }}
     chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
-data:
-  filebeat.yml: |-
-    filebeat.registry_file: /var/log/containers/filebeat_registry
-
-    filebeat.prospectors:
-    -
-      paths:
-        - "/var/log/containers/*.log"
-      symlinks: true
-      json.message_key: log
-      json.keys_under_root: true
-      json.add_error_key: true
-      multiline.pattern: '^\s'
-      multiline.match: after
-      document_type: blackbird-logs
-    
-    output.elasticsearch:
-      hosts: ['${ELASTICSEARCH_HOST:elasticsearch}:${ELASTICSEARCH_PORT:9200}']
-      index: "blackbird-%{+yyyy.MM.dd}"
-      
-    setup.template.name: "blackbird"
-    setup.template.pattern: "blackbird-*"
-      
+data:    
   blackbird.config: |-
     # Blackbird Bitcoin Arbitrage
     # Configuration file
