@@ -219,7 +219,7 @@ inputs:
         topics => ["ALBERT_TASKS"]
         type => "doc"
         decorate_events => true
-        add_field => { "[topic]" => "kafka-%{[@metadata][kafka][topic]}"}
+        add_field => { topic =>  "kafka-%{[@metadata][kafka][topic]}"}
       }
     }
 
