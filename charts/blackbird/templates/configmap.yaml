@@ -14,7 +14,7 @@ data:
 
 
     # Program parameters
-    DemoMode=true
+    DemoMode=false
     Leg1=BTC
     Leg2=USD
     UseFullExposure=false
