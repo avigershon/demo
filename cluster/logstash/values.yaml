@@ -49,6 +49,9 @@ ports:
   # - name: http
   #   containerPort: 8080
   #   protocol: TCP
+  - name: monitor
+    containerPort: 9601
+    protocol: TCP
 ingress:
   enabled: false
   annotations: {}
@@ -100,7 +103,7 @@ livenessProbe:
   httpGet:
     path: /logstash/health
     port: 9601
-  initialDelaySeconds: 30
+  initialDelaySeconds: 300
   # periodSeconds: 30
   # timeoutSeconds: 30
   # failureThreshold: 6
@@ -110,7 +113,7 @@ readinessProbe:
   httpGet:
     path: /logstash/health
     port: 9601
-  initialDelaySeconds: 30
+  initialDelaySeconds: 300
   # periodSeconds: 30
   # timeoutSeconds: 30
   # failureThreshold: 6
