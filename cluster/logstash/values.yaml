@@ -7,7 +7,7 @@ updateStrategy:
   type: RollingUpdate
 
 image:
-  repository: docker.elastic.co/logstash/logstash
+  repository: docker.elastic.co/logstash/logstash-oss
   tag: 6.2.4
   pullPolicy: IfNotPresent
 
