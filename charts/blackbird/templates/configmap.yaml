@@ -27,6 +27,9 @@ data:
       hosts: ['${ELASTICSEARCH_HOST:elasticsearch}:${ELASTICSEARCH_PORT:9200}']
       index: "blackbird-%{+yyyy.MM.dd}"
       
+    setup.template.name: "blackbird"
+    setup.template.pattern: "blackbird-*"
+      
   blackbird.config: |-
     # Blackbird Bitcoin Arbitrage
     # Configuration file
