@@ -39,3 +39,14 @@ helm install --name redis --set redisDisableCommands="" stable/redis
 
 #node-red
 ./setup.sh --chart charts/node-red
+
+#blackbird
+
+#rm -rf projects/blackbird
+#mkdir projects/blackbird
+#cd projects/blackbird
+#git clone --recursive https://github.com/avigershon/blackbird.git .
+#docker build -t blackbird .
+#docker tag blackbird gcr.io/datagram-195019/blackbird:latest
+#docker push gcr.io/datagram-195019/blackbird:latest
+./setup.sh --chart charts/blackbird
