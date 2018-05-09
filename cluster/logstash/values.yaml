@@ -4,7 +4,7 @@ podDisruptionBudget:
   maxUnavailable: 1
 
 updateStrategy:
-  type: OnDelete
+  type: RollingUpdate
 
 image:
   repository: docker.elastic.co/logstash/logstash-oss
