@@ -235,6 +235,7 @@ outputs:
         manage_template => false
         index => "kafka-albert-tasks-%{+YYYY.MM.dd}"
         document_type => "doc"
+        decorate_events => true
       }
       # kafka {
       #   ## ref: https://www.elastic.co/guide/en/logstash/current/plugins-outputs-kafka.html
