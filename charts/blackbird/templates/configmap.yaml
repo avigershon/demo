@@ -22,7 +22,10 @@ data:
       multiline.pattern: '^\s'
       multiline.match: after
       document_type: blackbird-logs
-
+    
+    output.elasticsearch:
+      hosts: ['${ELASTICSEARCH_HOST:elasticsearch}:${ELASTICSEARCH_PORT:9200}']
+      
   blackbird.config: |-
     # Blackbird Bitcoin Arbitrage
     # Configuration file
