@@ -216,7 +216,7 @@ inputs:
         bootstrap_servers => "kafka-kafka.default.svc.cluster.local:9092"
         codec => json { charset => "UTF-8" }
         consumer_threads => 4
-        topics => ["ALBERT_TASKS","testdynamic","filebeat"]
+        topics => ["ALBERT_TASKS","testdynamic","filebeat","worthy"]
         type => "doc"
         decorate_events => true
       }
@@ -226,8 +226,12 @@ filters:
   main: |-
     filter { 
       mutate {add_field => { topic =>  "%{[@metadata][kafka][topic]}"}}
-      grok {match => { "message" => "%{WORD:exchange}: 	%{NUMBER:bid:float} / %{NUMBER:ask:float}" }}
-      if "blackbird" in [kubernetes][labels][app] and "_grokparsefailure" in [tags] {drop {}}
+      if [kubernetes][labels][app] {
+        mutate { add_field => { "app" => "%{[kubernetes][labels][app]}" } }
+      }
+      if "blackbird" in [kubernetes][labels][app] {
+        grok {match => { "message" => "%{WORD:exchange}: 	%{NUMBER:bid:float} / %{NUMBER:ask:float}" }}
+      }
     }
 
 outputs:
@@ -237,7 +241,7 @@ outputs:
       elasticsearch {
         hosts => ["${ELASTICSEARCH_HOST}:${ELASTICSEARCH_PORT}"]
         manage_template => false
-        index => "%{topic}-%{[kubernetes][labels][app]}-%{+YYYY.MM.dd}"
+        index => "%{topic}-%{app}-%{+YYYY.MM.dd}"
         document_type => "doc"
       }
       # kafka {
