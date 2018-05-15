@@ -229,6 +229,9 @@ filters:
       if [kubernetes][labels][app] {
         mutate { add_field => { "app" => "%{[kubernetes][labels][app]}" } }
       }
+      else {
+        mutate { add_field => { "app" => "pipeline" } }
+      }
       if "blackbird" in [kubernetes][labels][app] {
         grok {match => { "message" => "%{WORD:exchange}: 	%{NUMBER:bid:float} / %{NUMBER:ask:float}" }}
       }
