@@ -7,8 +7,8 @@ updateStrategy:
   type: RollingUpdate
 
 image:
-  repository: gcr.io/datagram-195019/logstash
-  tag: f30572e58f7a8443df60593db665ed2297264df4
+  repository: docker.elastic.co/logstash/logstash-oss
+  tag: 6.2.4
   pullPolicy: IfNotPresent
 
 service:
