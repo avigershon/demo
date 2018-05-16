@@ -226,15 +226,8 @@ filters:
   main: |-
     filter { 
       mutate {add_field => { topic =>  "%{[@metadata][kafka][topic]}"}}
-      if [kubernetes][labels][app] {
-        mutate { add_field => { "app" => "%{[kubernetes][labels][app]}" } }
-      }
-      else {
-        mutate { add_field => { "app" => "pipeline" } }
-      }
-      if "blackbird" in [kubernetes][labels][app] {
-        grok {match => { "message" => "%{WORD:exchange}: 	%{NUMBER:bid:float} / %{NUMBER:ask:float}" }}
-      }
+      grok {match => { "message" => "%{WORD:exchange}: 	%{NUMBER:bid:float} / %{NUMBER:ask:float}" }}
+      if "blackbird" in [kubernetes][labels][app] and "_grokparsefailure" in [tags] {drop {}}
     }
 
 outputs:
@@ -244,7 +237,7 @@ outputs:
       elasticsearch {
         hosts => ["${ELASTICSEARCH_HOST}:${ELASTICSEARCH_PORT}"]
         manage_template => false
-        index => "%{topic}-%{app}-%{+YYYY.MM.dd}"
+        index => "%{topic}-%{[kubernetes][labels][app]}-%{+YYYY.MM.dd}"
         document_type => "doc"
       }
       # kafka {
