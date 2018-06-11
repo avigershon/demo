@@ -35,7 +35,7 @@ helm install --name kafka --set configurationOverrides."offsets.topic.replicatio
 #schema-registry
 #helm del schema-registry --purge
 #helm upgrade schema-registry --set kafkaStore.overrideBootstrapServers="kafka-kafka.default.svc.cluster.local:9092" --set kafka.enabled=false incubator/schema-registry
-helm install --name schema-registry --set kafkaStore.overrideBootstrapServers="kafka-kafka.default.svc.cluster.local:9092" --set kafka.enabled=false incubator/schema-registry
+helm install --name schema-registry --set kafkaStore.overrideBootstrapServers=kafka-kafka.default.svc.cluster.local:9092 --set kafka.enabled=false incubator/schema-registry
 
 #redis
 #helm del redis --purge
