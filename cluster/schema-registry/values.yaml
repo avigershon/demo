@@ -44,6 +44,6 @@ kafka:
   zookeeper:
     Servers: 1
   ## If `Kafka.Enabled` is `false`, the Zookeeper url servicing the Kafka cluster must be provided
-  zookeeperUrl: "zookeeper-zookeeper"
+  zookeeperUrl: "zookeeper-zookeeper.default.svc.cluster.local"
   ## If `Kafka.Enabled` is `false`, the Zookeeper port servicing the Kafka cluster must be provided
   zookeeperPort: 2181
