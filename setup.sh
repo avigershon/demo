@@ -24,6 +24,8 @@ setup () {
   mkdir $home/environments;
   mkdir $home/environments/$branch;
   mkdir $home/environments/$branch/packages;
+  mkdir $home/environments/$branch/packages/charts;
+  mkdir $home/environments/$branch/packages/charts/global;
   
   #if [ "$recreate" == "true" ]; then
   system_setup
