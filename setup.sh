@@ -179,10 +179,10 @@ package_and_install_chart () {
    
    rm -rf $home/environments/$branch/packages/$path/$chart;
    
-   mkdir $home/environments/$branch/packages/$path;
-   mkdir $home/environments/$branch/packages/$path/$chart;
-   
    cd $home/$path/;
+   
+   mkdir $home/environments/$branch/packages/$path/;
+   mkdir $home/environments/$branch/packages/$path/$chart;
    
    echo "packaging $chart chart...";
    helm package $chart -d "$home/environments/$branch/packages/$path/$chart";
