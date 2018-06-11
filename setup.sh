@@ -184,7 +184,10 @@ package_and_install_chart () {
 
    rm -rf $home/environments/$branch/packages/$path/$chart;
    
-   mkdir $home/environments/$branch/packages/$path/;
+   mkdir $home/environments;
+   mkdir $home/environments/$branch;
+   mkdir $home/environments/$branch/packages;
+   mkdir $home/environments/$branch/packages/$path;
    mkdir $home/environments/$branch/packages/$path/$chart;
    
    echo "packaging $chart chart...";
