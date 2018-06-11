@@ -1,22 +1,22 @@
 # Default values for node-red.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
-replicaCount: 1
+replicaCount: 3
 image:
-  repository: gcr.io/datagram-195019/node-red-worker
-  tag: 5e5ec1307eb5d368797350b4655cb5b2accb630d
+  repository: confluentinc/cp-kafka-connect
+  tag: latest
   pullPolicy: IfNotPresent
 service:
-  name: node-red
+  name: kafka-connect
   type: LoadBalancer
   externalPort: 80
   internalPort: 1880
   
 statefull:
-  enabled: true
+  enabled: false
   
 persistence:
-  enabled: true
+  enabled: false
 
   ## node-red data Persistent Volume Storage Class
   ## If defined, storageClassName: <storageClass>
@@ -40,7 +40,7 @@ ingress:
   enabled: true
   # Used to create an Ingress record.
   hosts:
-    - node-red.local
+    - kafka-connect.local
   annotations:
     kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
