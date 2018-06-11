@@ -169,6 +169,8 @@ package_and_install_chart () {
    
    home=$PWD
 
+   echo "********************$PWD******************************";
+
    if [ "$path" == "cluster" ]; then
       namespace="default";
    else
@@ -180,7 +182,8 @@ package_and_install_chart () {
    rm -rf $home/environments/$branch/packages/$path/$chart;
    
    cd $home/$path/;
-   
+   echo "********************$PWD******************************";
+
    mkdir $home/environments/$branch/packages/$path/;
    mkdir $home/environments/$branch/packages/$path/$chart;
    
@@ -194,7 +197,11 @@ package_and_install_chart () {
 
    echo "current folder=$PWD";
 
+   echo "********************$PWD******************************";
+
    for package in * ; do
+      echo "********************$PWD******************************";
+
       echo "chart=$chart ,package=$package ,namespace=$namespace ,release_name=$release_name ,env=$env";
       upgrade_chart $chart $package $namespace $release_name $env|| install_chart $chart $package $namespace $release_name $env
    done
