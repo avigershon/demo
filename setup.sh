@@ -179,11 +179,11 @@ package_and_install_chart () {
    
    kubectl create namespace $namespace;
    
-   rm -rf $home/environments/$branch/packages/$path/$chart;
-   
    cd $home/$path/;
    echo "********************$PWD******************************";
 
+   rm -rf $home/environments/$branch/packages/$path/$chart;
+   
    mkdir $home/environments/$branch/packages/$path/;
    mkdir $home/environments/$branch/packages/$path/$chart;
    
