@@ -2,8 +2,8 @@
 
 ./setup.sh
 
-./setup.sh --chart cluster/cluster
-exit 1
+./setup.sh --chart charts/global
+
 #./setup.sh --chart cluster/nginx-ingress
 helm install --name nginx-ingress stable/nginx-ingress
 
