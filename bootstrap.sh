@@ -28,8 +28,14 @@ helm install --name logstash -f cluster/logstash/values.yaml incubator/logstash
 #helm upgrade filebeat stable/filebeat 
 
 #kafka
+#helm del kafka --purge
 #helm upgrade kafka --set configurationOverrides."offsets.topic.replication.factor"=5 --set configurationOverrides."auto.offset.commit"=true incubator/kafka
 helm install --name kafka --set configurationOverrides."offsets.topic.replication.factor"=5 --set configurationOverrides."auto.offset.commit"=true incubator/kafka
+
+#schema-registry
+#helm del schema-registry --purge
+#helm upgrade schema-registry --set kafkaStore.overrideBootstrapServers="kafka-kafka.default.svc.cluster.local:9092" --set kafka.enabled=false incubator/schema-registry
+helm install --name schema-registry --set kafkaStore.overrideBootstrapServers="kafka-kafka.default.svc.cluster.local:9092" --set kafka.enabled=false incubator/schema-registry
 
 #redis
 #helm del redis --purge
