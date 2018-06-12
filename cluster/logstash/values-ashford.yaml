@@ -244,14 +244,14 @@ outputs:
         project_id => "visionbi-demo"                        
         dataset => "logs"                                         
         json_schema => { fields  => [{ name  => "kubernetes.pod.name" type  => "STRING" }, { name  => "message" type  => "STRING" }] }
-        key_path => "/path/to/privatekey.p12"                     (required)
-        key_password => "notasecret"                              (optional)
+        key_path => "/path/to/privatekey.p12" 
+        key_password => "notasecret"  
         service_account => "avi-969@visionbi-demo.iam.gserviceaccount.com"
-        temp_directory => "/tmp/logstash-bq"                      (optional)
-        temp_file_prefix => "logstash_bq"                         (optional)
-        date_pattern => "%Y-%m-%dT%H:00"                          (optional)
-        flush_interval_secs => 2                                  (optional)
-        uploader_interval_secs => 60        kubernetes.pod.name                      (optional)
+        temp_directory => "/tmp/logstash-bq"
+        temp_file_prefix => "logstash_bq" 
+        date_pattern => "%Y-%m-%dT%H:00"
+        flush_interval_secs => 2 
+        uploader_interval_secs => 60
       }
       # kafka {
       #   ## ref: https://www.elastic.co/guide/en/logstash/current/plugins-outputs-kafka.html
