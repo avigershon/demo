@@ -229,7 +229,7 @@ filters:
   main: |-
     filter { 
       mutate {add_field => { topic =>  "%{[@metadata][kafka][topic]}"}}
-      mutate {remove_field => [ "meta", "prospector" ]}
+      mutate {remove_field => [ "meta", "prospector" , "beats", "kubernetes", "tags"]}
       grok {match => { "message" => "%{TIME:timestamp} %{LOGLEVEL:LEVEL} %{GREEDYDATA:whateverElseYoureFiltering}" }}
       #grok {match => { "message" => "%{WORD:exchange}: 	%{NUMBER:bid:float} / %{NUMBER:ask:float}" }}
       #if "blackbird" in [kubernetes][labels][app] and "_grokparsefailure" in [tags] {drop {}}
