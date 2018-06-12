@@ -7,8 +7,8 @@ updateStrategy:
   type: RollingUpdate
 
 image:
-  repository: gcr.io/visionbi-demo/logstash
-  tag: 0febdb18e01c04291eb22693d964f0fcba2713d9
+  repository: docker.elastic.co/logstash/logstash-oss
+  tag: 6.2.2
   pullPolicy: IfNotPresent
 
 service:
