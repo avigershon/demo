@@ -238,21 +238,21 @@ outputs:
   main: |-
     output {
       # stdout { codec => rubydebug { metadata => true } } 
-      elasticsearch {
-        hosts => ["${ELASTICSEARCH_HOST}:${ELASTICSEARCH_PORT}"]
-        manage_template => false
-        index => "%{topic}-%{[kubernetes][labels][app]}-%{+YYYY.MM.dd}"
-        document_type => "doc"
-      }
-      #google_bigquery {
-      #  project_id => "visionbi-demo"                        
-      #  dataset => "logs"                                         
-      #  json_schema => { fields  => [{ name  => "topic" type  => "STRING" }, { name  => "tags" type  => "STRING" }, { name  => "offset" type  => "INTEGER" }, { name  => "type" type  => "STRING" }, { name  => "message" type  => "STRING" }, { name  => "beat" type  => "STRING" }, { name  => "@timestamp" type  => "STRING" }, { name  => "kubernetes" type  => "STRING" }, { name  => "@version" type  => "STRING" }, { name  => "meta" type  => "STRING" }, { name  => "stream" type  => "STRING" }, { name  => "source" type  => "STRING" }, { name  => "prospector" type  => "STRING" }] }
-      #  json_key_file => "/var/secrets/google/key.json"
-      #  flush_interval_secs => 2 
-      #  uploader_interval_secs => 60
-      #  ignore_unknown_values => true
+      #elasticsearch {
+      #  hosts => ["${ELASTICSEARCH_HOST}:${ELASTICSEARCH_PORT}"]
+      #  manage_template => false
+      #  index => "%{topic}-%{[kubernetes][labels][app]}-%{+YYYY.MM.dd}"
+      #  document_type => "doc"
       #}
+      google_bigquery {
+        project_id => "visionbi-demo"                        
+        dataset => "logs"                                         
+        json_schema => { fields  => [{ name  => "timestamp" type  => "STRING" }, { name  => "LEVEL" type  => "STRING" }, { name  => "topic" type  => "STRING" }, { name  => "tags" type  => "STRING" }, { name  => "offset" type  => "INTEGER" }, { name  => "type" type  => "STRING" }, { name  => "message" type  => "STRING" }, { name  => "beat" type  => "STRING" }, { name  => "timestamp" type  => "STRING" }, { name  => "kubernetes" type  => "STRING" }, { name  => "meta" type  => "STRING" }, { name  => "stream" type  => "STRING" }, { name  => "source" type  => "STRING" }, { name  => "prospector" type  => "STRING" }] }
+        json_key_file => "/var/secrets/google/key.json"
+        flush_interval_secs => 2 
+        uploader_interval_secs => 60
+        ignore_unknown_values => true
+      }
       # kafka {
       #   ## ref: https://www.elastic.co/guide/en/logstash/current/plugins-outputs-kafka.html
       #   bootstrap_servers => "kafka-output:9092"
