@@ -125,6 +125,9 @@ spec:
         - name: pipeline
           configMap:
             name: {{ template "logstash.fullname" . }}-pipeline
+        - name: google-cloud-key
+          secret:
+            secretName: bg-key
 
   volumeClaimTemplates:
     - metadata:
