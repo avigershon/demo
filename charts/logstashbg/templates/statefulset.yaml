@@ -44,6 +44,11 @@ spec:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ["/bin/sh", "-c"]
+          args:
+            - >-
+              /usr/share/logstash/bin/logstash-plugin install logstash-output-google_bigquery;
+              /usr/local/bin/docker-entrypoint;
           ports:
             - name: monitor
               containerPort: {{ .Values.exporter.logstash.target.port }}
