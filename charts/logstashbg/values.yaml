@@ -137,8 +137,7 @@ volumeMounts:
   - name: pipeline
     mountPath: /usr/share/logstash/pipeline
   - name: google-cloud-key
-    secret:
-      secretName: bg-key
+    mountPath: /var/secrets/google
 
 exporter:
   logstash:
