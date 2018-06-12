@@ -7,12 +7,12 @@ updateStrategy:
   type: RollingUpdate
 
 image:
-  repository: docker.elastic.co/logstash/logstash-oss
-  tag: 6.2.2
+  repository: gcr.io/visionbi-demo/logstash
+  tag: 0febdb18e01c04291eb22693d964f0fcba2713d9
   pullPolicy: IfNotPresent
 
 service:
-  type: ClusterIP
+  type: LoadBalancer
   annotations: {}
     ## AWS example for use with LoadBalancer service type.
     # external-dns.alpha.kubernetes.io/hostname: logstash.cluster.local
@@ -49,7 +49,6 @@ ports:
   # - name: http
   #   containerPort: 8080
   #   protocol: TCP
-
 ingress:
   enabled: false
   annotations: {}
@@ -98,20 +97,20 @@ podLabels: {}
   # service: "logstash"
 
 livenessProbe:
-  httpGet:
-    path: /
-    port: monitor
-  initialDelaySeconds: 20
+#  httpGet:
+#    path: /
+#    port: 9600
+#  initialDelaySeconds: 30
   # periodSeconds: 30
   # timeoutSeconds: 30
   # failureThreshold: 6
   # successThreshold: 1
 
 readinessProbe:
-  httpGet:
-    path: /
-    port: monitor
-  initialDelaySeconds: 20
+#  httpGet:
+#    path: /
+#    port: 9600
+#  initialDelaySeconds: 30
   # periodSeconds: 30
   # timeoutSeconds: 30
   # failureThreshold: 6
@@ -128,7 +127,7 @@ persistence:
   ##
   # storageClass: "-"
   accessMode: ReadWriteOnce
-  size: 2Gi
+  size: 5Gi
 
 volumeMounts:
   - name: data
@@ -137,6 +136,9 @@ volumeMounts:
     mountPath: /usr/share/logstash/patterns
   - name: pipeline
     mountPath: /usr/share/logstash/pipeline
+  - name: google-cloud-key
+    secret:
+      secretName: bg-key
 
 exporter:
   logstash:
@@ -153,24 +155,24 @@ exporter:
       port: 9600
       path: /metrics
     livenessProbe:
-      httpGet:
-        path: /metrics
-        port: ls-exporter
+      #httpGet:
+      #  path: /metrics
+      #  port: ls-exporter
       periodSeconds: 15
       timeoutSeconds: 60
       failureThreshold: 8
       successThreshold: 1
     readinessProbe:
-      httpGet:
-        path: /metrics
-        port: ls-exporter
+      #httpGet:
+      #  path: /metrics
+      #  port: ls-exporter
       periodSeconds: 15
       timeoutSeconds: 60
       failureThreshold: 8
       successThreshold: 1
 
 elasticsearch:
-  host: elasticsearch-client.default.svc.cluster.local
+  host: elasticsearch-elasticsearch.default.svc.cluster.local
   port: 9200
 
 ## ref: https://github.com/elastic/logstash-docker/blob/master/build/logstash/env2yaml/env2yaml.go
@@ -212,30 +214,47 @@ inputs:
       # http {
       #   port => 8080
       # }
-      # kafka {
+      kafka {
       #   ## ref: https://www.elastic.co/guide/en/logstash/current/plugins-inputs-kafka.html
-      #   bootstrap_servers => "kafka-input:9092"
-      #   codec => json { charset => "UTF-8" }
-      #   consumer_threads => 1
-      #   topics => ["source"]
-      #   type => "example"
-      # }
+        bootstrap_servers => "kafka-kafka.default.svc.cluster.local:9092"
+        codec => json { charset => "UTF-8" }
+        consumer_threads => 4
+        topics => ["filebeat"]
+        type => "doc"
+        decorate_events => true
+      }
     }
 
 filters:
-  # main: |-
-  #   filter {
-  #   }
+  main: |-
+    filter { 
+      mutate {add_field => { topic =>  "%{[@metadata][kafka][topic]}"}}
+      #grok {match => { "message" => "%{WORD:exchange}: 	%{NUMBER:bid:float} / %{NUMBER:ask:float}" }}
+      #if "blackbird" in [kubernetes][labels][app] and "_grokparsefailure" in [tags] {drop {}}
+    }
 
 outputs:
   main: |-
     output {
-      # stdout { codec => rubydebug }
+      # stdout { codec => rubydebug { metadata => true } } 
       elasticsearch {
         hosts => ["${ELASTICSEARCH_HOST}:${ELASTICSEARCH_PORT}"]
         manage_template => false
-        index => "%{[@metadata][beat]}-%{+YYYY.MM.dd}"
-        document_type => "%{[@metadata][type]}"
+        index => "%{topic}-%{[kubernetes][labels][app]}-%{+YYYY.MM.dd}"
+        document_type => "doc"
+      }
+      google_bigquery {
+        project_id => "visionbi-demo"                        
+        dataset => "logs"                                         
+        json_schema => { fields  => [{ name  => "kubernetes.pod.name" type  => "STRING" }, { name  => "message" type  => "STRING" }] }
+        key_path => "/var/secrets/google/google-cloud-key" 
+        key_password => "notasecret"  
+        service_account => "avi-969@visionbi-demo.iam.gserviceaccount.com"
+        #temp_directory => "/tmp/logstash-bq"
+        #temp_file_prefix => "logstash_bq" 
+        #date_pattern => "%Y-%m-%dT%H:00"
+        flush_interval_secs => 2 
+        uploader_interval_secs => 60
       }
       # kafka {
       #   ## ref: https://www.elastic.co/guide/en/logstash/current/plugins-outputs-kafka.html
