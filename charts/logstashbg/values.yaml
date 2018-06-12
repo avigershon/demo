@@ -229,6 +229,7 @@ filters:
   main: |-
     filter { 
       mutate {add_field => { topic =>  "%{[@metadata][kafka][topic]}"}}
+	    grok {match => { "message" => "%{TIME:timestamp} %{LOGLEVEL:LEVEL} %{GREEDYDATA:whateverElseYoureFiltering}" }}
       #grok {match => { "message" => "%{WORD:exchange}: 	%{NUMBER:bid:float} / %{NUMBER:ask:float}" }}
       #if "blackbird" in [kubernetes][labels][app] and "_grokparsefailure" in [tags] {drop {}}
     }
@@ -237,12 +238,12 @@ outputs:
   main: |-
     output {
       # stdout { codec => rubydebug { metadata => true } } 
-      #elasticsearch {
-      #  hosts => ["${ELASTICSEARCH_HOST}:${ELASTICSEARCH_PORT}"]
-      #  manage_template => false
-      #  index => "%{topic}-%{[kubernetes][labels][app]}-%{+YYYY.MM.dd}"
-      #  document_type => "doc"
-      #}
+      elasticsearch {
+        hosts => ["${ELASTICSEARCH_HOST}:${ELASTICSEARCH_PORT}"]
+        manage_template => false
+        index => "%{topic}-%{[kubernetes][labels][app]}-%{+YYYY.MM.dd}"
+        document_type => "doc"
+      }
       google_bigquery {
         project_id => "visionbi-demo"                        
         dataset => "logs"                                         
