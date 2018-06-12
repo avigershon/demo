@@ -19,6 +19,11 @@ spec:
       - name: {{ .Chart.Name }}
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         command: ["npm", "start", "--", "--userDir", "/data", "--settings", "/usr/src/node-red/node_modules/node-red/settings/settings.js"]
+        env:
+        - name: CONNECT_BOOTSTRAP_SERVERS
+          value: kafka-kafka.default.svc.cluster.local:9092
+        - name: CONNECT_GROUP_ID
+          value: connect-cluster-A
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         ports:
           - containerPort: {{ .Values.service.internalPort }}
