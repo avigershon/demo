@@ -247,7 +247,7 @@ outputs:
         project_id => "visionbi-demo"                        
         dataset => "logs"                                         
         json_schema => { fields  => [{ name  => "kubernetes.pod.name" type  => "STRING" }, { name  => "message" type  => "STRING" }] }
-        json_key_file => "/var/secrets/google/google-cloud-key" 
+        json_key_file => "/var/secrets/google/key.json" 
         key_password => "notasecret"  
         service_account => "avi-969@visionbi-demo.iam.gserviceaccount.com"
         #temp_directory => "/tmp/logstash-bq"
