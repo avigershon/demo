@@ -4,6 +4,9 @@
 
 ./setup.sh --chart charts/default
 
+# bigQuery secret
+#kubectl create secret generic bq-key --from-file=key.json= --namespace=
+
 #./setup.sh --chart cluster/nginx-ingress
 helm install --name nginx-ingress stable/nginx-ingress
 
