@@ -4,13 +4,13 @@
 
 replicaCount: 1
 image:
-  repository: dperson/torproxy
+  repository: container-registry.oracle.com/database/standard
   tag: latest
   pullPolicy: IfNotPresent
 
 service:
   type: LoadBalancer
-  port: 8118
+  port: 1521
 
 ingress:
   enabled: false
@@ -19,7 +19,7 @@ ingress:
     # kubernetes.io/tls-acme: "true"
   # path: /
   hosts:
-    - tor.local
+    - oracle.local
   tls: []
   #  - secretName: chart-example-tls
   #    hosts:
