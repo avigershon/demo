@@ -29,8 +29,8 @@ spec:
               apt-get install git-core -y;
               git clone https://github.com/avigershon/tungsten-replicator.git;
               chmod +x ./tungsten-replicator/replicator/extractors/oracle-cdc/setupCDC.sh;
-              cd /tungsten-replicator/replicator/extractors/oracle-cdc/;
-              ./setupCDC.sh;
+              #cd /tungsten-replicator/replicator/extractors/oracle-cdc/;
+              #./setupCDC.sh;
         ports:
         - containerPort: {{ .Values.service.port }}
         resources: {}
