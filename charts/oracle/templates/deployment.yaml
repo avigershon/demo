@@ -16,6 +16,10 @@ spec:
       - env:
         - name: ORACLE_SID
           value: ORADB
+        - name: ORACLE_ALLOW_REMOTE
+          value: true
+        - name: ORACLE_DISABLE_ASYNCH_IO
+          value: false
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         name: {{ template "oracle.name" . }}
         ports:
