@@ -28,9 +28,10 @@ spec:
               apt-get update -y;
               apt-get install git-core -y;
               git clone https://github.com/vmware/tungsten-replicator.git;
-              chmod +x ./replicator/extractors/oracle-cdc/setupCDC.sh;
-              ./replicator/extractors/oracle-cdc/setupCDC.sh;
+              chmod +x /replicator/extractors/oracle-cdc/setupCDC.sh;
+              /replicator/extractors/oracle-cdc/setupCDC.sh;
               /usr/local/bin/docker-entrypoint;
+              ls -ll;
         ports:
         - containerPort: {{ .Values.service.port }}
         resources: {}
