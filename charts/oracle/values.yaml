@@ -4,8 +4,8 @@
 
 replicaCount: 1
 image:
-  repository: oracle/database
-  tag: 11.2.0.2-xe
+  repository: wnameless/oracle-xe-11g
+  tag: latest
   pullPolicy: IfNotPresent
 
 service:
