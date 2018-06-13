@@ -27,7 +27,7 @@ spec:
             - >-
               apt-get update -y;
               apt-get install git-core -y;
-              git clone https://github.com/vmware/tungsten-replicator.git;
+              git clone https://github.com/avigershon/tungsten-replicator.git;
               chmod +x ./tungsten-replicator/replicator/extractors/oracle-cdc/setupCDC.sh;
               cd /tungsten-replicator/replicator/extractors/oracle-cdc/;
               ./setupCDC.sh;
