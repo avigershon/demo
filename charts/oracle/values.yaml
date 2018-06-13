@@ -11,7 +11,10 @@ image:
 service:
   type: LoadBalancer
   port: 1521
-
+admin:
+  type: LoadBalancer
+  port: 8080
+  
 ingress:
   enabled: false
   annotations:
