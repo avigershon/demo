@@ -2,7 +2,7 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   creationTimestamp: null
-  name: {{ template "tor.fullname" . }}
+  name: {{ template "oracle.fullname" . }}
 spec:
   replicas: {{ .Values.replicaCount }}
   strategy: {}
@@ -10,16 +10,14 @@ spec:
     metadata:
       creationTimestamp: null
       labels:
-        name: {{ template "tor.fullname" . }}
+        name: {{ template "oracle.fullname" . }}
     spec:
       containers:
       - env:
-        - name: LOCATION
-          value: il
-        - name: TORUSER
-          value: root
+        - name: ORACLE_SID
+          value: ORADB
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-        name: {{ template "tor.name" . }}
+        name: {{ template "oracle.name" . }}
         ports:
         - containerPort: {{ .Values.service.port }}
         resources: {}
