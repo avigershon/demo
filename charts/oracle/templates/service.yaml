@@ -11,5 +11,8 @@ spec:
   - name: "{{ .Values.service.port }}"
     port: {{ .Values.service.port }}
     targetPort: {{ .Values.service.port }}
+  - name: "{{ .Values.admin.port }}"
+    port: {{ .Values.admin.port }}
+    targetPort: {{ .Values.admin.port }}
   selector:
     name: {{ template "oracle.name" . }}
