@@ -4,8 +4,8 @@
 
 replicaCount: 1
 image:
-  repository: oracle/database:11.2.0.2-ee
-  tag: latest
+  repository: oracle/database
+  tag: 11.2.0.2-ee
   pullPolicy: IfNotPresent
 
 service:
