@@ -4,7 +4,7 @@
 
 replicaCount: 1
 image:
-  repository: sath89/oracle-ee-11g
+  repository: oracle/database:11.2.0.2-ee
   tag: latest
   pullPolicy: IfNotPresent
 
