@@ -15,7 +15,7 @@ spec:
       containers:
       - env:
         - name: ORACLE_SID
-          value: XE
+          value: EE
         - name: ORACLE_ALLOW_REMOTE
           value: "true"
         - name: ORACLE_DISABLE_ASYNCH_IO
