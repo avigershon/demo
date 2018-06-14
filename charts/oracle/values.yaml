@@ -4,7 +4,7 @@
 
 replicaCount: 1
 image:
-  repository: wnameless/oracle-xe-11g
+  repository: sath89/oracle-ee-11g
   tag: latest
   pullPolicy: IfNotPresent
 
