@@ -24,11 +24,13 @@ spec:
           value: "kafka-zookeeper.default.svc.cluster.local:2181"
         - name: SR
           value: "http://schema-registry-schema-registry.default.svc.cluster.local:8081"
+        - name: HOST
+          value: "kafka-connect-kafka-connect.default.svc.cluster.local"
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         name: {{ template "name" . }}
         ports:
         - containerPort: 3030
         - containerPort: 8000
         resources: {}
-      restartPolicy: Never
+      restartPolicy: Always
 status: {}
