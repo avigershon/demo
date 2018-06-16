@@ -3,14 +3,13 @@
 # Declare variables to be passed into your templates.
 replicaCount: 1
 image:
-  #repository: landoop/fast-data-dev-connect-cluster
-  repository: landoop/kafka-connect-ui 
-  tag: latest
+  repository: landoop/fast-data-dev-connect-cluster
+  tag: cp3.2
   pullPolicy: IfNotPresent
 
 service:
   type: ClusterIP
-  port: 8000
+  port: 8083
   
 ingress:
   enabled: false
