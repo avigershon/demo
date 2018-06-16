@@ -3,24 +3,7 @@
 # Declare variables to be passed into your templates.
 
 replicaCount: 1
-restPort: "8083"
-monitoring.pipeline: ""
-monitoring.enabled: false
-monitoring.port:
-monitoring.path:
-image.repository: confluentinc/cp-kafka-connect
-image.tag: latest
+image.repository: gcr.io/visionbi-demo/fast-data-dev
+image.tag: a55f52613ac0813d9523a8c7061479a108001ab8
 image.pullPolicy: IfNotPresent
 resources: {}
-clusterName: "visionbi"
-bootstrapServers: ""
-schemaRegistryURL: "http://schema-registry-schema-registry.local.svc.host:80803"
-applicationId: "1234"
-connectorClass | quote
-connectCassandraSinkKcql | quote 
-connectCassandraContactPoints | quote 
-connectCassandraPort | quote 
-connectCassandraKeySpace | quote 
-connectCassandraUsername | quote 
-secretsRef | quote 
-javaHeap
