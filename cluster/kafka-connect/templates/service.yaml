@@ -12,7 +12,6 @@ spec:
   ports:
     - port: {{ .Values.service.port }}
       protocol: TCP
-      name: {{ .Values.service.name }}
   selector:
     app: {{ template "name" . }}
     release: {{ .Release.Name }}
