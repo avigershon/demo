@@ -4,12 +4,12 @@
 
 replicaCount: 1
 image:
-  repository: gcr.io/visionbi-demo/connect-cluster
-  tag: 6764a2ec3c6e5e6a55272c886ca54d80fc12848a
+  repository: landoop/fast-data-dev-connect-cluster
+  tag: cp3.2.0
   pullPolicy: IfNotPresent
 
 service:
-  type: NodePort
+  type: ClusterIP
   connectui:
     port: 8000
     externalPort: 8080
