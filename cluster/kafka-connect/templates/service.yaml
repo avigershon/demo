@@ -10,7 +10,9 @@ metadata:
 spec:
   type: {{ .Values.service.type }}
   ports:
-    - port: {{ .Values.service.port }}
+    - port: {{ .Values.connectui.port }}
+      protocol: TCP
+    - port: {{ .Values.service.fastdatadev.port }}
       protocol: TCP
   selector:
     app: {{ template "name" . }}
