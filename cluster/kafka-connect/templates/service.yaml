@@ -12,8 +12,10 @@ spec:
   ports:
     - port: {{ .Values.service.connectui.port }}
       protocol: TCP
+      name: connectui
     - port: {{ .Values.service.fastdatadev.port }}
       protocol: TCP
+      name: fastdatadev
   selector:
     app: {{ template "name" . }}
     release: {{ .Release.Name }}
