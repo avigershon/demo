@@ -22,8 +22,8 @@ spec:
         paths:
           - path: /
             backend:
-              serviceName: {{ $serviceName }}
-              servicePort: {{ $servicePort }}
+              serviceName: fastdatadev
+              servicePort: {{ .Values.service.fastdatadev.port }}
     {{- end -}}
   {{- if .Values.ingress.tls }}
   tls:
