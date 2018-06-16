@@ -5,7 +5,7 @@
 replicaCount: 1
 image:
   repository: landoop/fast-data-dev-connect-cluster
-  tag: cp3.2
+  tag: latest
   pullPolicy: IfNotPresent
 
 service:
