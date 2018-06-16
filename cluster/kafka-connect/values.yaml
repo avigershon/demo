@@ -11,7 +11,8 @@ image:
 service:
   type: LoadBalancer
   port: 3030
-
+  externalPort: 3030
+  
 ingress:
   enabled: true
   annotations:
