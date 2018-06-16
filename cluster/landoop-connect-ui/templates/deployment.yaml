@@ -1,0 +1,34 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  name: {{ template "fullname" . }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        name: {{ template "fullname" . }}
+    spec:
+      containers:
+      - env:
+        - name: ID
+          value: "01"
+        - name: HOST
+          value: "kafka-connect-kafka-connect.default.svc.cluster.local"
+        - name: BS
+          value: "kafka-kafka.default.svc.cluster.local:9092"
+        - name: ZK
+          value: "kafka-zookeeper.default.svc.cluster.local:2181"
+        - name: SR
+          value: "http://schema-registry-schema-registry.default.svc.cluster.local:8081"
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        name: {{ template "name" . }}
+        ports:
+        - containerPort: {{ .Values.service.connectui.port }}
+        - containerPort: {{ .Values.service.fastdatadev.port }}
+        resources: {}
+      restartPolicy: Always
+status: {}
