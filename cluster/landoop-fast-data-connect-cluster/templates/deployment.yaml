@@ -27,8 +27,7 @@ spec:
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         name: {{ template "name" . }}
         ports:
-        - containerPort: {{ .Values.service.connectui.port }}
-        - containerPort: {{ .Values.service.fastdatadev.port }}
+        - containerPort: {{ .Values.service.port }}
         resources: {}
       restartPolicy: Always
 status: {}
