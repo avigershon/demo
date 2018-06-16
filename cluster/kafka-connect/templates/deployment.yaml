@@ -2,7 +2,7 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   creationTimestamp: null
-  name: {{ template "kafka-connect.fullname" . }}
+  name: {{ template "fullname" . }}
 spec:
   replicas: {{ .Values.replicaCount }}
   strategy: {}
@@ -10,7 +10,7 @@ spec:
     metadata:
       creationTimestamp: null
       labels:
-        name: {{ template "kafka-connect.fullname" . }}
+        name: {{ template "fullname" . }}
     spec:
       containers:
       - env:
@@ -27,7 +27,7 @@ spec:
         - name: PORT
           value: 8085
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-        name: {{ template "kafka-connect.name" . }}
+        name: {{ template "name" . }}
         ports:
         - containerPort: {{ .Values.service.port }}
         resources: {}
