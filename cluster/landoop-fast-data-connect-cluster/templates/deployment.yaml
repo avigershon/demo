@@ -37,5 +37,13 @@ spec:
         ports:
         - containerPort: 8000
         resources: {}
+      - env:
+        - name: WEB_ONLY
+          value: "1"
+        image: "landoop/fast-data-dev:latest"
+        name: {{ template "name" . }}-dev
+        ports:
+        - containerPort: 3030
+        resources: {}
       restartPolicy: Always
 status: {}
