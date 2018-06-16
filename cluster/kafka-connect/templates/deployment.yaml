@@ -25,7 +25,7 @@ spec:
         - name: SR
           value: "http://schema-registry-schema-registry.default.svc.cluster.local:8081"
         - name: PORT
-          value: 8085
+          value: "8085"
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         name: {{ template "name" . }}
         ports:
