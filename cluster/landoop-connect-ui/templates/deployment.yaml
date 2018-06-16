@@ -15,7 +15,7 @@ spec:
       containers:
       - env:
         - name: CONNECT_URL
-          value: "http://kafka-connect-kafka-connect.default.svc.cluster.local:8083"
+          value: "http://landoop-fast-data-connect-cluster.default.svc.cluster.local:8083"
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         name: {{ template "name" . }}
         ports:
