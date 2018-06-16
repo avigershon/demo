@@ -9,7 +9,7 @@ image:
   pullPolicy: IfNotPresent
 
 service:
-  type: NodeIP
+  type: ClusterIP
   port: 8000
   externalPort: 8080
   
