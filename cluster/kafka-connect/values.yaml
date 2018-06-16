@@ -1,9 +1,44 @@
-# Default values for kafka-connect.
+# Default values for elasticsearch.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
 replicaCount: 1
-image.repository: gcr.io/visionbi-demo/fast-data-dev
-image.tag: a55f52613ac0813d9523a8c7061479a108001ab8
-image.pullPolicy: IfNotPresent
+image:
+  repository: gcr.io/visionbi-demo/connect-cluster
+  tag: 7e577e3479295f4f3d488f6149f6170721d62e05
+  pullPolicy: IfNotPresent
+
+service:
+  type: LoadBalancer
+  port: 8085
+
+ingress:
+  enabled: false
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  # path: /
+  hosts:
+    - kafka-connect.local
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
 resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #  cpu: 100m
+  #  memory: 128Mi
+  # requests:
+  #  cpu: 100m
+  #  memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
