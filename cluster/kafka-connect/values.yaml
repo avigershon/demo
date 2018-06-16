@@ -4,14 +4,19 @@
 
 replicaCount: 1
 image:
-  repository: landoop/fast-data-dev-connect-cluster
-  tag: cp3.2
+  repository: gcr.io/visionbi-demo/connect-cluster
+  tag: b67e52250a8edeacf42c326410ca01a0829189a8
   pullPolicy: IfNotPresent
 
 service:
-  type: ClusterIP
-  port: 8000
-  externalPort: 8080
+  connectui:
+    type: ClusterIP
+    port: 8000
+    externalPort: 8080
+  fastdatadev:
+    type: ClusterIP
+    port: 3030
+    externalPort: 3030
   
 ingress:
   enabled: false
