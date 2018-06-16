@@ -32,7 +32,7 @@ spec:
       - env:
         - name: CONNECT_URL
           value: "http://localhost:8083"
-        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        image: "landoop/kafka-connect-ui:latest"
         name: {{ template "name" . }}-ui
         ports:
         - containerPort: 8000
