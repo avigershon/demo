@@ -29,5 +29,13 @@ spec:
         ports:
         - containerPort: {{ .Values.service.port }}
         resources: {}
+      - env:
+        - name: CONNECT_URL
+          value: "http://localhost:8083"
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        name: {{ template "name" . }}-ui
+        ports:
+        - containerPort: 8000
+        resources: {}
       restartPolicy: Always
 status: {}
