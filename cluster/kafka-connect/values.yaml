@@ -9,7 +9,7 @@ image:
   pullPolicy: IfNotPresent
 
 service:
-  type: ContainerIP
+  type: ClusterIP
   port: 3030
   externalPort: 80
   
