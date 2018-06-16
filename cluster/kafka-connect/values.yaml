@@ -4,13 +4,13 @@
 
 replicaCount: 1
 image:
-  repository: landoop/fast-data-dev-connect-cluster
+  repository: landoop/fast-data-dev
   tag: latest
   pullPolicy: IfNotPresent
 
 service:
   type: LoadBalancer
-  port: 8085
+  port: 3030
 
 ingress:
   enabled: false
