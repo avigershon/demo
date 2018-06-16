@@ -4,14 +4,14 @@
 
 replicaCount: 1
 image:
-  repository: landoop/fast-data-dev
+  repository: landoop/fast-data-dev-connect-cluster
   tag: latest
   pullPolicy: IfNotPresent
 
 service:
   type: ClusterIP
-  port: 3030
-  externalPort: 80
+  port: 8000
+  externalPort: 8000
   
 ingress:
   enabled: false
