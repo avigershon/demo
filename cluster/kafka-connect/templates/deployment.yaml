@@ -26,6 +26,11 @@ spec:
           value: "http://schema-registry-schema-registry.default.svc.cluster.local:8081"
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         name: {{ template "name" . }}
+        command: ["/bin/sh", "-c"]
+          ## Delay start of logstash-exporter to give logstash more time to come online.
+          args:
+            - >-
+              sleep 10;
         ports:
         - containerPort: 3030
         - containerPort: 8000
