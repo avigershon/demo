@@ -30,7 +30,7 @@ spec:
         ## Delay start of logstash-exporter to give logstash more time to come online.
         args:
           - >-
-            sleep 10;
+            echo 'ff';
         ports:
         - containerPort: 3030
         - containerPort: 8000
