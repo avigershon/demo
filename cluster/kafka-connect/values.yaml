@@ -9,9 +9,9 @@ image:
   pullPolicy: IfNotPresent
 
 service:
-  type: LoadBalancer
+  type: ContainerIP
   port: 3030
-  externalPort: 3030
+  externalPort: 80
   
 ingress:
   enabled: true
