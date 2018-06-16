@@ -10,14 +10,8 @@ metadata:
 spec:
   type: {{ .Values.service.type }}
   ports:
-  - name: fastdev
-    protocol: TCP
-    port: 3030
-    targetPort: 3030
-  - name: connectui
-    protocol: TCP
-    port: 8000
-    targetPort: 8000
+    - port: {{ .Values.service.port }}
+      protocol: TCP
   selector:
     app: {{ template "name" . }}
     release: {{ .Release.Name }}
