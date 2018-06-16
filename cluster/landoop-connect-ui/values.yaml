@@ -4,19 +4,14 @@
 
 replicaCount: 1
 image:
-  #repository: landoop/fast-data-dev-connect-cluster
-  repository: gcr.io/visionbi-demo/connect-cluster 
-  tag: 6764a2ec3c6e5e6a55272c886ca54d80fc12848a
+  repository: landoop/kafka-connect-ui
+  tag: latest
   pullPolicy: IfNotPresent
 
 service:
   type: ClusterIP
-  connectui:
-    port: 8000
-    externalPort: 8000
-  fastdatadev:
-    port: 3030
-    externalPort: 3030
+  port: 8000
+  externalPort: 8000
   
 ingress:
   enabled: false
