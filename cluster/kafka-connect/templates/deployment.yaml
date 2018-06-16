@@ -24,8 +24,6 @@ spec:
           value: "kafka-zookeeper.default.svc.cluster.local:2181"
         - name: SR
           value: "http://schema-registry-schema-registry.default.svc.cluster.local:8081"
-        - name: PORT
-          value: "8083"
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         name: {{ template "name" . }}
         ports:
