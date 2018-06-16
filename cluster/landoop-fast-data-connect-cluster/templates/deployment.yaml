@@ -17,7 +17,7 @@ spec:
         - name: ID
           value: "01"
         - name: HOST
-          value: "kafka-connect-kafka-connect.default.svc.cluster.local"
+          value: "landoop-fast-data-connect-cluster.default.svc.cluster.local"
         - name: BS
           value: "kafka-kafka.default.svc.cluster.local:9092"
         - name: ZK
