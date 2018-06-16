@@ -29,6 +29,9 @@ spec:
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         name: {{ template "name" . }}
         command: ["/bin/sh", "-c"]
+        args:
+            - >-
+              sleep 60;
         ports:
         - containerPort: 3030
         - containerPort: 8000
