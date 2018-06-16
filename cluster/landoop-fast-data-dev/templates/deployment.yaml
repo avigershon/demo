@@ -14,8 +14,8 @@ spec:
     spec:
       containers:
       - env:
-        - name: ID
-          value: "01"
+        - name: WEB_ONLY
+          value: "1"
         #- name: ADV_HOST
         #  value: "104.198.254.175"
         #- name: BS
