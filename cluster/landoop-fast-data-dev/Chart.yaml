@@ -1,4 +1,4 @@
 apiVersion: v1
 description: A Helm chart for Kubernetes
-name: kafka-connect
+name: landoop-fast-data-dev
 version: 0.1.0
