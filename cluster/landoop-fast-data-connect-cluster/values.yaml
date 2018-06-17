@@ -4,7 +4,7 @@
 replicaCount: 1
 image:
   repository: landoop/fast-data-dev
-  tag: cp3.2.0
+  tag: cp4.0.0
   pullPolicy: IfNotPresent
 
 service:
