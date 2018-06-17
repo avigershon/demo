@@ -4,7 +4,7 @@
 replicaCount: 1
 image:
   repository: gcr.io/visionbi-demo/connect-cluster
-  tag: 579611da135fc2cd8b43f78c1166f99eb85fec9c
+  tag: 826222461aab3d0496f8e6be8a334975b4377c5e
   pullPolicy: IfNotPresent
 
 service:
