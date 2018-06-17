@@ -5,7 +5,7 @@ replicaCount: 1
 image:
   repository: gcr.io/visionbi-demo/connect-cluster
   #repository: landoop/fast-data-dev-connect-cluster
-  tag: 63cb122b362af23cbe14b9b373055c1c02efa4ac
+  tag: c238b40e7355a852cc59903adca411b2f61e9013
   #tag: cp3.2.0
   pullPolicy: IfNotPresent
 
