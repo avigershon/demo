@@ -14,35 +14,12 @@ spec:
     spec:
       containers:
       - env:
-        - name: ID
-          value: "01"
-        - name: HOST
-          value: "landoop-fast-data-connect-cluster"
-        - name: BS
-          value: "kafka-kafka:9092"
-        - name: ZK
-          value: "kafka-zookeeper:2181"
-        - name: SR
+        - name: SCHEMAREGISTRY_URL
           value: "http://schema-registry-schema-registry:8081"
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         name: {{ template "name" . }}
         ports:
         - containerPort: {{ .Values.service.port }}
         resources: {}
-        volumeMounts:
-        - name: google-cloud-key
-          mountPath: /var/secrets/google
-      - env:
-        - name: CONNECT_URL
-          value: "http://localhost:8083"
-        image: "landoop/kafka-connect-ui:latest"
-        name: {{ template "name" . }}-ui
-        ports:
-        - containerPort: 8000
-        resources: {}
       restartPolicy: Always
-      volumes:
-        - name: google-cloud-key
-          secret:
-            secretName: bq-key
 status: {}
