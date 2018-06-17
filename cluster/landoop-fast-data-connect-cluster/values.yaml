@@ -3,8 +3,8 @@
 # Declare variables to be passed into your templates.
 replicaCount: 1
 image:
-  repository: landoop/fast-data-dev
-  tag: cp4.0.0
+  repository: landoop/fast-data-dev-connect-cluster
+  tag: cp3.2
   pullPolicy: IfNotPresent
 
 service:
