@@ -15,9 +15,11 @@ spec:
       containers:
       - env:
         - name: ID
-          value: "01"
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
         - name: HOST
-          value: "landoop-fast-data-connect-cluster"
+          value: "kafka-connect"
         - name: BS
           value: "kafka-kafka:9092"
         - name: ZK

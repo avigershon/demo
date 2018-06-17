@@ -1,23 +1,17 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ template "zookeeper.fullname" . }}
+  name:  {{ template "name" . }}
   labels:
-    app: {{ template "zookeeper.name" . }}
-    chart: {{ template "zookeeper.chart" . }}
+    app: {{ template "name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
-  annotations:
-{{- with .Values.service.annotations }}
-{{ toYaml . | indent 4 }}
-{{- end }}
 spec:
   type: {{ .Values.service.type }}
   ports:
-  {{- range $key, $value := .Values.service.ports }}
-    - name: {{ $key }}
-{{ toYaml $value | indent 6 }}
-  {{- end }}
+    - port: {{ .Values.service.port }}
+      protocol: TCP
   selector:
-    app: {{ template "zookeeper.name" . }}
+    app: {{ template "name" . }}
     release: {{ .Release.Name }}
