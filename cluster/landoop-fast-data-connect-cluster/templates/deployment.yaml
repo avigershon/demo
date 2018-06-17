@@ -29,6 +29,9 @@ spec:
         ports:
         - containerPort: {{ .Values.service.port }}
         resources: {}
+        volumeMounts:
+        - name: google-cloud-key
+          mountPath: /var/secrets/google
       - env:
         - name: CONNECT_URL
           value: "http://localhost:8083"
@@ -37,8 +40,9 @@ spec:
         ports:
         - containerPort: 8000
         resources: {}
-        volumeMounts:
-        - name: google-cloud-key
-          mountPath: /var/secrets/google
       restartPolicy: Always
+      volumes:
+        - name: google-cloud-key
+          secret:
+            secretName: bq-key
 status: {}
