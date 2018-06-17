@@ -17,13 +17,13 @@ spec:
         - name: ID
           value: "01"
         - name: HOST
-          value: "landoop-fast-data-connect-cluster.default.svc.cluster.local"
+          value: "landoop-fast-data-connect-cluster"
         - name: BS
-          value: "kafka-kafka.default.svc.cluster.local:9092"
+          value: "kafka-kafka:9092"
         - name: ZK
-          value: "kafka-zookeeper.default.svc.cluster.local:2181"
+          value: "kafka-zookeeper:2181"
         - name: SR
-          value: "http://schema-registry-schema-registry.default.svc.cluster.local:8081"
+          value: "http://schema-registry-schema-registry:8081"
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         name: {{ template "name" . }}
         ports:
