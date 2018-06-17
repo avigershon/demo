@@ -15,7 +15,7 @@ spec:
       containers:
       - env:
         - name: SCHEMAREGISTRY_URL
-          value: "http://schema-registry-schema-registry:8081"
+          value: "http://schema-registry-schema-registry.default.svc.cluster.local:8081"
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         name: {{ template "name" . }}
         ports:
