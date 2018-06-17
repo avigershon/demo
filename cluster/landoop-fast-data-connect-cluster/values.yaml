@@ -3,8 +3,8 @@
 # Declare variables to be passed into your templates.
 replicaCount: 1
 image:
-  #repository: gcr.io/visionbi-demo/connect-cluster
-  repository: landoop/fast-data-dev-connect-cluster
+  repository: gcr.io/visionbi-demo/connect-cluster
+  #repository: landoop/fast-data-dev-connect-cluster
   tag: 6bdc3b70091e5419dbfc5749da415104d3a86423
   #tag: cp3.2.0
   pullPolicy: IfNotPresent
