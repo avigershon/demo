@@ -37,5 +37,8 @@ spec:
         ports:
         - containerPort: 8000
         resources: {}
+        volumeMounts:
+        - name: google-cloud-key
+          mountPath: /var/secrets/google
       restartPolicy: Always
 status: {}
