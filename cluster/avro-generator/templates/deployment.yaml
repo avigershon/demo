@@ -22,12 +22,12 @@ spec:
           value: "schema-registry-schema-registry:8081"
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         name: {{ template "name" . }}
-        command:
-        - sh
-        - -c
-        - |
-          cd ../avro-generator/target && \
-          ./landoop-avro-generator 1000 10
+        #command:
+        #- sh
+        #- -c
+        #- |
+        #  cd ../avro-generator/target && \
+        #  ./landoop-avro-generator 1000 10
         #ports:
         #- containerPort: {{ .Values.service.port }}
         resources: {}
