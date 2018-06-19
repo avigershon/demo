@@ -8,9 +8,9 @@ image:
   tag: c5ec38d9eaa5488b9563496db232b8282d090e9c
   pullPolicy: IfNotPresent
 
-#service:
-#  type: ClusterIP
-#  port: 8000
+service:
+  type: ClusterIP
+  port: 8000
 #  externalPort: 8000
 
 ingress:
