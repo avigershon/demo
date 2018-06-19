@@ -5,7 +5,7 @@
 replicaCount: 1
 image:
   repository: gcr.io/visionbi-demo/avro-generator
-  tag: 830bb8805c5cdc060a08b98b3f75970180d84fbc
+  tag: 640415814b58e34fc19eb1684e6b6db1b6547781
   pullPolicy: IfNotPresent
 
 service:
