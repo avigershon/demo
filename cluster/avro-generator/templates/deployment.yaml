@@ -1,0 +1,35 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  name: {{ template "fullname" . }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        name: {{ template "fullname" . }}
+    spec:
+      containers:
+      - env:
+        - name: BROKERS
+          value: "kafka-kafka:9092"
+        - name: ZK
+          value: "kafka-zookeeper:2181"
+        - name: SCHEMA_REGISTRY
+          value: "schema-registry-schema-registry:8081"
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        name: {{ template "name" . }}
+        command:
+        - sh
+        - -c
+        - |
+          cd target && \
+          ./landoop-avro-generator 1000 10
+        #ports:
+        #- containerPort: {{ .Values.service.port }}
+        resources: {}
+      restartPolicy: Always
+status: {}
