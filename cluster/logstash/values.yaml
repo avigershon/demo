@@ -226,7 +226,7 @@ filters:
   main: |-
     filter { 
       mutate {add_field => { "topic" =>  "%{[@metadata][kafka][topic]}"}}
-      if "" in [kubernetes][labels][app] {
+      if ("" in [kubernetes][labels][app]) {
         mutate {add_field => { "app" =>  "app"}}
       }
       else{
