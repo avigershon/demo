@@ -235,6 +235,7 @@ filters:
       grok {match => { "message" => "%{WORD:exchange}: 	%{NUMBER:bid:float} / %{NUMBER:ask:float}" }}
       if "blackbird" in [kubernetes][labels][app] and "_grokparsefailure" in [tags] {drop {}}
       mutate {lowercase => [ "app" ]}
+      mutate {lowercase => [ "topic" ]}
     }
 
 outputs:
