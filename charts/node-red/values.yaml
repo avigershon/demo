@@ -3,8 +3,8 @@
 # Declare variables to be passed into your templates.
 replicaCount: 1
 image:
-  repository: gcr.io/visionbi-demo/node-red
-  tag: 56d5999d8d386dd0a81aea136c69c456840e0e55
+  repository: gcr.io/lateral-concord-209108/node-red-worker
+  tag: c85ec74746aa245c22caa02ae053c038548e57c0
   pullPolicy: IfNotPresent
 service:
   name: node-red
