@@ -60,4 +60,4 @@ helm install --name schema-registry --set kafkaStore.overrideBootstrapServers=PL
 #docker build -t blackbird .
 #docker tag blackbird gcr.io/datagram-195019/blackbird:latest
 #docker push gcr.io/datagram-195019/blackbird:latest
-./setup.sh --chart charts/blackbird
+#./setup.sh --chart charts/blackbird
