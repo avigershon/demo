@@ -3,7 +3,7 @@
 # Declare variables to be passed into your templates.
 
 kafka:
-  host: kafka-kafka
+  host: kafka
   port: 9092
   
 schemaRegistry:
