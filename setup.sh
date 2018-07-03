@@ -57,7 +57,7 @@ system_setup () {
     chmod 700 get_helm.sh;
     ./get_helm.sh;
 
-    helm init --wait --upgrade;
+    #helm init --wait --upgrade;
 
     #### install kompose
     #curl -L https://github.com/kubernetes/kompose/releases/download/v1.9.0/kompose-linux-amd64 -o kompose
