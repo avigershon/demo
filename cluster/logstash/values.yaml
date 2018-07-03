@@ -216,7 +216,7 @@ inputs:
         bootstrap_servers => "kafka:9092"
         codec => json { charset => "UTF-8" }
         consumer_threads => 4
-        topics => ["ALBERT_TASKS","testdynamic","filebeat"]
+        topics => ["ALBERT_TASKS","testdynamic","filebeat","SPORT_EVENT"]
         type => "doc"
         decorate_events => true
       }
