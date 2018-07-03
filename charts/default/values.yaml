@@ -7,7 +7,7 @@ project:
     
 persistence:
   enabled: true
-  pdName: gke-albert-default-pool-e2f00526-2pf9
+  pdName: gke-cluster-1-default-pool-a49347cd-m6wj
   
   ## node-red data Persistent Volume Storage Class
   ## If defined, storageClassName: <storageClass>
