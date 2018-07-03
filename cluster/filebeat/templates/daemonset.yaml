@@ -33,7 +33,7 @@ data:
       
     output.kafka:
       # initial brokers for reading cluster metadata
-      hosts: ["kafka-kafka.default.svc.cluster.local:9092"]
+      hosts: ["kafka:9092"]
 
       # message topic selection + partitioning
       topic: 'filebeat'
