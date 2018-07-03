@@ -23,7 +23,7 @@ persistence:
     - ReadOnlyMany
     
   reclaimPolicy: Retain
-  size: 20Gi
+  size: 2Gi
     
 replicaCount: 1
 
