@@ -16,9 +16,9 @@ datagen:
 replicaCount: 1
 
 image:
-  repository: confluentinc/cp-ksql-cli
-  #tag: 4.1.0
-  tag: 5.0.0-beta30
+  repository: confluentinc/ksql-cli
+  tag: 4.1.0
+  #tag: 5.0.0-beta30
   pullPolicy: IfNotPresent
 
 service:
