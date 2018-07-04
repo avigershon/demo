@@ -17,7 +17,8 @@ replicaCount: 1
 
 image:
   repository: confluentinc/ksql-cli
-  tag: 4.1.0
+  #tag: 4.1.0
+  tag: 5.0.0-beta30
   pullPolicy: IfNotPresent
 
 service:
