@@ -14,8 +14,8 @@ spec:
     spec:
       containers:
       - env:
-        - name: LOCATION
-          value: il
+        #- name: LOCATION
+        #  value: il
         - name: TORUSER
           value: root
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
