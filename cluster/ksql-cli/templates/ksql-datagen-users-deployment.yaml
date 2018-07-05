@@ -1,0 +1,49 @@
+{{- if .Values.datagen.enabled -}}
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose -f /home/avigershon/projects/ksql/docs/quickstart/docker-compose.yml
+      convert
+    kompose.version: 1.9.0 (093c756)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: ksql-datagen-users
+  name: ksql-datagen-users
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: ksql-datagen-users
+    spec:
+      containers:
+      - args:
+        - bash
+        - -c
+        - echo Waiting for Kafka to be ready... && cub kafka-ready -b kafka:29092
+          1 20 && echo Waiting for Confluent Schema Registry to be ready... && cub
+          sr-ready schema-registry 8081 20 && echo Waiting a few seconds for topic
+          creation to finish... && sleep 2 && java -jar /usr/share/java/ksql-examples/ksql-examples-4.1.0-SNAPSHOT-standalone.jar
+          quickstart=users format=json topic=users bootstrap-server=kafka:29092 maxInterval=100
+          iterations=1000 && java -jar /usr/share/java/ksql-examples/ksql-examples-4.1.0-SNAPSHOT-standalone.jar
+          quickstart=users format=json topic=users bootstrap-server=kafka:29092 maxInterval=1000
+        env:
+        - name: KSQL_CONFIG_DIR
+          value: /etc/ksql
+        - name: KSQL_LOG4J_OPTS
+          value: -Dlog4j.configuration=file:/etc/ksql/log4j-rolling.properties
+        - name: STREAMS_BOOTSTRAP_SERVERS
+          value: kafka:29092
+        - name: STREAMS_SCHEMA_REGISTRY_HOST
+          value: schema-registry
+        - name: STREAMS_SCHEMA_REGISTRY_PORT
+          value: "8081"
+        image: confluentinc/ksql-examples:0.5-rc0
+        name: ksql-datagen-users
+        resources: {}
+      restartPolicy: Always
+status: {}
+{{- end -}}
