@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ template "ksql.fullname" . }}
+  name: {{ template "ksql-server.fullname" . }}
   labels:
-    app: {{ template "ksql.name" . }}
-    chart: {{ template "ksql.chart" . }}
+    app: {{ template "ksql-server.name" . }}
+    chart: {{ template "ksql-server.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
@@ -17,7 +17,7 @@ spec:
       protocol: TCP
       name: headless
   selector:
-    app: {{ template "ksql.name" . }}
+    app: {{ template "ksql-server.name" . }}
     release: {{ .Release.Name }}
 status:
   loadBalancer: {}
