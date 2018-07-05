@@ -1,22 +1,22 @@
 apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
-  name: {{ template "ksql.fullname" . }}
+  name: {{ template "ksql-server.fullname" . }}
   labels:
-    app: {{ template "ksql.name" . }}
-    chart: {{ template "ksql.chart" . }}
+    app: {{ template "ksql-server.name" . }}
+    chart: {{ template "ksql-server.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: {{ template "ksql.name" . }}
+      app: {{ template "ksql-server.name" . }}
       release: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        app: {{ template "ksql.name" . }}
+        app: {{ template "ksql-server.name" . }}
         release: {{ .Release.Name }}
     spec:
       containers:
@@ -65,7 +65,7 @@ spec:
       - name: config
         configMap:
           defaultMode: 0444
-          name: {{ template "ksql.name" . }}-configmap
+          name: {{ template "ksql-server.name" . }}-configmap
     {{- with .Values.nodeSelector }}
       nodeSelector:
 {{ toYaml . | indent 8 }}
