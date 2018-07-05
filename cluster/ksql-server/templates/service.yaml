@@ -8,7 +8,7 @@ metadata:
 spec:
   type: {{ .Values.service.type }}
   ports:
-  - name: "{{ .Values.service.name }}"
+  - name: "{{ .Values.service.port }}"
     port: {{ .Values.service.extport }}
     targetPort: {{ .Values.service.port }}
   selector:
