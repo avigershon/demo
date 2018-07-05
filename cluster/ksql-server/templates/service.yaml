@@ -13,7 +13,7 @@ spec:
   
   ports:
     - port: {{ .Values.service.port }}
-      targetPort: 0
+      targetPort: {{ .Values.service.port }}
       protocol: TCP
       name: headless
   selector:
