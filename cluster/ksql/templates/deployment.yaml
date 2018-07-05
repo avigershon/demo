@@ -43,10 +43,6 @@ spec:
         - name: {{ .Chart.Name }}-cli
           image: "{{ .Values.image.repository }}-cli:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          args:
-            - perl
-            - -e
-            - while(1){ sleep 99999 }
       volumes:
       - name: config
         configMap:
