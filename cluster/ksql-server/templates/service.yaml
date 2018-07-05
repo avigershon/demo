@@ -1,23 +1,15 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ template "ksql-server.fullname" . }}
+  creationTimestamp: null
   labels:
-    app: {{ template "ksql-server.name" . }}
-    chart: {{ template "ksql-server.chart" . }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
+    name: {{ template "ksql-server.name" . }}
+  name: {{ template "ksql-server.name" . }}
 spec:
   type: {{ .Values.service.type }}
-  #clusterIP: "{{ .Values.service.clusterIP }}"
-  
   ports:
-    - port: {{ .Values.service.port }}
-      targetPort: {{ .Values.service.port }}
-      protocol: TCP
-      name: headless
+  - name: "{{ .Values.service.port }}"
+    port: {{ .Values.service.port }}
+    targetPort: {{ .Values.service.port }}
   selector:
-    app: {{ template "ksql-server.name" . }}
-    release: {{ .Release.Name }}
-status:
-  loadBalancer: {}
+    name: {{ template "ksql-server.name" . }}
