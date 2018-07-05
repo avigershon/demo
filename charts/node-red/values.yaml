@@ -4,7 +4,7 @@
 replicaCount: 1
 image:
   repository: gcr.io/lateral-concord-209108/node-red-worker
-  tag: c85ec74746aa245c22caa02ae053c038548e57c0
+  tag: 51e53dd5b3ea19db6cc915368ce0a104d608aac0
   pullPolicy: IfNotPresent
 service:
   name: node-red
