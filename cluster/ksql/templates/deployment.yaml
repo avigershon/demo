@@ -23,20 +23,23 @@ spec:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          #command:
-          #- sh
-          #- -c
-          #- |
-          #  ksql-server-start /etc/ksql/ksqlserver.properties &
-          args:
-            - perl
-            - -e
-            - while(1){ sleep 99999 }
+          command: ["/bin/bash"]
+          args: ["-c","echo Waiting for Kafka to be ready... && \
+                       cub kafka-ready -b {{ .Values.kafka.host }}:{{ .Values.kafka.port }} 1 20 && \
+                       echo Waiting a few seconds for topic creation to finish... && \
+                       sleep 2 && \
+                       /usr/bin/ksql-server-start /etc/ksql/ksqlserver.properties"]
+          #args:
+          #  - perl
+          #  - -e
+          #  - while(1){ sleep 99999 }
           env:
             - name: KSQL_CONFIG_DIR
               value: /etc/ksql
             - name: KSQL_LOG4J_OPTS
               value: -Dlog4j.configuration=file:/etc/ksql/log4j-rolling.properties
+            - name: KSQL_OPTS
+              value: "-Dbootstrap.servers={{ .Values.kafka.host }}:{{ .Values.kafka.port }}"
             - name: STREAMS_BOOTSTRAP_SERVERS
               value: {{ .Values.kafka.host }}:{{ .Values.kafka.port }}
             - name: STREAMS_SCHEMA_REGISTRY_HOST
