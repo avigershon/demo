@@ -2,7 +2,7 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   creationTimestamp: null
-  name: {{ template "tor.fullname" . }}
+  name: {{ template "drill.fullname" . }}
 spec:
   replicas: {{ .Values.replicaCount }}
   strategy: {}
@@ -10,14 +10,14 @@ spec:
     metadata:
       creationTimestamp: null
       labels:
-        name: {{ template "tor.fullname" . }}
+        name: {{ template "drill.fullname" . }}
     spec:
       containers:
       - env:
         - name: TORUSER
           value: root
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-        name: {{ template "tor.name" . }}
+        name: {{ template "drill.name" . }}
         ports:
         - containerPort: {{ .Values.service.port }}
           name: http
