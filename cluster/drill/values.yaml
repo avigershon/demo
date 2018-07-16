@@ -4,8 +4,8 @@
 
 replicaCount: 1
 image:
-  repository: dperson/torproxy
-  tag: latest
+  repository: drill/apache-drill-ubuntu
+  tag: 1.13.0
   pullPolicy: IfNotPresent
 
 service:
@@ -19,7 +19,7 @@ ingress:
     # kubernetes.io/tls-acme: "true"
   # path: /
   hosts:
-    - tor.local
+    - drill.local
   tls: []
   #  - secretName: chart-example-tls
   #    hosts:
