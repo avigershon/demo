@@ -3,8 +3,8 @@ kind: Service
 metadata:
   creationTimestamp: null
   labels:
-    name: {{ template "tor.name" . }}
-  name: {{ template "tor.name" . }}
+    name: {{ template "drill.name" . }}
+  name: {{ template "drill.name" . }}
 spec:
   type: {{ .Values.service.type }}
   ports:
@@ -12,4 +12,4 @@ spec:
     port: {{ .Values.service.port }}
     targetPort: {{ .Values.service.port }}
   selector:
-    name: {{ template "tor.name" . }}
+    name: {{ template "drill.name" . }}
