@@ -14,14 +14,19 @@ spec:
     spec:
       containers:
       - env:
-        #- name: LOCATION
-        #  value: il
         - name: TORUSER
           value: root
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         name: {{ template "tor.name" . }}
         ports:
         - containerPort: {{ .Values.service.port }}
+          name: http
+        - containerPort: 31010
+          name: userport
+        - containerPort: 31011
+          name: controlport
+        - containerPort: 31012
+          name: dataport
         resources: {}
       restartPolicy: Always
 status: {}
