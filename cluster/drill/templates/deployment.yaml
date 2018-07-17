@@ -1,0 +1,32 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  name: {{ template "drill.fullname" . }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        name: {{ template "drill.fullname" . }}
+    spec:
+      containers:
+      - env:
+        - name: TORUSER
+          value: root
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        name: {{ template "drill.name" . }}
+        ports:
+        - containerPort: {{ .Values.service.port }}
+          name: http
+        - containerPort: 31010
+          name: userport
+        - containerPort: 31011
+          name: controlport
+        - containerPort: 31012
+          name: dataport
+        resources: {}
+      restartPolicy: Always
+status: {}
