@@ -23,7 +23,7 @@ persistence:
     - ReadWriteOnce
   #  - ReadOnlyMany
     
-  reclaimPolicy: Recycle
+  reclaimPolicy: Retain
   size: 80Gi
     
 replicaCount: 1
