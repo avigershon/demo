@@ -7,7 +7,8 @@ project:
     
 persistence:
   enabled: true
-  pdName: gke-cluster-1-default-pool-a49347cd-m6wj
+  cloud: aws
+  pdName: vol-0366491d956a3efca
   
   ## node-red data Persistent Volume Storage Class
   ## If defined, storageClassName: <storageClass>
