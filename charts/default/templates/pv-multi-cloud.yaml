@@ -17,7 +17,7 @@ spec:
   accessModes:
 {{ toYaml .Values.persistence.accessModes | indent 8 }}
   persistentVolumeReclaimPolicy: {{ .Values.persistence.reclaimPolicy }}
-{{- if .Values.persistence.is_aws }}
+{{if eq .Values.persistence.cloud "aws"}}
   awsElasticBlockStore:
     pdName: {{ .Values.persistence.pdName }}
     fsType: ext4
