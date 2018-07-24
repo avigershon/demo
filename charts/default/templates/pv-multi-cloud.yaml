@@ -25,3 +25,4 @@ spec:
   gcePersistentDisk:
     pdName: {{ .Values.persistence.pdName }}
     fsType: ext4
+{{- end }}
