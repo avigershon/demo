@@ -44,14 +44,15 @@ system_setup () {
     home=$PWD
     chart_path="cluster"
     
-    ACCOUNT=$(gcloud info --format='value(config.account)')
+    # TBD for AWS
+    # ACCOUNT=$(gcloud info --format='value(config.account)')
 
-    kubectl create clusterrolebinding owner-cluster-admin-binding \
-        --clusterrole cluster-admin \
-        --user $ACCOUNT
+    # kubectl create clusterrolebinding owner-cluster-admin-binding \
+    #    --clusterrole cluster-admin \
+    #    --user $ACCOUNT
 
-    kubectl apply -f $home/rolebinding.yaml -o yaml
-    kubectl apply -f $home/pv.yaml -o yaml
+    #kubectl apply -f $home/rolebinding.yaml -o yaml
+    #kubectl apply -f $home/pv.yaml -o yaml
     
     #curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get > get_helm.sh;
     chmod 700 get_helm.sh;
@@ -59,21 +60,12 @@ system_setup () {
 
     helm init --wait --upgrade;
 
-    #### install kompose
-    #curl -L https://github.com/kubernetes/kompose/releases/download/v1.9.0/kompose-linux-amd64 -o kompose
-
-    #chmod +x kompose
-    #sudo mv ./kompose /usr/local/bin/kompose
-    ####
-    
     kubectl create serviceaccount --namespace kube-system tiller
     kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
     kubectl patch deploy --namespace kube-system tiller-deploy -p '{"spec":{"template":{"spec":{"serviceAccount":"tiller"}}}}'
 
     helm repo add incubator http://storage.googleapis.com/kubernetes-charts-incubator
     helm repo add stable http://storage.googleapis.com/kubernetes-charts
-    
-    #install_charts $branch $commit_hash $chart_path $home
 }
 
 install_charts() {
