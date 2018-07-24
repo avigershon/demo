@@ -18,5 +18,5 @@ spec:
 {{ toYaml .Values.persistence.accessModes | indent 8 }}
   persistentVolumeReclaimPolicy: {{ .Values.persistence.reclaimPolicy }}
   awsElasticBlockStore:
-    pdName: vol-0a83bc8c153f13aaf
+    pdName: vol-0366491d956a3efca
     fsType: ext4
