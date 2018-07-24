@@ -21,9 +21,9 @@ persistence:
   
   accessModes: 
     - ReadWriteOnce
-    - ReadOnlyMany
+  #  - ReadOnlyMany
     
-  reclaimPolicy: Retain
+  reclaimPolicy: Recycle
   size: 80Gi
     
 replicaCount: 1
