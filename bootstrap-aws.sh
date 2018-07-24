@@ -11,6 +11,8 @@ helm install --name nginx-ingress stable/nginx-ingress
 rm -rf elasticsearch
 git clone https://github.com/clockworksoul/helm-elasticsearch.git elasticsearch
 
+# change cronJob apiVersion from v2alpha1 to v1beta1
+# nano elasticsearch/templates/_helpers.tpl
 #helm del elasticsearch --purge
 helm install --name elasticsearch --set common.stateful.enabled=true --set image.es.tag=6.2.3 --set kibana.image.repository=docker.elastic.co/kibana/kibana-oss --set kibana.image.tag=6.2.3 --set kibana.env.ELASTICSEARCH_USERNAME=elastic --set kibana.env.ELASTICSEARCH_PASSWORD=changeme elasticsearch
 #helm upgrade elasticsearch --set common.stateful.enabled=true --set image.es.tag=6.2.3 --set kibana.image.repository=docker.elastic.co/kibana/kibana-oss --set kibana.image.tag=6.2.3 --set kibana.env.ELASTICSEARCH_USERNAME=elastic --set kibana.env.ELASTICSEARCH_PASSWORD=changeme elasticsearch
