@@ -7,7 +7,7 @@ project:
     
 persistence:
   enabled: true
-  cloud: aws
+  cloud: "aws"
   pdName: vol-0366491d956a3efca
   
   ## node-red data Persistent Volume Storage Class
