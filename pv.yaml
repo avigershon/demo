@@ -12,3 +12,19 @@ spec:
     - ReadWriteMany
   hostPath:
     path: "/mnt/data"
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-ashford-data
+spec:
+  capacity:
+    storage: 100Gi
+  storageClassName: "standard"
+  accessModes:
+    - ReadWriteOnce
+    - ReadOnlyMany
+  persistentVolumeReclaimPolicy: Retain
+  awsElasticBlockStore:
+    pdName: vol-0366491d956a3efca
+    fsType: ext4
+:q
