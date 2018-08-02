@@ -17,6 +17,23 @@ spec:
   accessModes:
 {{ toYaml .Values.persistence.accessModes | indent 8 }}
   persistentVolumeReclaimPolicy: {{ .Values.persistence.reclaimPolicy }}
+{{if eq .Values.persistence.cloud "aws"}}
+  awsElasticBlockStore:
+    volumeID: {{ .Values.persistence.pdName }}
+    fsType: ext4
+{{- else }}
   gcePersistentDisk:
     pdName: {{ .Values.persistence.pdName }}
     fsType: ext4
+{{- end }}
+
+{{if eq .Values.persistence.cloud "aws"}}
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: standard
+provisioner: kubernetes.io/aws-ebs
+parameters:
+  type: gp2
+  zones: "us-east-1a,us-east-1b"
+{{- end }}
