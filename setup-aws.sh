@@ -1,5 +1,17 @@
 #!/bin/bash
 
+# Step 1: Create EKS Cluster
+# Step 2: Create EC2 Instance with kubectl configured
+# Step 3: Launch and Configure Amazon EKS Worker Nodes 
+#   - s3 location : https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-07-26/amazon-eks-nodegroup.yaml
+#   - Stack name : Ashford-Worker-Nodes-(n)
+#   - ClusterControlPlaneSecurityGroup : DataTeam_Rules
+#   - Node image : ami-dea4d5a1
+#   - KeyName : data_team_key
+#   - VPC : vpc-888730ec
+#   - Subnets : NGW-subnet
+#
+
 while [ $# -gt 0 ]; do
 
    if [[ $1 == *"--"* ]]; then
@@ -53,6 +65,15 @@ system_setup () {
 
     #kubectl apply -f $home/rolebinding.yaml -o yaml
     #kubectl apply -f $home/pv.yaml -o yaml
+    
+    curl -o aws-iam-authenticator https://amazon-eks.s3-uswest-2.amazonaws.com/1.10.3/2018-07-26/bin/linux/amd64/aws-iam-authenticator
+   
+    chmod +x ./aws-iam-authenticator
+   
+    cp ./aws-iam-authenticator $HOME/bin/aws-iam-authenticator && export PATH=$HOME/bin:$PATH
+  
+    echo 'export PATH=$HOME/bin:$PATH' >> ~/.bashrc
+    
     
     #curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get > get_helm.sh;
     chmod 700 get_helm.sh;
