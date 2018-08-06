@@ -10,7 +10,16 @@
 #   - KeyName : data_team_key
 #   - VPC : vpc-888730ec
 #   - Subnets : NGW-subnet
-#
+#   - After it complete get the NodeIntanceRole arn
+# Step 4: enable worker nodes to join your cluster
+#   - curl -O https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-07-26/aws-auth-cm.yaml
+#   - change the Node intance role with the one you got above
+#   - kubectl apply -f aws-auth-cm.yaml
+
+# go get -u -v github.com/kubernetes-sigs/aws-iam-authenticator/cmd/aws-iamauthenticator
+# export GOROOT=/usr/lib/go
+# export PATH=$PATH:$GOROOT/bin
+#If you receive the following error, you must upgra
 
 while [ $# -gt 0 ]; do
 
@@ -66,8 +75,15 @@ system_setup () {
     #kubectl apply -f $home/rolebinding.yaml -o yaml
     #kubectl apply -f $home/pv.yaml -o yaml
     
+    aws eks describe-cluster --name Ashford_two --query cluster.status
+    aws eks describe-cluster --name Ashford_two --query cluster.endpoint
+    aws eks describe-cluster --name Ashford_two --query cluster.certificateAuthority.data
+    
+    kubectl create serviceaccount dashboard -n default
+    
     curl -o aws-iam-authenticator https://amazon-eks.s3-uswest-2.amazonaws.com/1.10.3/2018-07-26/bin/linux/amd64/aws-iam-authenticator
-   
+    curl -o aws-iam-authenticator.sha256 https://amazon-eks.s3-uswest-2.amazonaws.com/1.10.3/2018-07-26/bin/linux/amd64/aws-iamauthenticator.sha256
+    
     chmod +x ./aws-iam-authenticator
    
     cp ./aws-iam-authenticator $HOME/bin/aws-iam-authenticator && export PATH=$HOME/bin:$PATH
