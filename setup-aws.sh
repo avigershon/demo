@@ -16,11 +16,6 @@
 #   - change the Node intance role with the one you got above
 #   - kubectl apply -f aws-auth-cm.yaml
 
-# go get -u -v github.com/kubernetes-sigs/aws-iam-authenticator/cmd/aws-iamauthenticator
-# export GOROOT=/usr/lib/go
-# export PATH=$PATH:$GOROOT/bin
-#If you receive the following error, you must upgra
-
 while [ $# -gt 0 ]; do
 
    if [[ $1 == *"--"* ]]; then
