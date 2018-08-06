@@ -15,6 +15,8 @@
 #   - curl -O https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-07-26/aws-auth-cm.yaml
 #   - change the Node intance role with the one you got above
 #   - kubectl apply -f aws-auth-cm.yaml
+# Step 5: install helm (we need to add inbound so helm client can work with tiller server)
+
 
 while [ $# -gt 0 ]; do
 
