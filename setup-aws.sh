@@ -267,7 +267,7 @@ aws_client_setup () {
               - "token"
               - "-i"
               - "$clusterid"
-      EOM;
+      EOM
 
 }
 
@@ -277,8 +277,10 @@ if [ -z ${chart+x} ]; then
       echo "clusterid is not set";
       system_setup;
    else 
+      echo "clusterid is set";
       aws_client_setup $clusterid; 
    fi 
 else 
+   echo "chart is set";
    package_and_install_chart $chart; 
 fi
