@@ -87,13 +87,15 @@ install_charts() {
   project=${PWD##*/}
   env=$project-$branch;
   
-  if [ "$path" == "cluster" ]; then
-      namespace="default";
-  else
-      namespace=$project-$branch;
-  fi
+  namespace="default";
+  
+  #if [ "$path" == "cluster" ]; then
+  #    namespace="default";
+  #else
+  #    namespace=$project-$branch;
+  #fi
    
-  kubectl create namespace $namespace;
+  #kubectl create namespace $namespace;
   #kubectl config set-context $(kubectl config current-context) --namespace=$namespace;
   
   cd $home/$path/;
