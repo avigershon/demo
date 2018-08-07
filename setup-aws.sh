@@ -238,6 +238,9 @@ package_and_install_chart () {
 }
 
 aws () {
+   echo "$(aws eks describe-cluster --name ashford_3 --query cluster.endpoint)";
+   
+   exit;
    ENDPOINT="$(aws eks describe-cluster --name $clusterid --query cluster.endpoint)";
    CERT="$(aws eks describe-cluster --name $clusterid  --query cluster.certificateAuthority.data)";
    
