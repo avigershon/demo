@@ -238,8 +238,8 @@ package_and_install_chart () {
 }
 
 aws () {
-   ENDPOINT=aws eks describe-cluster --name $clusterid --query cluster.endpoint;
-   CERT=aws eks describe-cluster --name $clusterid  --query cluster.certificateAuthority.data;
+   ENDPOINT="$(aws eks describe-cluster --name $clusterid --query cluster.endpoint)";
+   CERT="$(aws eks describe-cluster --name $clusterid  --query cluster.certificateAuthority.data)";
    
    mkdir -p ~/.kube;
    
