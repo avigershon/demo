@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # Step 1: Create EKS Cluster
+# Step 1.1: create IAM role
 # Step 2: Create EC2 Instance with kubectl configured
 # Step 3: Launch and Configure Amazon EKS Worker Nodes 
 #   - s3 location : https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-07-26/amazon-eks-nodegroup.yaml
@@ -237,49 +238,37 @@ package_and_install_chart () {
    done
 }
 
-aws1 () {
-
-   #ENDPOINT="$(aws eks describe-cluster --name $clusterid --query cluster.endpoint)";
-   #CERT="$(aws eks describe-cluster --name $clusterid  --query cluster.certificateAuthority.data)";
-   
-   #echo ${ENDPOINT};
-   #echo ${CERT};
+aws_client_setup () {
 
    mkdir -p ~/.kube;
    
-   FILE="~/.kube/config"
-   /bin/cat <<EOM >$FILE
-apiVersion: v1
-clusters:
-- cluster:
-    server: ${ENDPOINT}
-    certificate-authority-data: ${CERT}
-  name: kubernetes
-contexts:
-- context:
-    cluster: kubernetes
-    user: aws
-  name: aws
-current-context: aws
-kind: Config
-preferences: {}
-users:
-- name: aws
-  user:
-    exec:
-      apiVersion: client.authentication.k8s.io/v1alpha1
-      command: aws-iam-authenticator
-      args:
-        - "token"
-        - "-i"
-        - "${clusterid}"
-EOM
+   /bin/cat <<EOM >~/.kube/config
+      apiVersion: v1
+      clusters:
+      - cluster:
+          server: $( aws eks describe-cluster --name $clusterid --query cluster.endpoint)
+          certificate-authority-data: $( aws eks describe-cluster --name $clusterid --query cluster.certificateAuthority.data)
+        name: kubernetes
+      contexts:
+      - context:
+          cluster: kubernetes
+          user: aws
+        name: aws
+      current-context: aws
+      kind: Config
+      preferences: {}
+      users:
+      - name: aws
+        user:
+          exec:
+            apiVersion: client.authentication.k8s.io/v1alpha1
+            command: aws-iam-authenticator
+            args:
+              - "token"
+              - "-i"
+              - "$clusterid"
+      EOM;
 
-}
-
-client_setup () {
-   mkdir -p ~/.kube;
-   
 }
 
 if [ -z ${chart+x} ]; then 
@@ -288,7 +277,7 @@ if [ -z ${chart+x} ]; then
       echo "clusterid is not set";
       system_setup;
    else 
-      aws $clusterid; 
+      aws_client_setup $clusterid; 
    fi 
 else 
    package_and_install_chart $chart; 
