@@ -267,7 +267,9 @@ mkdir -p ~/.kube;
            - "token"
            - "-i"
            - "$clusterid"
-   EOM
+EOM
+
+   echo 'export KUBECONFIG=$KUBECONFIG:~/.kube/config' >> ~/.bashrc
 
 }
 
