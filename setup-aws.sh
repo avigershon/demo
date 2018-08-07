@@ -240,11 +240,11 @@ package_and_install_chart () {
 
 aws_client_setup () {
 
-   curl -o aws-iam-authenticator "https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-07-26/bin/linux/amd64/aws-iam-authenticator";
-   chmod +x ./aws-iam-authenticator;
-   cp ./aws-iam-authenticator /usr/bin/aws-iam-authenticator;
+   #curl -o aws-iam-authenticator "https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-07-26/bin/linux/amd64/aws-iam-authenticator";
+   #chmod +x ./aws-iam-authenticator;
+   #cp ./aws-iam-authenticator /usr/bin/aws-iam-authenticator;
    
-   aws-iam-authenticator help;
+   #aws-iam-authenticator help;
 
    mkdir -p ~/.kube;
    
@@ -275,7 +275,7 @@ aws_client_setup () {
            - "$clusterid"
 EOM
 
-   echo 'export KUBECONFIG=$KUBECONFIG:~\.kube\config' >> ~/.bashrc
+   #echo 'export KUBECONFIG=$KUBECONFIG:~\.kube\config' >> ~/.bashrc
    
 }
 
