@@ -241,6 +241,9 @@ aws () {
    ENDPOINT="$(aws eks describe-cluster --name $clusterid --query cluster.endpoint)";
    CERT="$(aws eks describe-cluster --name $clusterid  --query cluster.certificateAuthority.data)";
    
+   echo ${ENDPOINT};
+   echo ${CERT};
+
    mkdir -p ~/.kube;
    
    FILE="~/.kube/config"
@@ -249,8 +252,8 @@ aws () {
 apiVersion: v1
 clusters:
 - cluster:
-    server: $ENDPOINT
-    certificate-authority-data: $CERT
+    server: ${ENDPOINT}
+    certificate-authority-data: ${CERT}
   name: kubernetes
 contexts:
 - context:
@@ -267,9 +270,9 @@ users:
       apiVersion: client.authentication.k8s.io/v1alpha1
       command: aws-iam-authenticator
       args:
-        - "token"
-        - "-i"
-        - "$clusterid"
+        - \"token\"
+        - \"-i\"
+        - \"${clusterid}\"
 EOM
 
 }
