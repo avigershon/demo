@@ -270,7 +270,7 @@ users:
         - "token"
         - "-i"
         - "$clusterid"
-   EOM
+EOM
 
 }
 
