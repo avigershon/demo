@@ -17,7 +17,6 @@
 #   - kubectl apply -f aws-auth-cm.yaml
 # Step 5: install helm (we need to add inbound so helm client can work with tiller server)
 
-
 while [ $# -gt 0 ]; do
 
    if [[ $1 == *"--"* ]]; then
@@ -238,10 +237,51 @@ package_and_install_chart () {
    done
 }
 
+aws () {
+   ENDPOINT=aws eks describe-cluster --name $clusterid --query cluster.endpoint;
+   CERT=aws eks describe-cluster --name $clusterid  --query cluster.certificateAuthority.data;
+   
+   mkdir -p ~/.kube;
+   
+   FILE="~/.kube/config"
+
+   /bin/cat <<EOM >$FILE
+apiVersion: v1
+clusters:
+- cluster:
+    server: $ENDPOINT
+    certificate-authority-data: $CERT
+  name: kubernetes
+contexts:
+- context:
+    cluster: kubernetes
+    user: aws
+  name: aws
+current-context: aws
+kind: Config
+preferences: {}
+users:
+- name: aws
+  user:
+    exec:
+      apiVersion: client.authentication.k8s.io/v1alpha1
+      command: aws-iam-authenticator
+      args:
+        - "token"
+        - "-i"
+        - "$clusterid"
+   EOM
+
+}
+
 if [ -z ${chart+x} ]; then 
    echo "chart is not set";
-   system_setup;
-   #setup; 
+   if [ -z ${clusterid+x} ]; then 
+      echo "clusterid is not set";
+      system_setup;
+   else 
+      aws $clusterid; 
+   fi 
 else 
    package_and_install_chart $chart; 
 fi
