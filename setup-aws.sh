@@ -242,7 +242,7 @@ aws_client_setup () {
 
 mkdir -p ~/.kube;
    
-/bin/cat <<-EOM >>~/.kube/config
+/bin/cat <<EOM >~/.kube/config
    apiVersion: v1
    clusters:
    - cluster:
