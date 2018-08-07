@@ -237,20 +237,17 @@ package_and_install_chart () {
    done
 }
 
-aws () {
-   echo "$(aws eks describe-cluster --name ashford_3 --query cluster.endpoint)";
+aws1 () {
+
+   #ENDPOINT="$(aws eks describe-cluster --name $clusterid --query cluster.endpoint)";
+   #CERT="$(aws eks describe-cluster --name $clusterid  --query cluster.certificateAuthority.data)";
    
-   exit;
-   ENDPOINT="$(aws eks describe-cluster --name $clusterid --query cluster.endpoint)";
-   CERT="$(aws eks describe-cluster --name $clusterid  --query cluster.certificateAuthority.data)";
-   
-   echo ${ENDPOINT};
-   echo ${CERT};
+   #echo ${ENDPOINT};
+   #echo ${CERT};
 
    mkdir -p ~/.kube;
    
    FILE="~/.kube/config"
-
    /bin/cat <<EOM >$FILE
 apiVersion: v1
 clusters:
@@ -273,11 +270,16 @@ users:
       apiVersion: client.authentication.k8s.io/v1alpha1
       command: aws-iam-authenticator
       args:
-        - \"token\"
-        - \"-i\"
-        - \"${clusterid}\"
+        - "token"
+        - "-i"
+        - "${clusterid}"
 EOM
 
+}
+
+client_setup () {
+   mkdir -p ~/.kube;
+   
 }
 
 if [ -z ${chart+x} ]; then 
