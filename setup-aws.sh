@@ -247,7 +247,7 @@ mkdir -p ~/.kube;
    clusters:
    - cluster:
        server: $( aws eks describe-cluster --name $clusterid --query cluster.endpoint)
-       certificate-authority-data: $( aws eks describe-cluster --name $clusterid --query cluster.certificateAuthority.data)
+       certificate-authority-data: "$( aws eks describe-cluster --name $clusterid --query cluster.certificateAuthority.data)"
      name: kubernetes
    contexts:
    - context:
