@@ -249,35 +249,35 @@ aws_client_setup () {
    mkdir -p ~/.kube;
    
    /bin/cat <<EOM >~/.kube/config
-   apiVersion: v1
-   clusters:
-   - cluster:
-       server: $( aws eks describe-cluster --name $clusterid --query cluster.endpoint)
-       certificate-authority-data: $( aws eks describe-cluster --name $clusterid --query cluster.certificateAuthority.data)
-     name: kubernetes
-   contexts:
-   - context:
-       cluster: kubernetes
-       user: aws
-     name: aws
-   current-context: aws
-   kind: Config
-   preferences: {}
-   users:
-   - name: aws
-     user:
-       exec:
-         apiVersion: client.authentication.k8s.io/v1alpha1
-         command: aws-iam-authenticator
-         args:
-           - "token"
-           - "-i"
-           - "$clusterid"
-         #  - "-r"
-         #  - "arn:aws:iam::583658998514:role/EKS_Role"
-         #env:
-         #  - name: AWS_PROFILE
-         #    value: "ashford"
+apiVersion: v1
+clusters:
+- cluster:
+    server: $( aws eks describe-cluster --name $clusterid --query cluster.endpoint)
+    certificate-authority-data: $( aws eks describe-cluster --name $clusterid --query cluster.certificateAuthority.data)
+  name: kubernetes
+contexts:
+- context:
+    cluster: kubernetes
+    user: aws
+  name: aws
+current-context: aws
+kind: Config
+preferences: {}
+users:
+- name: aws
+  user:
+    exec:
+      apiVersion: client.authentication.k8s.io/v1alpha1
+      command: aws-iam-authenticator
+      args:
+        - "token"
+        - "-i"
+        - "$clusterid"
+      #  - "-r"
+      #  - "arn:aws:iam::583658998514:role/EKS_Role"
+      #env:
+      #  - name: AWS_PROFILE
+      #    value: "ashford"
 EOM
 
    #echo 'export KUBECONFIG=$KUBECONFIG:~\.kube\config' >> ~/.bashrc
