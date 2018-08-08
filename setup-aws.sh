@@ -241,6 +241,21 @@ package_and_install_chart () {
 
 aws_client_setup () {
 
+   ClusterControlPlaneSecurityGroup	sg-20459f57	
+   ClusterName	ashford_3	
+   KeyName	data_team_key	
+   NodeAutoScalingGroupMaxSize	3	
+   NodeAutoScalingGroupMinSize	1	
+   NodeGroupName	ashford-3-node-group	
+   NodeImageId	ami-dea4d5a1	
+   NodeInstanceType	t2.medium	
+   Subnets	subnet-a0d085e8	
+   VpcId
+
+   cleanClusterName=${ClusterName/_/-}
+   
+   echo "Creating EKS worker nodes"
+   aws cloudformation create-stack --stack-name eks-$cleanClusterName-worker-nodes --template-url https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-07-26/amazon-eks-nodegroup.yaml --parameters ParameterKey=ClusterName,ParameterValue=$clusterid ParameterKey=SubnetIDs,ParameterValue=$subnsets
    #curl -o aws-iam-authenticator "https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-07-26/bin/linux/amd64/aws-iam-authenticator";
    #chmod +x ./aws-iam-authenticator;
    #cp ./aws-iam-authenticator /usr/bin/aws-iam-authenticator;
@@ -248,16 +263,14 @@ aws_client_setup () {
    #aws-iam-authenticator help;
 
    mkdir -p ~/.kube;
-   mkdir -p ~/.kube/$clusterid;
+   mkdir -p ~/.kube/$ClusterName;
    
-   cleanClusterID=${clusterid/_/-}
-   
-   /bin/cat <<EOM >~/.kube/$clusterid/config
+   /bin/cat <<EOM >~/.kube/$ClusterName/config
 apiVersion: v1
 clusters:
 - cluster:
-    server: $( aws eks describe-cluster --name $clusterid --query cluster.endpoint)
-    certificate-authority-data: $( aws eks describe-cluster --name $clusterid --query cluster.certificateAuthority.data)
+    server: $( aws eks describe-cluster --name $ClusterName --query cluster.endpoint)
+    certificate-authority-data: $( aws eks describe-cluster --name $ClusterName --query cluster.certificateAuthority.data)
   name: kubernetes
 contexts:
 - context:
@@ -276,7 +289,7 @@ users:
       args:
         - "token"
         - "-i"
-        - "$clusterid"
+        - "$ClusterName"
       #  - "-r"
       #  - "arn:aws:iam::583658998514:role/EKS_Role"
       #env:
@@ -284,9 +297,10 @@ users:
       #    value: "ashford"
 EOM
 
-   echo 'export KUBECONFIG=~/.kube/$clusterid/config' >> ~/.bashrc
+   export KUBECONFIG=~/.kube/$ClusterName/config;
+   echo 'export KUBECONFIG=~/.kube/$ClusterName/config' >> ~/.bashrc
    
-   /bin/cat <<EOM >~/.kube/$clusterid/aws-auth-cm.yaml
+   /bin/cat <<EOM >~/.kube/$ClusterName/aws-auth-cm.yaml
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -294,25 +308,25 @@ metadata:
   namespace: kube-system
 data:
   mapRoles: |
-    - rolearn:  $( aws cloudformation describe-stacks --stack-name $cleanClusterID-worker-nodes-cluster --query 'Stacks[*].Outputs[*].OutputValue' --output text)
+    - rolearn:  $( aws cloudformation describe-stacks --stack-name eks-$cleanClusterName-worker-nodes --query 'Stacks[*].Outputs[*].OutputValue' --output text)
       username: system:node:{{EC2PrivateDNSName}}
       groups:
         - system:bootstrappers
         - system:nodes
 EOM
 
-   kubectl apply -f ~/.kube/$clusterid/aws-auth-cm.yaml;
+   kubectl apply -f ~/.kube/$ClusterName/aws-auth-cm.yaml;
    
 }
 
 if [ -z ${chart+x} ]; then 
    echo "chart is not set";
-   if [ -z ${clusterid+x} ]; then 
-      echo "clusterid is not set";
+   if [ -z ${ClusterName+x} ]; then 
+      echo "ClusterName is not set";
       system_setup;
    else 
-      echo "clusterid is set";
-      aws_client_setup $clusterid; 
+      echo "ClusterName is set";
+      aws_client_setup $ClusterName; 
    fi 
 else 
    echo "chart is set";
