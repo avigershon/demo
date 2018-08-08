@@ -250,7 +250,7 @@ aws_client_setup () {
    mkdir -p ~/.kube;
    mkdir -p ~/.kube/$clusterid;
    
-   cleanClusterID = ${clusterid/_/-}
+   cleanClusterID=${clusterid/_/-}
    echo $cleanClusterID;
    
    exit;
