@@ -273,8 +273,8 @@ aws_client_setup () {
            - "token"
            - "-i"
            - "$clusterid"
-         #  - "-r"
-         #  - "arn:aws:iam::583658998514:role/EKS_Role"
+           - "-r"
+           - "arn:aws:iam::583658998514:role/EKS_Role"
          env:
            - name: AWS_PROFILE
              value: "ashford"
