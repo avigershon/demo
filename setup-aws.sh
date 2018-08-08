@@ -250,6 +250,11 @@ aws_client_setup () {
    mkdir -p ~/.kube;
    mkdir -p ~/.kube/$clusterid;
    
+   cleanClusterID = ${clusterid/_/-}
+   echo $cleanClusterID;
+   
+   exit;
+   
    /bin/cat <<EOM >~/.kube/$clusterid/config
 apiVersion: v1
 clusters:
