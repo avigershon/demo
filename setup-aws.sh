@@ -251,9 +251,6 @@ aws_client_setup () {
    mkdir -p ~/.kube/$clusterid;
    
    cleanClusterID=${clusterid/_/-}
-   echo $cleanClusterID;
-   
-   exit;
    
    /bin/cat <<EOM >~/.kube/$clusterid/config
 apiVersion: v1
@@ -297,7 +294,7 @@ metadata:
   namespace: kube-system
 data:
   mapRoles: |
-    - rolearn:  $( aws cloudformation describe-stacks --stack-name $clusterid-worker-nodes-cluster --query 'Stacks[*].Outputs[*].OutputValue' --output text)
+    - rolearn:  $( aws cloudformation describe-stacks --stack-name $cleanClusterID-worker-nodes-cluster --query 'Stacks[*].Outputs[*].OutputValue' --output text)
       username: system:node:{{EC2PrivateDNSName}}
       groups:
         - system:bootstrappers
