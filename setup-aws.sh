@@ -248,8 +248,9 @@ aws_client_setup () {
    #aws-iam-authenticator help;
 
    mkdir -p ~/.kube;
+   mkdir -p ~/.kube/$clusterid;
    
-   /bin/cat <<EOM >~/.kube/config
+   /bin/cat <<EOM >~/.kube/$clusterid/config
 apiVersion: v1
 clusters:
 - cluster:
@@ -281,8 +282,24 @@ users:
       #    value: "ashford"
 EOM
 
-   aws cloudformation describe-stacks --stack-name ashford-3-worker-nodes-cluster --query 'Stacks[*].Outputs[*].OutputValue' --output text
-   #echo 'export KUBECONFIG=$KUBECONFIG:~\.kube\config' >> ~/.bashrc
+   echo 'export KUBECONFIG=~/.kube/$clusterid/config' >> ~/.bashrc
+   
+   /bin/cat <<EOM >~/.kube/$clusterid/aws-auth-cm.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: aws-auth
+  namespace: kube-system
+data:
+  mapRoles: |
+    - rolearn:  $( aws cloudformation describe-stacks --stack-name $clusterid-worker-nodes-cluster --query 'Stacks[*].Outputs[*].OutputValue' --output text)
+      username: system:node:{{EC2PrivateDNSName}}
+      groups:
+        - system:bootstrappers
+        - system:nodes
+EOM
+
+   kubectl apply -f ~/.kube/$clusterid/aws-auth-cm.yaml;
    
 }
 
