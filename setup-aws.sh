@@ -15,6 +15,7 @@
 # Step 4: enable worker nodes to join your cluster
 #   - curl -O https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-07-26/aws-auth-cm.yaml
 #   - change the Node intance role with the one you got above
+#   - aws cloudformation describe-stack-instance --stack-set-name ashford_3
 #   - kubectl apply -f aws-auth-cm.yaml
 # Step 5: install helm (we need to add inbound so helm client can work with tiller server)
 
@@ -280,6 +281,7 @@ users:
       #    value: "ashford"
 EOM
 
+   aws cloudformation describe-stacks --stack-name ashford-3-worker-nodes-cluster --query 'Stacks[*].Outputs[*].OutputValue' --output text
    #echo 'export KUBECONFIG=$KUBECONFIG:~\.kube\config' >> ~/.bashrc
    
 }
