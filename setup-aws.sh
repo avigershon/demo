@@ -396,6 +396,11 @@ users:
       #  - name: AWS_PROFILE
       #    value: "ashford"
 EOM
+
+   echo "Client setup - Updating KUBECONFIG"
+
+   export KUBECONFIG=~/.kube/$cleanClusterName/config;
+   echo "export KUBECONFIG=~/.kube/$cleanClusterName/config" >> ~/.bashrc
 }
 
 if [ -z ${chart+x} ]; then 
