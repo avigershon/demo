@@ -283,13 +283,17 @@ aws_client_setup () {
       done 
    fi
    
-   
-   echo "Step 3 -- Client setup - Installing aws-iam-authenticator"
-   curl -o aws-iam-authenticator "https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-07-26/bin/linux/amd64/aws-iam-authenticator";
-   chmod +x ./aws-iam-authenticator;
-   cp ./aws-iam-authenticator /usr/bin/aws-iam-authenticator;
-   
-   aws-iam-authenticator token -i $cleanClusterName;
+   hasAuthenticator=$( aws-iam-authenticator token -i $cleanClusterName | python3 -c "import sys, json; print(json.load(sys.stdin)['kind'])")
+   if [ "$hasAuthenticator" != "ExecCredential" ]; then
+      echo "Step 3 -- Client setup - Installing aws-iam-authenticator"
+      curl -o aws-iam-authenticator "https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-07-26/bin/linux/amd64/aws-iam-authenticator";
+      chmod +x ./aws-iam-authenticator;
+      cp ./aws-iam-authenticator /usr/bin/aws-iam-authenticator;
+
+      aws-iam-authenticator token -i $cleanClusterName;
+   else
+      echo "Step 3 -- Client setup - aws-iam-authenticator is already installed"
+   fi
 
    echo "Step 4 -- Client setup - Configuring kubectl"
 
