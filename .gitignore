@@ -3,3 +3,4 @@ packages/
 get_helm.sh
 aws-auth-cm-copy.yaml
 elasticsearch/
+aws-iam-authenticator
