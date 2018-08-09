@@ -289,7 +289,7 @@ aws_client_setup () {
    chmod +x ./aws-iam-authenticator;
    cp ./aws-iam-authenticator /usr/bin/aws-iam-authenticator;
    
-   aws-iam-authenticator tocken -i $cleanClusterName;
+   aws-iam-authenticator token -i $cleanClusterName;
 
    echo "Step 4 -- Client setup - Configuring kubectl"
 
@@ -328,9 +328,11 @@ users:
       #    value: "ashford"
 EOM
 
+   echo "Step 4 -- Client setup - Updating KUBECONFIG"
    export KUBECONFIG=~/.kube/$cleanClusterName/config;
-   echo 'export KUBECONFIG=~/.kube/$cleanClusterName/config' >> ~/.bashrc
+   echo "export KUBECONFIG=~/.kube/$cleanClusterName/config" >> ~/.bashrc
    
+   echo "Step 4 -- Client setup - Creating AWS auth configmap"
    /bin/cat <<EOM >~/.kube/$cleanClusterName/aws-auth-cm.yaml
 apiVersion: v1
 kind: ConfigMap
