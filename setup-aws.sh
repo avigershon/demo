@@ -239,7 +239,7 @@ package_and_install_chart () {
    done
 }
 
-aws_client_setup () {
+aws_create_cluster () {
 
    # ./setup-aws.sh --ClusterControlPlaneSecurityGroup sg-20459f57 --ClusterName ashford_4 --KeyName data_team_key --NodeAutoScalingGroupMaxSize 3 --NodeAutoScalingGroupMinSize 1 --NodeImageId ami-dea4d5a1 --NodeInstanceType t2.medium --Subnets subnet-2f21db59,subnet-1a27dd6c,subnet-a0d085e8,subnet-844d51dd,subnet-0f485456 --VpcId vpc-888730ec
    
@@ -358,6 +358,46 @@ EOM
 
 }
 
+aws_switch_cluster () {
+
+   cleanClusterName=${ClusterName/_/-}
+   
+   mkdir -p ~/.kube;
+   mkdir -p ~/.kube/$cleanClusterName;
+   
+   /bin/cat <<EOM >~/.kube/$cleanClusterName/config
+apiVersion: v1
+clusters:
+- cluster:
+    server: $( aws eks describe-cluster --name $cleanClusterName --query cluster.endpoint)
+    certificate-authority-data: $( aws eks describe-cluster --name $cleanClusterName --query cluster.certificateAuthority.data)
+  name: kubernetes
+contexts:
+- context:
+    cluster: kubernetes
+    user: aws
+  name: aws
+current-context: aws
+kind: Config
+preferences: {}
+users:
+- name: aws
+  user:
+    exec:
+      apiVersion: client.authentication.k8s.io/v1alpha1
+      command: aws-iam-authenticator
+      args:
+        - "token"
+        - "-i"
+        - "$cleanClusterName"
+      #  - "-r"
+      #  - "arn:aws:iam::583658998514:role/EKS_Role"
+      #env:
+      #  - name: AWS_PROFILE
+      #    value: "ashford"
+EOM
+}
+
 if [ -z ${chart+x} ]; then 
    echo "chart is not set";
    if [ -z ${ClusterName+x} ]; then 
@@ -365,7 +405,13 @@ if [ -z ${chart+x} ]; then
       system_setup;
    else 
       echo "ClusterName is set";
-      aws_client_setup $ClusterName; 
+      if [ -z ${SwitchOnly+x} ]; then 
+         echo "Switching to $ClusterName";
+         aws_switch_cluster $ClusterName; 
+      else 
+         echo "Prepering to create new cluster $ClusterName";
+         aws_create_cluster $ClusterName; 
+      fi  
    fi 
 else 
    echo "chart is set";
