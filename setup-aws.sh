@@ -406,11 +406,11 @@ if [ -z ${chart+x} ]; then
    else 
       echo "ClusterName is set";
       if [ -z ${SwitchOnly+x} ]; then 
+         echo "Prepering to create new cluster $ClusterName";
+         aws_create_cluster $ClusterName; 
+      else 
          echo "Switching to $ClusterName";
          aws_switch_cluster $ClusterName; 
-      else 
-         echo "Prepering to create new cluster $ClusterName";
-         #aws_create_cluster $ClusterName; 
       fi  
    fi 
 else 
