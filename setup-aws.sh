@@ -244,19 +244,50 @@ aws_client_setup () {
    #./setup-aws --ClusterControlPlaneSecurityGroup sg-20459f57	--ClusterName ashford_4	--KeyName data_team_key	--NodeAutoScalingGroupMaxSize	3	--NodeAutoScalingGroupMinSize	1	--NodeImageId ami-dea4d5a1	--NodeInstanceType t2.medium	--Subnets subnet-a0d085e8	--VpcId vpc-888730ec	
 
    cleanClusterName=${ClusterName/_/-}
+   stackName=eks-$cleanClusterName-worker-nodes
    
-   echo "Setp 1 -- AWS setup - Creating Cluster $cleanClusterName "
-   aws eks create-cluster --name $cleanClusterName --role-arn arn:aws:iam::012345678910:role/eks-service-role-AWSServiceRoleForAmazonEKS-J7ONKE3BQ4PI --resources-vpc-config subnetIds=subnet-6782e71e,subnet-e7e761ac,securityGroupIds=sg-6979fe18
+   accountID=$( aws sts get-caller-identity --query 'Account' --output text)
+   eksRole=$( aws iam get-role --role-name EKS_Role --query 'Role.RoleName' --output text)
+   clusterStatus=$( aws eks describe-cluster --name $cleanClusterName --query 'cluster.status' --output text)
+   workersStackStatus=$( aws cloudformation describe-stacks --stack-name $stackName --query 'Stacks[*].StackStatus' --output text)
+
+   if [ "$eksRole" = "EKS_Role" ]; then
+      echo "EKS_Role already exists"
+   else
+      echo "EKS_Role doesn't exists, it will be created"
+   fi
    
-   echo "Step 2 -- AWS setup - Creating EKS worker nodes"
-   aws cloudformation create-stack --stack-name eks-$cleanClusterName-worker-nodes --template-url https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-07-26/amazon-eks-nodegroup.yaml --parameters ParameterKey=ClusterControlPlaneSecurityGroup,ParameterValue=$ClusterControlPlaneSecurityGroup ParameterKey=ClusterName,ParameterValue=$ClusterName ParameterKey=KeyName,ParameterValue=$KeyName ParameterKey=NodeAutoScalingGroupMaxSize,ParameterValue=$NodeAutoScalingGroupMaxSize ParameterKey=NodeAutoScalingGroupMinSize,ParameterValue=$NodeAutoScalingGroupMinSize ParameterKey=NodeGroupName,ParameterValue=$ClusterName-node-group ParameterKey=NodeImageId,ParameterValue=$NodeImageId ParameterKey=NodeInstanceType,ParameterValue=$NodeInstanceType ParameterKey=VpcId,ParameterValue=$VpcId ParameterKey=Subnets,ParameterValue=$Subnets
+   if [ "$clusterStatus" != "ACTIVE" ]; then
+  
+      echo "Setp 1 -- AWS setup - Creating Cluster $cleanClusterName "
+      aws eks create-cluster --name $cleanClusterName --role-arn arn:aws:iam::$accountID:role/$eksRole --resources-vpc-config subnetIds=$Subnets,securityGroupIds=$ClusterControlPlaneSecurityGroup
+   
+      while [[ "$clusterStatus" != "ACTIVE" ]];do 
+          clusterStatus=$( aws eks describe-cluster --name $cleanClusterName --query 'cluster.status' --output text) 
+          echo "Setp 1 -- AWS setup - Cluster $cleanClusterName is in state $clusterStatus"
+          sleep 0.1 
+      done 
+   fi
+   
+   if [ "$workersStackStatus" != "CREATE_COMPLETE" ]; then
+  
+      echo "Step 2 -- AWS setup - Creating EKS worker nodes"
+      aws cloudformation create-stack --stack-name $stackName --template-url https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-07-26/amazon-eks-nodegroup.yaml --parameters ParameterKey=ClusterControlPlaneSecurityGroup,ParameterValue=$ClusterControlPlaneSecurityGroup ParameterKey=ClusterName,ParameterValue=$ClusterName ParameterKey=KeyName,ParameterValue=$KeyName ParameterKey=NodeAutoScalingGroupMaxSize,ParameterValue=$NodeAutoScalingGroupMaxSize ParameterKey=NodeAutoScalingGroupMinSize,ParameterValue=$NodeAutoScalingGroupMinSize ParameterKey=NodeGroupName,ParameterValue=$ClusterName-node-group ParameterKey=NodeImageId,ParameterValue=$NodeImageId ParameterKey=NodeInstanceType,ParameterValue=$NodeInstanceType ParameterKey=VpcId,ParameterValue=$VpcId ParameterKey=Subnets,ParameterValue=$Subnets
+   
+      while [[ "$workersStackStatus" != "CREATE_COMPLETE" ]];do 
+          workersStackStatus=$( aws cloudformation describe-stacks --stack-name $stackName --query 'Stacks[*].StackStatus' --output text) 
+          echo "Setp 1 -- AWS setup - CloudFormation Stack $stackName is in state $workersStackStatus"
+          sleep 0.1 
+      done 
+   fi
+   
    
    echo "Step 3 -- Client setup - Installing aws-iam-authenticator"
-   #curl -o aws-iam-authenticator "https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-07-26/bin/linux/amd64/aws-iam-authenticator";
-   #chmod +x ./aws-iam-authenticator;
-   #cp ./aws-iam-authenticator /usr/bin/aws-iam-authenticator;
+   curl -o aws-iam-authenticator "https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-07-26/bin/linux/amd64/aws-iam-authenticator";
+   chmod +x ./aws-iam-authenticator;
+   cp ./aws-iam-authenticator /usr/bin/aws-iam-authenticator;
    
-   #aws-iam-authenticator help;
+   aws-iam-authenticator tocken -i $cleanClusterName;
 
    echo "Step 4 -- Client setup - Configuring kubectl"
 
