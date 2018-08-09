@@ -241,7 +241,7 @@ package_and_install_chart () {
 
 aws_client_setup () {
 
-   #./setup-aws --ClusterControlPlaneSecurityGroup sg-20459f57	--ClusterName ashford_4	--KeyName data_team_key	--NodeAutoScalingGroupMaxSize	3	--NodeAutoScalingGroupMinSize	1	--NodeImageId ami-dea4d5a1	--NodeInstanceType t2.medium	--Subnets subnet-a0d085e8	--VpcId vpc-888730ec	
+   #./setup-aws.sh --ClusterControlPlaneSecurityGroup sg-20459f57	--ClusterName ashford_4	--KeyName data_team_key	--NodeAutoScalingGroupMaxSize	3	--NodeAutoScalingGroupMinSize	1	--NodeImageId ami-dea4d5a1	--NodeInstanceType t2.medium	--Subnets subnet-a0d085e8	--VpcId vpc-888730ec	
 
    cleanClusterName=${ClusterName/_/-}
    stackName=eks-$cleanClusterName-worker-nodes
