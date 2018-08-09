@@ -410,7 +410,7 @@ if [ -z ${chart+x} ]; then
          aws_switch_cluster $ClusterName; 
       else 
          echo "Prepering to create new cluster $ClusterName";
-         aws_create_cluster $ClusterName; 
+         #aws_create_cluster $ClusterName; 
       fi  
    fi 
 else 
