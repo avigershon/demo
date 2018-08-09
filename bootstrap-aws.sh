@@ -28,8 +28,8 @@ helm install --name elasticsearch --set common.stateful.enabled=true --set image
 
 #kafka
 #helm del kafka --purge
-#helm upgrade kafka --set configurationOverrides."offsets.topic.replication.factor"=5 --set configurationOverrides."auto.offset.commit"=true incubator/kafka
-helm install --name kafka --set configurationOverrides."offsets.topic.replication.factor"=5 --set configurationOverrides."auto.offset.commit"=true incubator/kafka
+#helm upgrade kafka --set configurationOverrides."offsets.topic.replication.factor"=5 --set configurationOverrides."auto.offset.commit"=true --set persistence.storageClass="nifi-storage-class" incubator/kafka
+helm install --name kafka --set configurationOverrides."offsets.topic.replication.factor"=5 --set configurationOverrides."auto.offset.commit"=true --set persistence.storageClass="nifi-storage-class" incubator/kafka
 
 #schema-registry
 #helm del schema-registry --purge
