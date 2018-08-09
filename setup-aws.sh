@@ -242,10 +242,9 @@ package_and_install_chart () {
 aws_client_setup () {
 
    # ./setup-aws.sh --ClusterControlPlaneSecurityGroup sg-20459f57 --ClusterName ashford_4 --KeyName data_team_key --NodeAutoScalingGroupMaxSize3 --NodeAutoScalingGroupMinSize1 --NodeImageId ami-dea4d5a1 --NodeInstanceType t2.medium --Subnets subnet-2f21db59,subnet-1a27dd6c,subnet-a0d085e8,subnet-844d51dd,subnet-0f485456 --VpcId vpc-888730ec
-   cleanSubnets="${Subnets//,/\\\\,}"
-   echo "$cleanSubnets"
-   exit
+   
    cleanClusterName=${ClusterName/_/-}
+   cleanSubnets="${Subnets//,/\\\\,}"
    stackName=eks-$cleanClusterName-worker-nodes
    
    accountID=$( aws sts get-caller-identity --query 'Account' --output text)
@@ -275,8 +274,7 @@ aws_client_setup () {
   
       echo "Step 2 -- AWS setup - Creating EKS worker nodes"
       
-      decodeSubnets=${Subnets/,/\\,}
-      aws cloudformation create-stack --stack-name $stackName --template-url https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-07-26/amazon-eks-nodegroup.yaml --parameters ParameterKey=ClusterControlPlaneSecurityGroup,ParameterValue=$ClusterControlPlaneSecurityGroup ParameterKey=ClusterName,ParameterValue=$ClusterName ParameterKey=KeyName,ParameterValue=$KeyName ParameterKey=NodeAutoScalingGroupMaxSize,ParameterValue=$NodeAutoScalingGroupMaxSize ParameterKey=NodeAutoScalingGroupMinSize,ParameterValue=$NodeAutoScalingGroupMinSize ParameterKey=NodeGroupName,ParameterValue=$ClusterName-node-group ParameterKey=NodeImageId,ParameterValue=$NodeImageId ParameterKey=NodeInstanceType,ParameterValue=$NodeInstanceType ParameterKey=VpcId,ParameterValue=$VpcId ParameterKey=Subnets,ParameterValue=$decodeSubnets
+      aws cloudformation create-stack --stack-name $stackName --template-url https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-07-26/amazon-eks-nodegroup.yaml --parameters ParameterKey=ClusterControlPlaneSecurityGroup,ParameterValue=$ClusterControlPlaneSecurityGroup ParameterKey=ClusterName,ParameterValue=$ClusterName ParameterKey=KeyName,ParameterValue=$KeyName ParameterKey=NodeAutoScalingGroupMaxSize,ParameterValue=$NodeAutoScalingGroupMaxSize ParameterKey=NodeAutoScalingGroupMinSize,ParameterValue=$NodeAutoScalingGroupMinSize ParameterKey=NodeGroupName,ParameterValue=$ClusterName-node-group ParameterKey=NodeImageId,ParameterValue=$NodeImageId ParameterKey=NodeInstanceType,ParameterValue=$NodeInstanceType ParameterKey=VpcId,ParameterValue=$VpcId ParameterKey=Subnets,ParameterValue=$cleanSubnets
    
       while [[ "$workersStackStatus" != "CREATE_COMPLETE" ]];do 
           workersStackStatus=$( aws cloudformation describe-stacks --stack-name $stackName --query 'Stacks[*].StackStatus' --output text) 
