@@ -360,7 +360,7 @@ EOM
 
 aws_switch_cluster () {
 
-   cleanClusterName=${ClusterName/_/-}
+   cleanClusterName=$ClusterName
    
    mkdir -p ~/.kube;
    mkdir -p ~/.kube/$cleanClusterName;
