@@ -214,23 +214,23 @@ inputs:
       # http {
       #   port => 8080
       # }
-      kafka {
+      #kafka {
       #   ## ref: https://www.elastic.co/guide/en/logstash/current/plugins-inputs-kafka.html
-        bootstrap_servers => "kafka-kafka.default.svc.cluster.local:9092"
-        codec => json { charset => "UTF-8" }
-        consumer_threads => 4
-        topics => ["filebeat"]
-        type => "doc"
-        decorate_events => true
-      }
+      #  bootstrap_servers => "kafka-kafka.default.svc.cluster.local:9092"
+      #  codec => json { charset => "UTF-8" }
+      #  consumer_threads => 4
+      #  topics => ["filebeat"]
+      #  type => "doc"
+      #  decorate_events => true
+      #}
     }
 
 filters:
   main: |-
     filter { 
-      mutate {add_field => { topic =>  "%{[@metadata][kafka][topic]}"}}
+      #mutate {add_field => { topic =>  "%{[@metadata][kafka][topic]}"}}
       #grok {match => { "message" => "%{WORD:exchange}: 	%{NUMBER:bid:float} / %{NUMBER:ask:float}" }}
-      #if "blackbird" in [kubernetes][labels][app] and "_grokparsefailure" in [tags] {drop {}}
+      grok { match => { "message" => "%{NOTSPACE:log_date} %{NOTSPACE:log_time} %{NOTSPACE:log_level} %{GREEDYDATA:log_text}" }}
     }
 
 outputs:
@@ -240,22 +240,22 @@ outputs:
       elasticsearch {
         hosts => ["${ELASTICSEARCH_HOST}:${ELASTICSEARCH_PORT}"]
         manage_template => false
-        index => "%{topic}-%{[kubernetes][labels][app]}-%{+YYYY.MM.dd}"
+        index => "nifi-%{+YYYY.MM.dd}"
         document_type => "doc"
       }
-      google_bigquery {
-        project_id => "visionbi-demo"                        
-        dataset => "logs"                                         
-        json_schema => { fields  => [{ name  => "kubernetes.pod.name" type  => "STRING" }, { name  => "message" type  => "STRING" }] }
-        key_path => "/path/to/privatekey.p12" 
-        key_password => "notasecret"  
-        service_account => "avi-969@visionbi-demo.iam.gserviceaccount.com"
-        temp_directory => "/tmp/logstash-bq"
-        temp_file_prefix => "logstash_bq" 
-        date_pattern => "%Y-%m-%dT%H:00"
-        flush_interval_secs => 2 
-        uploader_interval_secs => 60
-      }
+      #google_bigquery {
+      #  project_id => "visionbi-demo"                        
+      #  dataset => "logs"                                         
+      #  json_schema => { fields  => [{ name  => "kubernetes.pod.name" type  => "STRING" }, { name  => "message" type  => "STRING" }] }
+      #  key_path => "/path/to/privatekey.p12" 
+      #  key_password => "notasecret"  
+      #  service_account => "avi-969@visionbi-demo.iam.gserviceaccount.com"
+      #  temp_directory => "/tmp/logstash-bq"
+      #  temp_file_prefix => "logstash_bq" 
+      #  date_pattern => "%Y-%m-%dT%H:00"
+      #  flush_interval_secs => 2 
+      #  uploader_interval_secs => 60
+      #}
       # kafka {
       #   ## ref: https://www.elastic.co/guide/en/logstash/current/plugins-outputs-kafka.html
       #   bootstrap_servers => "kafka-output:9092"
