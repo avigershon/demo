@@ -226,7 +226,7 @@ inputs:
       elasticsearch {
         hosts => "${ELASTICSEARCH_HOST}:${ELASTICSEARCH_PORT}"
         index => "filebeat-*"
-        schedule => "*****"
+        schedule => "* * * * *"
         query => '{"query": {"query_string": {"query": "kubernetes.container.name:nifi-app-log-sidecar AND message:*ERROR*"}}}'
       }
     }
