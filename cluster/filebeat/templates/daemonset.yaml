@@ -26,11 +26,11 @@ data:
     cloud.id: ${ELASTIC_CLOUD_ID}
     cloud.auth: ${ELASTIC_CLOUD_AUTH}
   
-    output.logstash:
-      hosts: ["logstash:5044"]
+    #output.logstash:
+    #  hosts: ["logstash:5044"]
       
-    #output.elasticsearch:
-    #  hosts: ['${ELASTICSEARCH_HOST:elasticsearch}:${ELASTICSEARCH_PORT:9200}']
+    output.elasticsearch:
+      hosts: ['${ELASTICSEARCH_HOST:elasticsearch}:${ELASTICSEARCH_PORT:9200}']
       #username: ${ELASTICSEARCH_USERNAME}
       #password: ${ELASTICSEARCH_PASSWORD}
       
