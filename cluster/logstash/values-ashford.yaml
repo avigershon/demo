@@ -226,6 +226,7 @@ inputs:
       elasticsearch {
         hosts => "${ELASTICSEARCH_HOST}:${ELASTICSEARCH_PORT}"
         index => "filebeat-*"
+        schedule => "*****"
         query => '{"query": {"query_string": {"query": "kubernetes.container.name:nifi-app-log-sidecar AND message:*ERROR*"}}}'
       }
     }
@@ -243,7 +244,6 @@ outputs:
     output {
       # stdout { codec => rubydebug { metadata => true } } 
       elasticsearch {
-        schedule => "*****"
         hosts => ["${ELASTICSEARCH_HOST}:${ELASTICSEARCH_PORT}"]
         manage_template => false
         index => "nifi-errors-%{+YYYY.MM.dd}"
