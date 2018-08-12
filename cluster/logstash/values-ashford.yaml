@@ -227,6 +227,7 @@ inputs:
         hosts => "${ELASTICSEARCH_HOST}:${ELASTICSEARCH_PORT}"
         index => "filebeat-*"
         schedule => "* * * * *"
+        scroll => "1m"
         query => '{"query": {"query_string": {"query": "kubernetes.container.name:nifi-app-log-sidecar AND message:*ERROR*"}}}'
       }
     }
