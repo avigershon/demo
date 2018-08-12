@@ -223,6 +223,10 @@ inputs:
       #  type => "doc"
       #  decorate_events => true
       #}
+      elasticsearch {
+        hosts => "${ELASTICSEARCH_HOST}:${ELASTICSEARCH_PORT}"
+        query => '{"query": {"query_string": {"query": "kubernetes.container.name:nifi-app-log-sidecar AND message:*ERROR*"}}}'
+      }
     }
 
 filters:
@@ -230,7 +234,7 @@ filters:
     filter { 
       #mutate {add_field => { topic =>  "%{[@metadata][kafka][topic]}"}}
       #grok {match => { "message" => "%{WORD:exchange}: 	%{NUMBER:bid:float} / %{NUMBER:ask:float}" }}
-      grok { match => { "message" => "%{NOTSPACE:log_date} %{NOTSPACE:log_time} %{NOTSPACE:log_level} %{GREEDYDATA:log_text}" }}
+      #grok { match => { "message" => "%{NOTSPACE:log_date} %{NOTSPACE:log_time} %{NOTSPACE:log_level} %{GREEDYDATA:log_text}" }}
     }
 
 outputs:
@@ -240,7 +244,7 @@ outputs:
       elasticsearch {
         hosts => ["${ELASTICSEARCH_HOST}:${ELASTICSEARCH_PORT}"]
         manage_template => false
-        index => "nifi-%{+YYYY.MM.dd}"
+        index => "nifi-errors-%{+YYYY.MM.dd}"
         document_type => "doc"
       }
       #google_bigquery {
