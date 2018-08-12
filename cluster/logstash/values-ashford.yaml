@@ -208,9 +208,9 @@ inputs:
       #   port => 1514
       #   type => syslog
       # }
-      beats {
-        port => 5044
-      }
+      #beats {
+      #  port => 5044
+      #}
       # http {
       #   port => 8080
       # }
@@ -225,6 +225,7 @@ inputs:
       #}
       elasticsearch {
         hosts => "${ELASTICSEARCH_HOST}:${ELASTICSEARCH_PORT}"
+        index => "filebeat-*"
         query => '{"query": {"query_string": {"query": "kubernetes.container.name:nifi-app-log-sidecar AND message:*ERROR*"}}}'
       }
     }
