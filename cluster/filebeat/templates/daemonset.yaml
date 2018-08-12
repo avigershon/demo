@@ -27,7 +27,7 @@ data:
     cloud.auth: ${ELASTIC_CLOUD_AUTH}
   
     output.logstash:
-      hosts: ["nifi-logstash:5044"]
+      hosts: ["logstash:5044"]
       
     #output.elasticsearch:
     #  hosts: ['${ELASTICSEARCH_HOST:elasticsearch}:${ELASTICSEARCH_PORT:9200}']
