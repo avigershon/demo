@@ -1,13 +1,13 @@
 apiVersion: v1
-  kind: Pod
-  metadata:
-    name: {{ template "kafka.fullname" . }}-testclient
-    namespace: {{ .Release.Namespace }}
-  spec:
-    containers:
-    - name: kafka
-      image: {{ .Values.image }}:{{ .Values.imageTag }}
-      command:
-        - sh
-        - -c
-        - "exec tail -f /dev/null"
+kind: Pod
+metadata:
+  name: kafka-testclient
+  namespace: {{ .Release.Namespace }}
+spec:
+  containers:
+  - name: kafka
+    image: {{ .Values.image }}:{{ .Values.imageTag }}
+    command:
+      - sh
+      - -c
+      - "exec tail -f /dev/null"
