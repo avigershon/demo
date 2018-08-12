@@ -243,10 +243,10 @@ outputs:
     output {
       # stdout { codec => rubydebug { metadata => true } } 
       elasticsearch {
+        schedule => "*****"
         hosts => ["${ELASTICSEARCH_HOST}:${ELASTICSEARCH_PORT}"]
         manage_template => false
         index => "nifi-errors-%{+YYYY.MM.dd}"
-        document_type => "doc"
       }
       #google_bigquery {
       #  project_id => "visionbi-demo"                        
