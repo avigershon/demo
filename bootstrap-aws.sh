@@ -35,3 +35,9 @@ helm install --name kafka --set configurationOverrides."offsets.topic.replicatio
 #helm del schema-registry --purge
 #helm upgrade schema-registry --set kafkaStore.overrideBootstrapServers="kafka-kafka.default.svc.cluster.local:9092" --set kafka.enabled=false incubator/schema-registry
 helm install --name schema-registry --set kafkaStore.overrideBootstrapServers=PLAINTEXT://kafka:9092 --set kafka.enabled=false incubator/schema-registry
+
+#nifi
+rm -rf apache-nifi-helm
+git clone https://github.com/avigershon/apache-nifi-helm.git
+
+helm install --name nifi --set storageClass=nifi-storage-class --set storageProvisioner="kubernetes.io/aws-ebs" --set storageType=gp2 --set zookeeper.storageClass=nifi-storage-class   --set zookeeper.storageType=gp2 ./apache-nifi-helm
