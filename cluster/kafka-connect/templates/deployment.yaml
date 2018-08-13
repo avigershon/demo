@@ -21,7 +21,7 @@ spec:
         - name: HOST
           value: "kafka-connect"
         - name: BS
-          value: "kafka-kafka:9092"
+          value: "kafka:9092"
         - name: ZK
           value: "kafka-zookeeper:2181"
         - name: SR
@@ -31,9 +31,6 @@ spec:
         ports:
         - containerPort: {{ .Values.service.port }}
         resources: {}
-        volumeMounts:
-        - name: google-cloud-key
-          mountPath: /var/secrets/google
       - env:
         - name: CONNECT_URL
           value: "http://localhost:8083"
@@ -43,8 +40,4 @@ spec:
         - containerPort: 8000
         resources: {}
       restartPolicy: Always
-      volumes:
-        - name: google-cloud-key
-          secret:
-            secretName: bq-key
 status: {}
