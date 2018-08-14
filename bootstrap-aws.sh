@@ -41,3 +41,4 @@ rm -rf apache-nifi-helm
 git clone https://github.com/avigershon/apache-nifi-helm.git
 
 helm install --name nifi --set storageClass=nifi-storage-class --set storageProvisioner="kubernetes.io/aws-ebs" --set storageType=gp2 --set zookeeper.storageClass=nifi-storage-class   --set zookeeper.storageType=gp2 ./apache-nifi-helm
+#helm upgrade nifi --set storageClass=nifi-storage-class --set storageProvisioner="kubernetes.io/aws-ebs" --set storageType=gp2 --set zookeeper.storageClass=nifi-storage-class   --set zookeeper.storageType=gp2 ./apache-nifi-helm
